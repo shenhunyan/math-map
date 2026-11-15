@@ -7,6 +7,7 @@
 <script src="i18n.js"></script>
 <script src="defs_en.js"></script>
 <script src="hist_en.js"></script>
+<script src="mm_strings.js"></script>
 <style>
   :root{
     --bg:#faf9f6; --ink:#1c1b19; --muted:#8a8578; --line:#e4e0d6;
@@ -3778,6 +3779,14 @@ function setView(v) {
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+var _setView0 = setView;
+setView = function (v) {
+  _setView0(v);
+  if (typeof MM_LANG === 'function' && MM_LANG() === 'en' && typeof MM_LOCALIZE === 'function') {
+    MM_LOCALIZE(VIEW_EL[v] || document.body);
+  }
+};
+
 
 /* 从全表对照点进来：找到那一格，切到它所在的视图，滚过去并打开 */
 function jumpTo(name) {
@@ -6777,6 +6786,10 @@ function fillDef(cell) {
   const sd = document.getElementById('mStd');
   sd.innerHTML = D0.s ? ((enMode ? '<span>Sources</span>　' : '<span>参考</span>　') + D0.s.join('　·　')) : '';
 }
+
+/* 首次加载就把残留中文替换掉（构建函数都在上面跑完了） */
+if (typeof MM_LANG === 'function' && MM_LANG() === 'en' &&
+    typeof MM_LOCALIZE === 'function') { MM_LOCALIZE(document.body); }
 
 </script>
 </body>

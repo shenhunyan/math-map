@@ -276,6 +276,51 @@
   w.MM_ITEMS = function (id, zhArr) {
     return (CUR === 'en' && ITEMS[id]) ? ITEMS[id] : zhArr;
   };
+
+  /* ---- 逐串替换：把页面里残余的中文文本节点换成英文 ----
+     只做「整段完全相等」的替换，避免错切；跳过 .zh/.en 包裹的节点，
+     否则切回中文时会把英文留在中文格里。 */
+  function inLangSpan(node) {
+    var p = node.parentNode;
+    while (p && p !== document.body) {
+      if (p.classList && (p.classList.contains('zh') || p.classList.contains('en'))) return true;
+      p = p.parentNode;
+    }
+    return false;
+  }
+
+  function localize(root) {
+    var D = w.MM_STR || {};
+    if (!D || !Object.keys(D).length) return 0;
+    var hits = 0;
+    var it = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        var tag = p.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'CANVAS') return NodeFilter.FILTER_REJECT;
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n;
+    while ((n = it.nextNode())) {
+      if (inLangSpan(n)) continue;
+      var raw = n.nodeValue, t = raw.trim();
+      if (D[t] && D[t] !== t) { n.nodeValue = raw.replace(t, D[t]); hits++; }
+    }
+    var els = root.querySelectorAll('[title],[placeholder],[aria-label]');
+    for (var i = 0; i < els.length; i++) {
+      var e = els[i];
+      ['title', 'placeholder', 'aria-label'].forEach(function (a) {
+        var v = e.getAttribute(a);
+        if (v && D[v.trim()]) { e.setAttribute(a, D[v.trim()]); hits++; }
+      });
+    }
+    return hits;
+  }
+
+  w.MM_LOCALIZE = localize;
   w.MM_LANG = function () { return CUR; };
   w.MM_NAME = function (id, zh) { return (CUR === 'en' && NAMES[id]) ? NAMES[id] : zh; };
   w.MM_NOTE = function (id, zh) { return (CUR === 'en' && NOTES[id]) ? NOTES[id] : zh; };
@@ -292,5 +337,6 @@
         (l === 'en') ? (ins[i].getAttribute('data-ph-en') || '') : (ins[i].getAttribute('data-ph-zh') || ''));
     }
     if (typeof w.MM_ONLANG === 'function') w.MM_ONLANG(l);
+    if (l === 'en') localize(document.body);
   };
 })(window);
