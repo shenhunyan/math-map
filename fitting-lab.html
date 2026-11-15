@@ -319,6 +319,64 @@ function lstsq(B, y) {
 /* 正规方程会把条件数平方。二次 (5 个系数) 还能凑合，
    三次 9 个系数就会崩——解出来全是 1e-6 量级的假零。
    这里补一个 Householder QR，直接解超定方程组。 */
+
+/* 齐次最小二乘：求 B 的零空间向量（BᵀB 最小特征值对应的特征向量）。
+   拟合隐式曲线必须用这个，而不是「把常数项钉成 1 再解」——
+   曲线一旦经过归一化原点，常数项本来就是 0，钉成 1 会得到完全错误的结果。 */
+function jacobiEigenSym(Ain, n) {
+  var A = Ain.map(function (r) { return r.slice(); });
+  var V = [], i, j;
+  for (i = 0; i < n; i++) { V.push(new Array(n).fill(0)); V[i][i] = 1; }
+  for (var sweep = 0; sweep < 80; sweep++) {
+    var off = 0;
+    for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) off += A[i][j] * A[i][j];
+    if (off < 1e-22) break;
+    for (var p = 0; p < n; p++) for (var q = p + 1; q < n; q++) {
+      if (Math.abs(A[p][q]) < 1e-18) continue;
+      var theta = (A[q][q] - A[p][p]) / (2 * A[p][q]);
+      var t = (theta >= 0 ? 1 : -1) / (Math.abs(theta) + Math.sqrt(theta * theta + 1));
+      var c = 1 / Math.sqrt(t * t + 1), sn = t * c;
+      for (var k1 = 0; k1 < n; k1++) {
+        var akp = A[k1][p], akq = A[k1][q];
+        A[k1][p] = c * akp - sn * akq; A[k1][q] = sn * akp + c * akq;
+      }
+      for (var k2 = 0; k2 < n; k2++) {
+        var apk = A[p][k2], aqk = A[q][k2];
+        A[p][k2] = c * apk - sn * aqk; A[q][k2] = sn * apk + c * aqk;
+      }
+      for (var k3 = 0; k3 < n; k3++) {
+        var vkp = V[k3][p], vkq = V[k3][q];
+        V[k3][p] = c * vkp - sn * vkq; V[k3][q] = sn * vkp + c * vkq;
+      }
+    }
+  }
+  return { values: A.map(function (r, i2) { return r[i2]; }), vectors: V };
+}
+
+function nullVector(B) {
+  var m = B.length, n = B[0].length, i, j, r;
+  var M = [], d = new Array(n).fill(0);
+  for (i = 0; i < n; i++) M.push(new Array(n).fill(0));
+  for (r = 0; r < m; r++) {
+    for (i = 0; i < n; i++) {
+      d[i] += B[r][i] * B[r][i];
+      for (j = i + 1; j < n; j++) M[i][j] += B[r][i] * B[r][j];
+    }
+  }
+  for (i = 0; i < n; i++) for (j = 0; j < i; j++) M[i][j] = M[j][i];
+  for (i = 0; i < n; i++) M[i][i] = d[i];
+  var e = jacobiEigenSym(M, n);
+  var k = 0;
+  for (i = 1; i < n; i++) if (Math.abs(e.values[i]) < Math.abs(e.values[k])) k = i;
+  var v = [];
+  for (i = 0; i < n; i++) v.push(e.vectors[i][k]);
+  var nrm = 0;
+  for (i = 0; i < n; i++) nrm += v[i] * v[i];
+  nrm = Math.sqrt(nrm) || 1;
+  for (i = 0; i < n; i++) v[i] /= nrm;
+  return v;
+}
+
 function lstsqQR(B, y) {
   var m = B.length, n = B[0].length, i, j, k;
   var R = B.map(function (r) { return r.slice(); });
@@ -327,7 +385,8 @@ function lstsqQR(B, y) {
     var norm = 0;
     for (i = k; i < m; i++) norm += R[i][k] * R[i][k];
     norm = Math.sqrt(norm);
-    if (norm < 1e-14) return null;
+    /* 这一列已经被前面的列消光了（秩亏）。跳过，回代时该系数取 0。 */
+    if (norm < 1e-14) continue;
     var alpha = R[k][k] > 0 ? -norm : norm;
     var v = new Array(m).fill(0);
     for (i = k; i < m; i++) v[i] = R[i][k];
@@ -1005,16 +1064,21 @@ function fitCubic() {
 
   var Bm = PTS.map(function (p) {
     var u = (p.x - cx) / sc, v = (p.y - cy) / sc;
-    return [u*u*u, u*u*v, u*v*v, v*v*v, u*u, u*v, v*v, u, v];
+    return [u*u*u, u*u*v, u*v*v, v*v*v, u*u, u*v, v*v, u, v, 1];
   });
-  var yv = PTS.map(function () { return -1; });
-  var c = lstsqQR(Bm, yv);
+  var c = nullVector(Bm);
   if (!c) return null;
+  /* 尺度归一：让二次部分的 Frobenius 范数为 1，系数大小才有可比性 */
+  var q = Math.hypot(c[0], c[1], c[2], c[3]) || 1;
+  for (i0 = 0; i0 < c.length; i0++) c[i0] /= q;
+  if (!isFinite(c[9]) || Math.abs(c[9]) < 1e-12) {
+    /* 曲线经过归一化原点时常数项为 0，仍然可以画，只是不能除它 */
+  }
 
   function Fv(p) {
     var u = (p.x - cx) / sc, v = (p.y - cy) / sc;
     return c[0]*u*u*u + c[1]*u*u*v + c[2]*u*v*v + c[3]*v*v*v +
-           c[4]*u*u + c[5]*u*v + c[6]*v*v + c[7]*u + c[8]*v + 1;
+           c[4]*u*u + c[5]*u*v + c[6]*v*v + c[7]*u + c[8]*v + c[9];
   }
   function grad(p) {
     var u = (p.x - cx) / sc, v = (p.y - cy) / sc;
@@ -1024,7 +1088,7 @@ function fitCubic() {
   }
   return { name: '一般三次曲线', k: 9, implicit: true, F: Fv, grad: grad,
     expr: 'u = (x−' + cx.toFixed(2) + ')/' + sc.toFixed(2) + '，v 同理\n' +
-      'c₁u³ + c₂u²v + c₃uv² + c₄v³ + c₅u² + c₆uv + c₇v² + c₈u + c₉v + 1 = 0\n' +
+      'c₁u³ + c₂u²v + c₃uv² + c₄v³ + c₅u² + c₆uv + c₇v² + c₈u + c₉v + c₁₀ = 0\n' +
       '系数：' + c.map(function (x) { return x.toFixed(3); }).join(', ') +
       '\n交叉项 u²v、uv² 非零即说明图形被转过或切过' };
 }
