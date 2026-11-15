@@ -1,0 +1,1018 @@
+[
+ {
+  "yr": -300,
+  "y": "Ancient Greece",
+  "who": "Euclid",
+  "t": "Elements",
+  "c": "d = 2　n = 2",
+  "s": "Proof became the form of knowledge for the first time, rather than a rule of thumb."
+ },
+ {
+  "yr": -250,
+  "y": "Ancient Greece",
+  "who": "Apollonius",
+  "t": "Conic sections",
+  "c": "d = 2　n = 2",
+  "s": "One plane slicing a cone collects the ellipse, the parabola and the hyperbola in a single stroke."
+ },
+ {
+  "yr": 825,
+  "y": "Islamic Golden Age",
+  "who": "al-Khwarizmi",
+  "t": "Algebra (al-jabr)",
+  "c": "d = 1,2　n = 1",
+  "s": "'Transposing' and 'combining' became, for the first time, actions one could write down."
+ },
+ {
+  "yr": 1202,
+  "y": "Middle Ages",
+  "who": "Fibonacci",
+  "t": "Liber Abaci",
+  "c": "d = 1　n = 1",
+  "s": "Hindu-Arabic numerals enter Europe, and sequences appear for the first time in recursive form."
+ },
+ {
+  "yr": 1545,
+  "y": "Renaissance",
+  "who": "Cardano",
+  "t": "Cubic and quartic equations",
+  "c": "d = 3,4　n = 1",
+  "s": "Solution by radicals stops at degree four; beyond that, no one advanced for five hundred years."
+ },
+ {
+  "yr": 1637,
+  "y": "17th century",
+  "who": "Descartes",
+  "t": "Coordinate system",
+  "c": "贯通整个 n 轴",
+  "s": "Algebra and geometry marry: figures and formulas translate into each other, the foundation of this whole map."
+ },
+ {
+  "yr": 1637,
+  "y": "17th century",
+  "who": "Fermat",
+  "t": "Fermat's Last Theorem (margin note)",
+  "c": "n ≥ 2　d ≥ 3",
+  "s": "A single margin note forced three centuries of algebraic number theory into existence."
+ },
+ {
+  "yr": 1665,
+  "y": "17th century",
+  "who": "Newton",
+  "t": "Method of fluxions (calculus)",
+  "c": "微分　n = 1",
+  "s": "Change itself becomes the object, no longer a static quantity."
+ },
+ {
+  "yr": 1684,
+  "y": "17th century",
+  "who": "Leibniz",
+  "t": "Differential and integral notation",
+  "c": "微分　n = 1",
+  "s": "The dy/dx and integral signs survive to this day, outliving the results themselves."
+ },
+ {
+  "yr": 1735,
+  "y": "18th century",
+  "who": "Euler",
+  "t": "Zeta function and the Basel problem",
+  "c": "d = ∞　n = 1",
+  "s": "Sum of 1/n^2 = pi^2/6: the sum of reciprocal squares, and a circle appears in the answer."
+ },
+ {
+  "yr": 1799,
+  "y": "18th century",
+  "who": "Gauss",
+  "t": "Fundamental theorem of algebra",
+  "c": "d = 任意　n = 1",
+  "s": "A degree-n equation has exactly n complex roots, so complex numbers are no longer 'imaginary'."
+ },
+ {
+  "yr": 1807,
+  "y": "19th century",
+  "who": "Fourier",
+  "t": "Heat conduction and trigonometric series",
+  "c": "d = ω　n = 1",
+  "s": "Any function can be split into a sum of sines, though convergence could not then be pinned down."
+ },
+ {
+  "yr": 1822,
+  "y": "19th century",
+  "who": "Navier",
+  "t": "Equations of fluid motion",
+  "c": "L4　隐式",
+  "s": "First use of partial differential equations to describe a continuous medium; no general solution exists to this day."
+ },
+ {
+  "yr": 1824,
+  "y": "19th century",
+  "who": "Abel",
+  "t": "Insolubility of the quintic",
+  "c": "d = 5　n = 1",
+  "s": "Not 'not found yet' but 'does not exist': a proof that, for the first time, denied a possibility."
+ },
+ {
+  "yr": 1832,
+  "y": "19th century",
+  "who": "Galois",
+  "t": "Groups and solvability of equations",
+  "c": "群论序",
+  "s": "Whether an equation can be solved becomes a question about the symmetry of a group."
+ },
+ {
+  "yr": 1844,
+  "y": "19th century",
+  "who": "Grassmann",
+  "t": "Exterior algebra",
+  "c": "d = 2　M4 列",
+  "s": "Oriented area itself is treated as a number and made into something computable."
+ },
+ {
+  "yr": 1854,
+  "y": "19th century",
+  "who": "Riemann",
+  "t": "Riemannian geometry",
+  "c": "d = 2　n 任意",
+  "s": "The metric may vary from point to point, so space itself becomes a variable."
+ },
+ {
+  "yr": 1859,
+  "y": "19th century",
+  "who": "Riemann",
+  "t": "Zeta hypothesis",
+  "c": "d = ∞　n = 1",
+  "s": "The distribution of the primes is pinned to a single critical line, still unproven."
+ },
+ {
+  "yr": 1872,
+  "y": "19th century",
+  "who": "Klein",
+  "t": "Erlangen program",
+  "c": "表 4",
+  "s": "Geometry = transformation group + invariants: nine geometries ordered in one stroke."
+ },
+ {
+  "yr": 1872,
+  "y": "19th century",
+  "who": "Dedekind",
+  "t": "Dedekind cuts",
+  "c": "数系　ℚ → ℝ",
+  "s": "Continuity is defined as a cut, and the gaps in the real line are filled."
+ },
+ {
+  "yr": 1874,
+  "y": "19th century",
+  "who": "Cantor",
+  "t": "Countable and uncountable",
+  "c": "数系　基数",
+  "s": "Rationals can be listed, reals cannot: infinity acquires sizes for the first time."
+ },
+ {
+  "yr": 1895,
+  "y": "19th century",
+  "who": "Poincaré",
+  "t": "Topology (Analysis Situs)",
+  "c": "C 轴",
+  "s": "Quantities unchanged under continuous deformation become a new object of study."
+ },
+ {
+  "yr": 1900,
+  "y": "20th century",
+  "who": "Hilbert",
+  "t": "23 problems",
+  "c": "全表",
+  "s": "He marked out the century's directions; roughly half were later settled."
+ },
+ {
+  "yr": 1928,
+  "y": "20th century",
+  "who": "Dirac",
+  "t": "Delta function",
+  "c": "L4　隐式",
+  "s": "A 'function' that is not a function forces distribution theory into being."
+ },
+ {
+  "yr": 1933,
+  "y": "20th century",
+  "who": "Kolmogorov",
+  "t": "Axiomatization of probability",
+  "c": "概率论",
+  "s": "Probability becomes a measure: randomness can now be computed rigorously."
+ },
+ {
+  "yr": 1957,
+  "y": "20th century",
+  "who": "Grothendieck",
+  "t": "Schemes",
+  "c": "n ≥ 4　d ≥ 3　M4 列",
+  "s": "'Points' are replaced by prime ideals, so geometry can be done over any ring."
+ },
+ {
+  "yr": 1975,
+  "y": "20th century",
+  "who": "Mandelbrot",
+  "t": "Fractals",
+  "c": "C2 行",
+  "s": "Dimension need not be an integer, and that piece of common sense was knocked down."
+ },
+ {
+  "yr": 1994,
+  "y": "Contemporary",
+  "who": "Wiles",
+  "t": "Fermat's Last Theorem",
+  "c": "d ≥ 3　n ≥ 2",
+  "s": "Three hundred and fifty-eight years on, modular forms and elliptic curves finish the margin note."
+ },
+ {
+  "yr": 2002,
+  "y": "Contemporary",
+  "who": "Perelman",
+  "t": "Poincaré conjecture",
+  "c": "C 轴　M3",
+  "s": "Ricci flow turns a topological problem into geometric evolution."
+ },
+ {
+  "yr": -1860,
+  "y": "Ancient Babylon",
+  "who": "YBC 7289 tablet",
+  "t": "Sexagesimal approximation of the square root of 2",
+  "c": "d = 2　n = 1",
+  "s": "Square root of 2 is about 1.41421296, more than a thousand years before Pythagoras."
+ },
+ {
+  "yr": -1650,
+  "y": "Ancient Egypt",
+  "who": "Rhind Papyrus",
+  "t": "Unit fractions and geometry",
+  "c": "d = 1　n = 1",
+  "s": "Fractions written as sums of unit fractions, the ancestor of bringing to a common denominator."
+ },
+ {
+  "yr": -500,
+  "y": "Ancient Greece",
+  "who": "The Pythagoreans",
+  "t": "Discovery of incommensurables",
+  "c": "数系 ℚ",
+  "s": "The diagonal of a square is incommensurable with its side, so 'all is number' is refuted by its own theorem."
+ },
+ {
+  "yr": -370,
+  "y": "Ancient Greece",
+  "who": "Eudoxus",
+  "t": "Theory of proportion and method of exhaustion",
+  "c": "d = 2　n = 2",
+  "s": "'Arbitrarily small' replaces 'infinitely small': the prehistoric form of the limit."
+ },
+ {
+  "yr": -250,
+  "y": "Ancient Greece",
+  "who": "Archimedes",
+  "t": "Upper and lower bounds for pi",
+  "c": "d = 2　n = 1",
+  "s": "3.1408 < pi < 3.1429, squeezed out by inscribed and circumscribed polygons."
+ },
+ {
+  "yr": 200,
+  "y": "China",
+  "who": "Nine Chapters on the Mathematical Art",
+  "t": "Fangcheng (systems of linear equations)",
+  "c": "线性方程组",
+  "s": "Coefficients laid out with counting rods and then eliminated: the world's earliest elimination method."
+ },
+ {
+  "yr": 263,
+  "y": "China",
+  "who": "Liu Hui",
+  "t": "Method of cutting the circle",
+  "c": "d = 2　n = 1",
+  "s": "'The finer the cut, the less is lost': a complete statement of the idea of a limit."
+ },
+ {
+  "yr": 480,
+  "y": "China",
+  "who": "Zu Chongzhi",
+  "t": "355/113",
+  "c": "d = 2　n = 1",
+  "s": "This fraction pins pi to six decimal places, nearly a millennium ahead of its time."
+ },
+ {
+  "yr": 628,
+  "y": "India",
+  "who": "Brahmagupta",
+  "t": "Arithmetic with zero and negative numbers",
+  "c": "数系 ℤ",
+  "s": "Zero can take part in calculation for the first time, instead of merely meaning 'nothing'."
+ },
+ {
+  "yr": 1050,
+  "y": "China",
+  "who": "Jia Xian",
+  "t": "Binomial coefficients arranged in a triangle",
+  "c": "二项式系数",
+  "s": "Binomial coefficients laid out as a triangle, six hundred years before Pascal."
+ },
+ {
+  "yr": 1303,
+  "y": "China",
+  "who": "Zhu Shijie",
+  "t": "Method of the four unknowns",
+  "c": "d ≥ 3　n = 4",
+  "s": "High-degree elimination with four unknowns; the record stood for five hundred years."
+ },
+ {
+  "yr": 1591,
+  "y": "France",
+  "who": "Viète",
+  "t": "Symbolic algebra",
+  "c": "d = 1,2　n = 1",
+  "s": "Letters stand for knowns and unknowns, so equations can at last be calculated with."
+ },
+ {
+  "yr": 1614,
+  "y": "Scotland",
+  "who": "Napier",
+  "t": "Logarithms",
+  "c": "d = 1　n = 1",
+  "s": "Multiplication becomes addition, and the arithmetic of navigation and astronomy shrinks sharply."
+ },
+ {
+  "yr": 1713,
+  "y": "Switzerland",
+  "who": "Bernoulli",
+  "t": "Law of large numbers",
+  "c": "概率论",
+  "s": "Frequency settles at probability, for the first time in the form of a theorem."
+ },
+ {
+  "yr": 1748,
+  "y": "Switzerland",
+  "who": "Euler",
+  "t": "Introductio in analysin infinitorum",
+  "c": "d = ω　n = 1",
+  "s": "e^(i pi) + 1 = 0: five constants strung together by one formula."
+ },
+ {
+  "yr": 1761,
+  "y": "France",
+  "who": "Lambert",
+  "t": "pi is irrational",
+  "c": "数系 ℝ",
+  "s": "Pi cannot be written as a fraction, and the proof runs through continued fractions."
+ },
+ {
+  "yr": 1801,
+  "y": "Germany",
+  "who": "Gauss",
+  "t": "Disquisitiones Arithmeticae",
+  "c": "数论",
+  "s": "Congruences and quadratic reciprocity: number theory becomes a system for the first time."
+ },
+ {
+  "yr": 1821,
+  "y": "France",
+  "who": "Cauchy",
+  "t": "Rigorous foundations of the limit",
+  "c": "极限　n = 1",
+  "s": "'Approaches indefinitely' becomes epsilon-delta, and calculus no longer rests on intuition."
+ },
+ {
+  "yr": 1829,
+  "y": "Russia",
+  "who": "Lobachevsky",
+  "t": "Non-Euclidean geometry",
+  "c": "d = 2　n = 2",
+  "s": "Through a point off a line, infinitely many parallels: the fifth postulate is not necessary."
+ },
+ {
+  "yr": 1843,
+  "y": "Ireland",
+  "who": "Hamilton",
+  "t": "Quaternions",
+  "c": "数系 ℍ",
+  "s": "To describe rotations in three dimensions, multiplication gives up commutativity for the first time."
+ },
+ {
+  "yr": 1858,
+  "y": "Germany",
+  "who": "Möbius",
+  "t": "One-sided surface",
+  "c": "C 轴　M1",
+  "s": "A band with only one face, showing that orientability is not a topological necessity."
+ },
+ {
+  "yr": 1873,
+  "y": "France",
+  "who": "Hermite",
+  "t": "e is transcendental",
+  "c": "数系",
+  "s": "e is not a root of any equation with integer coefficients."
+ },
+ {
+  "yr": 1882,
+  "y": "Germany",
+  "who": "Lindemann",
+  "t": "pi is transcendental",
+  "c": "数系",
+  "s": "The impossibility of squaring the circle is thereby proved."
+ },
+ {
+  "yr": 1899,
+  "y": "Germany",
+  "who": "Hilbert",
+  "t": "Grundlagen der Geometrie",
+  "c": "d = 2　n = 2",
+  "s": "Points, lines and planes need no definition, only the satisfaction of the axioms."
+ },
+ {
+  "yr": 1901,
+  "y": "France",
+  "who": "Lebesgue",
+  "t": "Measure and integral",
+  "c": "积分　n = 1",
+  "s": "The range of what counts as integrable is widened, and the cracks in the Riemann integral are filled."
+ },
+ {
+  "yr": 1912,
+  "y": "Netherlands",
+  "who": "Brouwer",
+  "t": "Fixed point theorem",
+  "c": "C 轴",
+  "s": "Map a disk continuously into itself, and some point always stays fixed."
+ },
+ {
+  "yr": 1931,
+  "y": "Austria",
+  "who": "Gödel",
+  "t": "Incompleteness theorems",
+  "c": "逻辑",
+  "s": "In any sufficiently strong system there are true propositions that cannot be proved."
+ },
+ {
+  "yr": 1936,
+  "y": "Britain",
+  "who": "Turing",
+  "t": "Computable numbers",
+  "c": "逻辑",
+  "s": "'Computable' is defined as what a machine can do."
+ },
+ {
+  "yr": 1950,
+  "y": "United States",
+  "who": "Nash",
+  "t": "Equilibrium point",
+  "c": "博弈",
+  "s": "When no one wants to change strategy unilaterally, the situation comes to rest."
+ },
+ {
+  "yr": 1963,
+  "y": "United States",
+  "who": "Lorenz",
+  "t": "Deterministic chaos",
+  "c": "动力系统",
+  "s": "Deterministic equations can still give unpredictable trajectories."
+ },
+ {
+  "yr": 1585,
+  "y": "16th century",
+  "who": "Simon Stevin",
+  "t": "De Thiende: decimal notation systematized",
+  "c": "小学 分数与小数",
+  "s": "Converting fractions bred errors everywhere, so he wrote decimal fractions as one notation."
+ },
+ {
+  "yr": 1635,
+  "y": "17th century",
+  "who": "Bonaventura Cavalieri",
+  "t": "Geometria indivisibilibus: the method of indivisibles",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Curved figures cannot be measured directly, so he sliced them into infinitely thin pieces."
+ },
+ {
+  "yr": 1670,
+  "y": "17th century",
+  "who": "Isaac Barrow",
+  "t": "Lectiones Geometricae: a general construction of tangents",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Tangents each had their own trick; he wanted one uniform construction."
+ },
+ {
+  "yr": 1685,
+  "y": "17th century",
+  "who": "John Wallis",
+  "t": "Treatise of Algebra: negative numbers vindicated",
+  "c": "本科 实数完备与数系结构",
+  "s": "Negatives were dismissed as absurd numbers; he gave them a place on the number line."
+ },
+ {
+  "yr": 1691,
+  "y": "17th century",
+  "who": "Michel Rolle",
+  "t": "Rolle's theorem",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Root finding was hopeless, so he first pinned down the stationary point between two roots."
+ },
+ {
+  "yr": 1696,
+  "y": "17th century",
+  "who": "Guillaume de l'Hôpital",
+  "t": "Analyse des Infiniment Petits: the first calculus textbook",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Calculus lay scattered in letters, and he turned it into a book one could teach from."
+ },
+ {
+  "yr": 1715,
+  "y": "18th century",
+  "who": "Brook Taylor",
+  "t": "Taylor series",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Function values were hard to compute, so he built the whole function from a power series."
+ },
+ {
+  "yr": 1737,
+  "y": "18th century",
+  "who": "Leonhard Euler",
+  "t": "Proof that e is irrational",
+  "c": "初中 无理数与实数",
+  "s": "A continued fraction expansion forces a contradiction: e cannot be a ratio of two integers."
+ },
+ {
+  "yr": 1747,
+  "y": "18th century",
+  "who": "Jean d'Alembert",
+  "t": "Wave equation for a vibrating string",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "How a string vibrates was unclear, so he wrote down a partial differential equation."
+ },
+ {
+  "yr": 1797,
+  "y": "18th century",
+  "who": "Joseph-Louis Lagrange",
+  "t": "Théorie des fonctions analytiques: power series instead of limits",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Limits were unclear, so he simply bypassed them with power series."
+ },
+ {
+  "yr": 1806,
+  "y": "19th century",
+  "who": "Jean-Robert Argand",
+  "t": "Planar geometric representation of complex numbers",
+  "c": "高中 复数与复平面",
+  "s": "Imaginary numbers were thought fictitious; he drew them as points in a plane."
+ },
+ {
+  "yr": 1817,
+  "y": "19th century",
+  "who": "Bernard Bolzano",
+  "t": "Rigorous proof of the intermediate value theorem",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "The intermediate value theorem was only geometric intuition, and he wanted a purely analytic proof."
+ },
+ {
+  "yr": 1829,
+  "y": "19th century",
+  "who": "Peter Gustav Lejeune Dirichlet",
+  "t": "Sufficient conditions for Fourier series convergence",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "What a trigonometric series actually converges to: he gave a criterion one could check."
+ },
+ {
+  "yr": 1845,
+  "y": "19th century",
+  "who": "Arthur Cayley",
+  "t": "Discovery of the octonions",
+  "c": "本科 实数完备与数系结构",
+  "s": "Quaternions had already lost commutativity; he gave up associativity as well."
+ },
+ {
+  "yr": 1872,
+  "y": "19th century",
+  "who": "Karl Weierstrass",
+  "t": "A continuous nowhere differentiable function",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Functions were assumed differentiable almost everywhere, and he built the counterexample."
+ },
+ {
+  "yr": 1875,
+  "y": "19th century",
+  "who": "Gaston Darboux",
+  "t": "Darboux sums and Darboux's theorem",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Integrals depend on partitions and sample points; he proved upper and lower sums must converge together."
+ },
+ {
+  "yr": 1878,
+  "y": "19th century",
+  "who": "Ferdinand Frobenius",
+  "t": "Classification of real division algebras",
+  "c": "本科 实数完备与数系结构",
+  "s": "Were there new number systems after the quaternions? He showed only three remain."
+ },
+ {
+  "yr": 1884,
+  "y": "19th century",
+  "who": "Gottlob Frege",
+  "t": "Grundlagen der Arithmetik: number reduced to logic",
+  "c": "本科 实数完备与数系结构",
+  "s": "Nobody could say what a number is, so he tried to derive it from logic."
+ },
+ {
+  "yr": 1889,
+  "y": "19th century",
+  "who": "Giuseppe Peano",
+  "t": "Axiom system for the natural numbers",
+  "c": "本科 实数完备与数系结构",
+  "s": "The natural numbers were used on intuition alone; he compressed them into five axioms."
+ },
+ {
+  "yr": 1891,
+  "y": "19th century",
+  "who": "Georg Cantor",
+  "t": "Diagonal proof that the reals are uncountable",
+  "c": "本科 实数完备与数系结构",
+  "s": "Can the reals be listed? He answered with a diagonal refutation."
+ },
+ {
+  "yr": 1898,
+  "y": "19th century",
+  "who": "Émile Borel",
+  "t": "Borel measure and measurable sets",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Length fails on bizarre sets, so he first fixed which sets are measurable."
+ },
+ {
+  "yr": 1901,
+  "y": "20th century",
+  "who": "Bertrand Russell",
+  "t": "Russell's paradox",
+  "c": "本科 实数完备与数系结构",
+  "s": "Cantor's sets embraced everything, so he asked about 'the set of all sets'."
+ },
+ {
+  "yr": 1906,
+  "y": "20th century",
+  "who": "Maurice Fréchet",
+  "t": "Metric spaces",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Convergence was discussed sequence by sequence, and he wanted an abstract distance."
+ },
+ {
+  "yr": 1922,
+  "y": "20th century",
+  "who": "Stefan Banach",
+  "t": "Axiomatization of Banach spaces",
+  "c": "本科 极限·导数·积分·级数",
+  "s": "Function spaces each spoke their own language, so he unified complete normed spaces."
+ },
+ {
+  "yr": 1963,
+  "y": "20th century",
+  "who": "Paul Cohen",
+  "t": "Forcing: independence of the continuum hypothesis",
+  "c": "本科 实数完备与数系结构",
+  "s": "The continuum hypothesis hung for eighty years; he proved the axioms cannot decide it."
+ },
+ {
+  "yr": 1639,
+  "y": "17th century",
+  "who": "Girard Desargues",
+  "t": "First sketch of projective geometry",
+  "c": "射影几何",
+  "s": "Perspective drawing wants parallels to meet at infinity, which Euclidean geometry cannot hold."
+ },
+ {
+  "yr": 1683,
+  "y": "17th century",
+  "who": "Seki Takakazu",
+  "t": "Determinant algorithm",
+  "c": "线性代数",
+  "s": "Solving systems in several unknowns needed a formula that decides outright whether a solution exists."
+ },
+ {
+  "yr": 1750,
+  "y": "18th century",
+  "who": "Gabriel Cramer",
+  "t": "Cramer's rule",
+  "c": "线性代数",
+  "s": "Solving linear systems, he wanted the solution written straight from the coefficient determinant."
+ },
+ {
+  "yr": 1827,
+  "y": "19th century",
+  "who": "C. F. Gauss",
+  "t": "Theorema Egregium",
+  "c": "微分几何",
+  "s": "Mapmaking raised the question whether curvature can be measured on the surface alone."
+ },
+ {
+  "yr": 1847,
+  "y": "19th century",
+  "who": "Ernst Kummer",
+  "t": "Ideal numbers",
+  "c": "环论",
+  "s": "Unique factorization fails among cyclotomic integers, so 'ideal factors' had to be supplied."
+ },
+ {
+  "yr": 1858,
+  "y": "19th century",
+  "who": "Arthur Cayley",
+  "t": "Matrix algebra",
+  "c": "线性代数",
+  "s": "Computing a composite linear map with one table demanded matrix multiplication."
+ },
+ {
+  "yr": 1868,
+  "y": "19th century",
+  "who": "Eugenio Beltrami",
+  "t": "A surface model of hyperbolic geometry",
+  "c": "非欧几何",
+  "s": "Whether non-Euclidean geometry was consistent required a model one could see."
+ },
+ {
+  "yr": 1870,
+  "y": "19th century",
+  "who": "Camille Jordan",
+  "t": "Traité des substitutions: group theory systematized",
+  "c": "群论",
+  "s": "Galois's ideas were too scattered; a systematic, teachable group theory was needed."
+ },
+ {
+  "yr": 1871,
+  "y": "19th century",
+  "who": "Enrico Betti",
+  "t": "Betti numbers",
+  "c": "拓扑学",
+  "s": "He wanted integers to count a space's holes, not merely to ask whether it is connected."
+ },
+ {
+  "yr": 1882,
+  "y": "19th century",
+  "who": "Walther von Dyck",
+  "t": "Axiomatic formulation of abstract groups",
+  "c": "群论",
+  "s": "Groups exist beyond permutation groups, so a definition from the multiplication table alone was needed."
+ },
+ {
+  "yr": 1888,
+  "y": "19th century",
+  "who": "David Hilbert",
+  "t": "Basis theorem",
+  "c": "环论",
+  "s": "Invariant theory produced infinitely many generators, and he had to prove finitely many suffice."
+ },
+ {
+  "yr": 1896,
+  "y": "19th century",
+  "who": "F. G. Frobenius",
+  "t": "Group characters",
+  "c": "表示论",
+  "s": "Finite group structure is hard to see directly, so he mapped it to matrices and computed."
+ },
+ {
+  "yr": 1900,
+  "y": "20th century",
+  "who": "G. Ricci and T. Levi-Civita",
+  "t": "Absolute differential calculus (tensor analysis)",
+  "c": "微分几何",
+  "s": "Formulas in curved space distort under a change of coordinates; a coordinate-free notation was needed."
+ },
+ {
+  "yr": 1904,
+  "y": "20th century",
+  "who": "Henri Poincaré",
+  "t": "Poincaré conjecture",
+  "c": "拓扑学",
+  "s": "Are all closed three-manifolds spheres? Homology criteria were no longer enough."
+ },
+ {
+  "yr": 1921,
+  "y": "20th century",
+  "who": "Emmy Noether",
+  "t": "Ideal theory and Noetherian rings",
+  "c": "环论",
+  "s": "Ideals in rings grew chaotic, so a condition that ascending chains must stop was needed."
+ },
+ {
+  "yr": 1928,
+  "y": "20th century",
+  "who": "J. W. Alexander",
+  "t": "Knot polynomial",
+  "c": "纽结理论",
+  "s": "Knots take endlessly many shapes, so a computable and reliable invariant was needed."
+ },
+ {
+  "yr": 1931,
+  "y": "20th century",
+  "who": "Georges de Rham",
+  "t": "de Rham's theorem",
+  "c": "同调论",
+  "s": "Why should what differential forms compute equal the homology of a triangulation?"
+ },
+ {
+  "yr": 1936,
+  "y": "20th century",
+  "who": "Hassler Whitney",
+  "t": "Embedding theorem",
+  "c": "流形",
+  "s": "Can an abstract manifold really sit in a higher-dimensional Euclidean space? It needed proof."
+ },
+ {
+  "yr": 1945,
+  "y": "20th century",
+  "who": "S. Eilenberg and S. Mac Lane",
+  "t": "Categories and natural transformations",
+  "c": "范畴论",
+  "s": "Homology constructions were numerous and alike, and needed a unified structural language."
+ },
+ {
+  "yr": 1949,
+  "y": "20th century",
+  "who": "André Weil",
+  "t": "Weil conjectures",
+  "c": "代数几何",
+  "s": "The number of solutions of equations over finite fields seemed governed by some topological structure."
+ },
+ {
+  "yr": 1951,
+  "y": "20th century",
+  "who": "Norman Steenrod",
+  "t": "The Topology of Fibre Bundles",
+  "c": "纤维丛",
+  "s": "Spaces that are locally a product but globally twisted needed a unified account."
+ },
+ {
+  "yr": 1955,
+  "y": "20th century",
+  "who": "Jean-Pierre Serre",
+  "t": "Theory of coherent sheaves",
+  "c": "代数几何",
+  "s": "Local data on a variety does not assemble into the whole, so sheaves were needed to carry it."
+ },
+ {
+  "yr": 1956,
+  "y": "20th century",
+  "who": "John Milnor",
+  "t": "Exotic 7-sphere",
+  "c": "拓扑学",
+  "s": "Does homeomorphism imply diffeomorphism? The seven-dimensional sphere gave a counterexample."
+ },
+ {
+  "yr": 1963,
+  "y": "20th century",
+  "who": "M. Atiyah and I. Singer",
+  "t": "Index theorem",
+  "c": "微分几何",
+  "s": "Why is the analytic index of an elliptic operator always equal to its topological index?"
+ },
+ {
+  "yr": 1984,
+  "y": "20th century",
+  "who": "Vaughan Jones",
+  "t": "Jones polynomial",
+  "c": "纽结理论",
+  "s": "A quantity emerging from von Neumann algebras unexpectedly turns out to distinguish knots."
+ },
+ {
+  "yr": 1654,
+  "y": "17th century",
+  "who": "Pascal and Fermat",
+  "t": "Correspondence on the problem of points",
+  "c": "概率论",
+  "s": "A game stopped midway, and how to split the stakes forced probability to be computed from expectation."
+ },
+ {
+  "yr": 1657,
+  "y": "17th century",
+  "who": "Huygens",
+  "t": "De Ratiociniis in Ludo Aleae",
+  "c": "概率论",
+  "s": "Experience at the gaming table arranged into propositions and proofs gave probability its first textbook."
+ },
+ {
+  "yr": 1690,
+  "y": "17th century",
+  "who": "Raphson",
+  "t": "Newton-Raphson method",
+  "c": "数值分析",
+  "s": "With no root formula available, one can only iterate along the tangent again and again."
+ },
+ {
+  "yr": 1733,
+  "y": "18th century",
+  "who": "de Moivre",
+  "t": "Normal curve approximating the binomial distribution",
+  "c": "正态分布",
+  "s": "With many coin tosses the binomial coefficients become unmanageable, so a continuous curve approximates them."
+ },
+ {
+  "yr": 1764,
+  "y": "18th century",
+  "who": "Bayes",
+  "t": "Inverse probability (published posthumously)",
+  "c": "统计推断",
+  "s": "From known results back to causes, a probability formula running from effect to cause was missing."
+ },
+ {
+  "yr": 1809,
+  "y": "19th century",
+  "who": "Gauss",
+  "t": "Least squares and error theory",
+  "c": "误差理论",
+  "s": "More observations than unknowns, all contradicting one another, so one minimizes the sum of squared errors."
+ },
+ {
+  "yr": 1812,
+  "y": "19th century",
+  "who": "Laplace",
+  "t": "Théorie analytique des probabilités",
+  "c": "概率论",
+  "s": "To turn probability from a gambling trick into a branch of analysis, the central limit theorem took shape."
+ },
+ {
+  "yr": 1900,
+  "y": "19th century",
+  "who": "K. Pearson",
+  "t": "Chi-squared test",
+  "c": "数理统计",
+  "s": "How large a gap between observed and expected frequencies counts as significant needed a yardstick."
+ },
+ {
+  "yr": 1906,
+  "y": "20th century",
+  "who": "Markov",
+  "t": "Markov chains",
+  "c": "随机过程",
+  "s": "To prove the law of large numbers without independence, he built dependent random sequences."
+ },
+ {
+  "yr": 1908,
+  "y": "20th century",
+  "who": "Gosset (Student)",
+  "t": "t-distribution",
+  "c": "数理统计",
+  "s": "Brewing tests gave samples too small for the normal approximation, so a small-sample distribution was built."
+ },
+ {
+  "yr": 1928,
+  "y": "20th century",
+  "who": "Courant, Friedrichs and Lewy",
+  "t": "CFL condition",
+  "c": "微分方程数值解",
+  "s": "Simulating waves by difference equations diverges with a wrong step size, so a stability criterion was needed."
+ },
+ {
+  "yr": 1947,
+  "y": "20th century",
+  "who": "Dantzig",
+  "t": "Simplex method",
+  "c": "线性规划",
+  "s": "Allocating resources optimally under linear constraints lacked an algorithm that could actually compute."
+ },
+ {
+  "yr": 1948,
+  "y": "20th century",
+  "who": "Shannon",
+  "t": "A Mathematical Theory of Communication",
+  "c": "信息论",
+  "s": "To measure how much information a message carries, uncertainty was written as entropy."
+ },
+ {
+  "yr": 1948,
+  "y": "20th century",
+  "who": "Wiener",
+  "t": "Cybernetics",
+  "c": "控制论",
+  "s": "Gun control, nerves and machines all regulate by feedback and needed one shared language."
+ },
+ {
+  "yr": 1960,
+  "y": "20th century",
+  "who": "Kalman",
+  "t": "Kalman filter",
+  "c": "控制论",
+  "s": "Measurements carry noise and models are inaccurate, so how to fuse them into an optimal estimate?"
+ },
+ {
+  "yr": 1965,
+  "y": "20th century",
+  "who": "Cooley and Tukey",
+  "t": "Fast Fourier transform",
+  "c": "数值分析",
+  "s": "An N-point transform takes N^2 operations; splitting it in half brings it down to N log N."
+ },
+ {
+  "yr": 1971,
+  "y": "20th century",
+  "who": "Cook",
+  "t": "NP-completeness",
+  "c": "计算复杂性",
+  "s": "Many problems look unrelated yet are equally hard, so one 'hardest' benchmark was needed."
+ },
+ {
+  "yr": 1985,
+  "y": "20th century",
+  "who": "IEEE",
+  "t": "IEEE 754 floating-point standard",
+  "c": "浮点运算",
+  "s": "Every machine had its own floating-point format, so results changed when you changed machines."
+ }
+]

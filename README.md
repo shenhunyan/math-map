@@ -59,7 +59,7 @@ Number theory is deliberately absent as a matrix. Class groups, Galois groups, �
 ## Roadmap
 
 - **v1.6** — a language switch on the landing page, Chinese by default; screenshots; a corrected DOI inside the archive
-- **v1.7** — English edition of the 24 core cells across the four tools
+- **v1.7** — English edition: 24 cells, 125 knowledge points, 166 definitions, a 127-entry timeline, and a switch on every tool page
 - **v1.8** — upper-division and graduate cells: differential geometry, algebraic topology, commutative algebra, representation theory, measure theory
 - **Later** — an export path from the fitting lab to DXF and SVG, so a traced curve can go straight into CAD
 
@@ -81,7 +81,7 @@ If you use this in teaching, research, or a syllabus, please cite the DOI.
   author    = {shenhunyan (神魂魇)},
   year      = {2026},
   publisher = {Zenodo},
-  version   = {v1.6},
+  version   = {v1.7},
   doi       = {10.5281/zenodo.24246636},
   url       = {https://doi.org/10.5281/zenodo.24246636}
 }

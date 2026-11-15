@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>数学地图 · v1.6</title>
+<title>数学地图 · v1.7</title>
 <script src="i18n.js"></script>
 <script src="defs_en.js"></script>
+<script src="hist_en.js"></script>
 <style>
   :root{
     --bg:#faf9f6; --ink:#1c1b19; --muted:#8a8578; --line:#e4e0d6;
@@ -331,12 +332,12 @@
 <div class="page">
   <h1><span class="zh">数学地图</span><span class="en">Math Map</span></h1>
   <p class="sub"><span class="zh">
-    v1.6　·　<b>十一个视图 · 146 个格 · 六张表 166 格全部覆盖 · 每格附严格定义与教材出处</b>　·　右上角可搜索定位<br>
+    v1.7　·　<b>十一个视图 · 146 个格 · 六张表 166 格全部覆盖 · 每格附严格定义与教材出处</b>　·　右上角可搜索定位<br>
     课程序 / 结构序（次数×变元，含<b>微分行</b>）／算子序 / 几何序（C×M 完整 20 格）／群论序（9 种几何 + 11 个有限群）／物理序／全表对照（166 格，<b>已画的格子可点开</b>）／数系（ℕ⊂ℤ⊂ℚ⊂ℝ⊂ℂ⊂ℍ⊂𝕆⊂𝕊）／<b>表 5 代数结构</b>／<b>表 2 运算层级</b>／<b>表 6 历史</b><br>
     <b>点开任意一格即可动它</b>：拖滑块改参数（不拖就自动演示）· 拖动平移 · 滚轮缩放 · 三维格拖动旋转（Shift 拖动平移）· 双击复位<br>
     每格另附一张「等价变形账本」——同一对象换写法，不算换知识点<br>
     <span style="color:#a89c84;font-size:12.5px">学段对照：小学 ≈ Grades 1–6　初中 ≈ Grades 7–9　高中 ≈ Grades 10–12　本科 ≈ Undergraduate　·　窄屏下表格可左右滑动</span>
-  </span><span class="en">v1.6　·　<b>eleven views · 146 cells drawn · all 166 covered across six tables · every cell carries a definition and a citation</b>　·　search in the top right<br>
+  </span><span class="en">v1.7　·　<b>eleven views · 146 cells drawn · all 166 covered across six tables · every cell carries a definition and a citation</b>　·　search in the top right<br>
     course order / structure (degree × variables) / operators / geometry (C×M) / groups / physics / all tables / number systems / table 5 / table 2 / table 6<br>
     <b>click any cell to open it</b>: drag the sliders, pan, zoom, rotate a 3D cell by dragging (hold Shift to pan), double-click to reset<br>
     stage guide: primary ≈ Grades 1–6, middle ≈ Grades 7–9, high ≈ Grades 10–12, undergraduate
@@ -400,14 +401,14 @@
     <div class="live" id="mLive"></div>
     <div class="eq" id="mEq"></div>
     <div class="dbox" id="mDefWrap" style="display:none">
-      <div class="dh"><span>定义</span><em id="mDefKind"></em></div>
+      <div class="dh"><span><i class="zh" style="font-style:normal">定义</i><i class="en" style="font-style:normal">Definition</i></span><em id="mDefKind"></em></div>
       <div class="dtxt" id="mDef"></div>
       <div class="dthm" id="mThm"></div>
       <div class="dsrc" id="mStd"></div>
     </div>
     <ul class="items" id="mItems"></ul>
     <div class="eqv" id="mEqvWrap" style="display:none">
-      <div class="eqvh">等价变形 · 同一个对象，换写法不算换知识点</div>
+      <div class="eqvh"><span class="zh">等价变形 · 同一个对象，换写法不算换知识点</span><span class="en">Equivalent rewrites · same object, a different spelling</span></div>
       <div id="mEqv"></div>
     </div>
     <div class="prebox" id="mPreWrap" style="display:none"><span id="mPreList"></span></div><!-- ==DIAG:START== -->
@@ -3518,7 +3519,7 @@ function openModal(cell, coord) {
     const v = vs[i];
     setMath(eqEl, v.eq || cell.eq || '');
     const lv = v.live || cell.live;
-    liveEl.textContent = lv ? ('正在动的是：' + lv) : '';
+    liveEl.textContent = lv ? (((typeof MM_LANG === 'function' && MM_LANG() === 'en') ? 'In motion: ' : '正在动的是：') + lv) : '';
     activeCtx = setup(document.getElementById('mCanvas'), MW, MH);
     activeKey = (typeof v.d === 'string') ? v.d : null;
     activeDraw = getDraw(v.d);
@@ -4648,7 +4649,7 @@ function buildMatrix() {
         td.innerHTML = (st === 'd' ? nm : '<b>' + nm + '</b>');
         if (st === 'd') {
           td.style.cursor = 'pointer';
-          td.title = '点开这一格';
+          td.title = (typeof MM_LANG === 'function' && MM_LANG() === 'en') ? 'Open this cell' : '点开这一格';
           td.addEventListener('click', function () { jumpTo(nm); });
         }
         total++; if (st === 'd') done++;
@@ -5253,13 +5254,20 @@ function buildT6() {
     const row = document.createElement('div');
     row.className = 'tlr';
     const yrTxt = e.yr < 0 ? ('−' + Math.abs(e.yr)) : String(e.yr);
+    /* 译文单独放一张表（key 用 年份|中文人名），不污染 T6 原文 */
+    const enM = (typeof MM_LANG === 'function' && MM_LANG() === 'en');
+    const TR = (enM && typeof MM_T6EN !== 'undefined') ? MM_T6EN[e.yr + '|' + e.who] : null;
+    const eY = (TR && TR.y) ? TR.y : e.y;
+    const eW = (TR && TR.who) ? TR.who : e.who;
+    const eT = (TR && TR.t) ? TR.t : e.t;
+    const eS = (TR && TR.s) ? TR.s : e.s;
     row.innerHTML =
-      '<div class="tly"><b>' + yrTxt + '</b><span>' + e.y + '</span></div>' +
+      '<div class="tly"><b>' + yrTxt + '</b><span>' + eY + '</span></div>' +
       '<div class="tld"><span></span></div>' +
       '<div class="tlc">' +
-        '<div class="tlt">' + e.t + '<em>' + e.who + '</em></div>' +
+        '<div class="tlt">' + eT + '<em>' + eW + '</em></div>' +
         '<div class="tlo">' + e.c + '</div>' +
-        '<div class="tls">' + e.s + '</div>' +
+        '<div class="tls">' + eS + '</div>' +
       '</div>';
     line.appendChild(row);
   });
