@@ -45,15 +45,6 @@
     "src": "Britannica: ideal number"
   },
   {
-    "yr": 1854,
-    "y": "19 世纪",
-    "who": "凯莱（Arthur Cayley）",
-    "t": "抽象群的定义",
-    "c": "群论",
-    "s": "置换群之外还有别的群，需要只看乘法表的定义",
-    "src": "MacTutor: Arthur Cayley"
-  },
-  {
     "yr": 1858,
     "y": "19 世纪",
     "who": "凯莱（Arthur Cayley）",
@@ -88,6 +79,15 @@
     "c": "拓扑学",
     "s": "想用一组整数数清空间有几个洞，而非只问连通",
     "src": "MacTutor: Enrico Betti"
+  },
+  {
+    "yr": 1882,
+    "y": "19 世纪",
+    "who": "冯·戴克（Walther von Dyck）",
+    "t": "抽象群的公理化表述",
+    "c": "群论",
+    "s": "置换群之外还有别的群，需要只看乘法表的定义",
+    "src": "MacTutor: Walther von Dyck"
   },
   {
     "yr": 1888,
