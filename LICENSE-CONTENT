@@ -1,0 +1,63 @@
+# Content License — CC BY-SA 4.0
+
+Copyright (c) 2026 shenhunyan
+
+The **educational content** in this repository is licensed under the
+**Creative Commons Attribution-ShareAlike 4.0 International License**.
+
+Full legal code: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+Human-readable summary: https://creativecommons.org/licenses/by-sa/4.0/
+
+---
+
+## What is covered
+
+- Every definition text (the `DEF1`–`DEF5` objects in `math-map.html`)
+- The prerequisite structure — every edge in `CUR`, `cells.json`, `kst-items.json`
+- Knowledge point decomposition (124 items across 24 course cells)
+- The variation catalogue — 13 operators, 192 seed forms, 1814 variants
+- Table data — the 166 catalogue entries, the six tables
+- All Chinese and English explanatory prose in the interfaces
+
+## What is NOT covered
+
+- The code that renders it — that is MIT, see `LICENSE`.
+
+---
+
+## What you may do
+
+**Share** — copy and redistribute the material in any medium or format.
+
+**Adapt** — remix, transform, and build upon the material for any purpose,
+**including commercially**.
+
+The licensor cannot revoke these freedoms as long as you follow the terms.
+
+## What you must do
+
+**Attribution** — You must give appropriate credit, provide a link to the
+license, and indicate if changes were made. You may do so in any reasonable
+manner, but not in any way that suggests the licensor endorses you or your use.
+
+A practical attribution line:
+
+> Based on *Math Map* by shenhunyan — https://github.com/shenhunyan/math-map
+> (CC BY-SA 4.0)
+
+**ShareAlike** — If you remix, transform, or build upon the material, you must
+distribute your contributions under the same license as the original.
+
+**No additional restrictions** — You may not apply legal terms or technological
+measures that legally restrict others from doing anything the license permits.
+
+---
+
+## Why the split
+
+Code wants to be free — the more people build on it, the better it gets.
+Content wants to stay open — otherwise someone takes this structure, closes it,
+and sells it back.
+
+MIT on the code, CC BY-SA on the content means: **build anything you want on
+top, but you can't enclose the map itself.**

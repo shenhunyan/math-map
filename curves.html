@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>曲线实验室</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #faf9f6;
+    color: #1c1b19;
+    font-family: "Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif;
+    font-size: 14px;
+    line-height: 1.62;
+    padding-bottom: 56px;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  header.top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 18px; padding: 34px 0 18px; border-bottom: 1px solid #e4e0d6;
+  }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0; font-weight: 600; letter-spacing: .02em; }
+  .sub { margin: 8px 0 0; color: #6a6155; font-size: 13.5px; max-width: 660px; }
+
+  .btn-save {
+    flex: 0 0 auto; font-family: inherit; font-size: 13px; line-height: 1;
+    padding: 10px 16px; border-radius: 999px; border: 1px solid #b3541e;
+    background: #b3541e; color: #fff; cursor: pointer; letter-spacing: .04em;
+    transition: background .16s ease, opacity .16s ease;
+  }
+  .btn-save:hover { background: #96430f; border-color: #96430f; }
+
+  .layout {
+    display: grid; grid-template-columns: 250px minmax(0,1fr);
+    gap: 26px; margin-top: 26px; align-items: start;
+  }
+
+  .lib {
+    background: #fff; border: 1px solid #e4e0d6; border-radius: 10px;
+    padding: 10px 10px 10px 8px; position: sticky; top: 16px;
+  }
+  .lib-head {
+    font-size: 12.5px; color: #6a6155; letter-spacing: .12em;
+    padding: 4px 6px 9px 10px; border-bottom: 1px solid #e4e0d6; margin-bottom: 8px;
+  }
+  .lib-list { max-height: 566px; overflow-y: auto; overflow-x: hidden; }
+  .lib-list::-webkit-scrollbar { width: 6px; }
+  .lib-list::-webkit-scrollbar-thumb { background: #e4e0d6; border-radius: 3px; }
+
+  .lib-item {
+    display: flex; align-items: baseline; gap: 8px; width: 100%;
+    font-family: inherit; font-size: 13px; line-height: 1.45; color: #1c1b19;
+    text-align: left; background: none; border: 0;
+    border-left: 3px solid transparent;
+    padding: 7px 8px 7px 9px; cursor: pointer; border-radius: 0 6px 6px 0;
+    transition: background .14s ease, color .14s ease;
+  }
+  .lib-item:hover { background: #f7f4ec; }
+  .lib-item.active { border-left-color: #b3541e; background: #fbf5ef; }
+  .lib-item.active .lib-name { color: #b3541e; }
+  .lib-idx {
+    font-size: 12.5px; color: #6a6155; min-width: 17px;
+    font-variant-numeric: tabular-nums; letter-spacing: .02em;
+  }
+  .lib-name { flex: 1 1 auto; }
+
+  .stage { min-width: 0; }
+  .card { background: #fff; border: 1px solid #e4e0d6; border-radius: 10px; padding: 12px 12px 6px; }
+  .stage-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 2px 4px 10px;
+  }
+  .stage-name { font-size: 15px; letter-spacing: .02em; }
+  .btn-mini {
+    font-family: inherit; font-size: 12.5px; line-height: 1; color: #6a6155;
+    background: #faf9f6; border: 1px solid #e4e0d6; border-radius: 999px;
+    padding: 7px 13px; cursor: pointer; transition: color .16s ease, border-color .16s ease;
+  }
+  .btn-mini:hover { color: #b3541e; border-color: #d9c4b3; }
+
+  .canvas-holder { max-width: 620px; margin: 0 auto; padding: 0 0 8px; }
+  .canvas-holder canvas { display: block; width: 100%; height: auto; }
+
+  .params {
+    margin-top: 14px; background: #fff; border: 1px solid #e4e0d6;
+    border-radius: 10px; padding: 12px 18px 8px;
+  }
+  .ctrl { margin: 8px 0 12px; }
+  .ctrl-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 10px; font-size: 13px; margin-bottom: 3px;
+  }
+  .ctrl-label { color: #6a6155; }
+  .ctrl-val { color: #b3541e; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+  input[type=range] {
+    width: 100%; height: 20px; margin: 0; padding: 0; background: transparent;
+    -webkit-appearance: none; appearance: none; display: block; cursor: pointer;
+  }
+  input[type=range]:focus { outline: none; }
+  input[type=range]::-webkit-slider-runnable-track { height: 3px; background: #e4e0d6; border-radius: 2px; }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 15px; height: 15px; margin-top: -6px;
+    border-radius: 50%; background: #b3541e; border: 0;
+  }
+  input[type=range]::-moz-range-track { height: 3px; background: #e4e0d6; border-radius: 2px; }
+  input[type=range]::-moz-range-thumb { width: 15px; height: 15px; border: 0; border-radius: 50%; background: #b3541e; }
+
+  .eqbox {
+    margin-top: 14px; background: #fff; border: 1px solid #e4e0d6;
+    border-radius: 10px; padding: 13px 18px 12px;
+  }
+  .eq {
+    font-size: 15px; font-style: italic; line-height: 1.7; letter-spacing: .01em;
+    word-break: break-word;
+  }
+  .note {
+    margin-top: 9px; padding-top: 9px; border-top: 1px solid #e4e0d6;
+    color: #6a6155; font-size: 13px;
+  }
+
+  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 30px; }
+  .panel {
+    background: #fff; border: 1px solid #e4e0d6; border-radius: 10px;
+    padding: 18px 18px 14px; min-width: 0;
+  }
+  .panel h2 { font-size: 17px; margin: 0; font-weight: 600; letter-spacing: .02em; }
+  .panel h2 .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: #b3541e; margin-right: 8px; vertical-align: 3px;
+  }
+  .psub { margin: 5px 0 10px; color: #6a6155; font-size: 13px; }
+  .panel .canvas-holder { padding: 0 0 4px; max-width: 100%; }
+  .pnote {
+    margin: 10px 0 0; padding-top: 9px; border-top: 1px solid #e4e0d6;
+    color: #6a6155; font-size: 13px;
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; gap: 18px; }
+    .lib { position: static; }
+    .lib-list { max-height: 268px; }
+    .panels { grid-template-columns: 1fr; gap: 18px; }
+    header.top { flex-direction: column; }
+    .btn-save { align-self: flex-start; }
+    h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>曲线实验室</h1>
+      <p class="sub">每一条曲线背后都有一个方程，改一个数，它就变成另一个形状</p>
+    </div>
+    <button id="btn-save" class="btn-save" type="button">保存 PNG</button>
+  </header>
+
+  <main class="layout">
+    <aside class="lib">
+      <div class="lib-head">曲线库 · 18</div>
+      <div id="lib-list" class="lib-list"></div>
+    </aside>
+
+    <section class="stage">
+      <div class="card">
+        <div class="stage-head">
+          <span id="stage-name" class="stage-name">阿基米德螺线</span>
+          <button id="btn-replay" class="btn-mini" type="button">重播描线</button>
+        </div>
+        <div class="canvas-holder">
+          <canvas id="main-canvas" width="620" height="620"></canvas>
+        </div>
+      </div>
+
+      <div class="params" id="sliders"></div>
+
+      <div class="eqbox">
+        <div class="eq" id="eq-text"></div>
+        <div class="note" id="note-text"></div>
+      </div>
+    </section>
+  </main>
+
+  <section class="panels">
+    <article class="panel">
+      <h2><span class="dot"></span>泰勒逼近</h2>
+      <p class="psub">y = sin x 与它的 n 阶泰勒多项式</p>
+      <div class="canvas-holder">
+        <canvas id="taylor-canvas" width="520" height="300"></canvas>
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-head">
+          <span class="ctrl-label">阶数 n</span>
+          <span class="ctrl-val" id="taylor-val">5</span>
+        </div>
+        <input id="taylor-range" type="range" min="1" max="15" step="1" value="5">
+      </div>
+      <p class="pnote">阶数越高，贴合区间越宽，但不是无限宽。</p>
+    </article>
+
+    <article class="panel">
+      <h2><span class="dot"></span>傅里叶合成</h2>
+      <p class="psub">用一圈圈旋转的圆，把方波拼出来</p>
+      <div class="canvas-holder">
+        <canvas id="fourier-canvas" width="520" height="300"></canvas>
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-head">
+          <span class="ctrl-label">谐波数 k</span>
+          <span class="ctrl-val" id="fourier-val">7</span>
+        </div>
+        <input id="fourier-range" type="range" min="1" max="20" step="1" value="7">
+      </div>
+      <p class="pnote">圆的个数越多，波形越接近直角，但棱角处永远留着一点过冲。</p>
+    </article>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= 常量 ================= */
+  var C = {
+    bg: '#faf9f6',
+    ink: '#1c1b19',
+    muted: '#6a6155',
+    line: '#e4e0d6',
+    accent: '#b3541e',
+    blue: '#2b4f81',
+    card: '#ffffff'
+  };
+  var FONT = '"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif';
+  var MAIN_W = 620, MAIN_H = 620;
+  var TAY_W = 520, TAY_H = 300;
+  var FOU_W = 520, FOU_H = 300;
+  var FIT = 0.82;
+
+  /* ================= 小工具 ================= */
+  function gcd(a, b) {
+    a = Math.abs(Math.round(a)); b = Math.abs(Math.round(b));
+    while (b) { var t = a % b; a = b; b = t; }
+    return a || 1;
+  }
+  function fmtNum(v) {
+    if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v));
+    return v.toFixed(2);
+  }
+  function tickLabel(v, step) {
+    if (Math.abs(v) < 1e-9) return '0';
+    if (step >= 1) return String(Math.round(v));
+    if (step >= 0.1) return v.toFixed(1);
+    return v.toFixed(2);
+  }
+
+  /* ================= 曲线库 ================= */
+  var CURVES = [
+    /* 1 */
+    {
+      id: 'archimedes', name: '阿基米德螺线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'turns', label: '圈数', min: 1, max: 6, step: 0.25, def: 3 },
+        { k: 'rot', label: '起始角', min: 0, max: 6.28, step: 0.01, def: 0 }
+      ],
+      eq: 'r = a·θ    →    x = aθ·cos θ ,  y = aθ·sin θ',
+      note: '它在哪见过：蚊香的盘、卷起的发条、老唱片上一圈圈的音轨。',
+      half: function (p) { return 2 * Math.PI * p.turns; },
+      gen: function (p) {
+        var out = [], N = 1400, tm = 2 * Math.PI * p.turns, i, th, r;
+        for (i = 0; i <= N; i++) {
+          th = tm * i / N + p.rot;
+          r = p.a * th;
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function () { return [{ x: 0, y: 0 }]; }
+    },
+    /* 2 */
+    {
+      id: 'logspiral', name: '对数螺线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'b', label: '增长率 b', min: 0.08, max: 0.24, step: 0.005, def: 0.15 },
+        { k: 'turns', label: '圈数', min: 1, max: 3, step: 0.25, def: 2.5 }
+      ],
+      eq: 'r = a·eᵇᶿ',
+      note: '它在哪见过：鹦鹉螺的壳、台风的气旋、旋涡星系的悬臂——它们都按同一个比例长大。',
+      half: function (p) { return Math.exp(p.b * 2 * Math.PI * p.turns); },
+      gen: function (p) {
+        var out = [], N = 1600, tm = 2 * Math.PI * p.turns, i, th, r;
+        for (i = 0; i <= N; i++) {
+          th = tm * i / N;
+          r = p.a * Math.exp(p.b * th);
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function (p) { return [{ x: p.a, y: 0 }]; }
+    },
+    /* 3 */
+    {
+      id: 'fermat', name: '费马螺线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'turns', label: '圈数', min: 1, max: 4, step: 0.25, def: 2.5 }
+      ],
+      eq: 'r = a·√θ',
+      note: '它在哪见过：向日葵籽粒的排列（Vogel 模型）、雷达扫描留下的轨迹。',
+      half: function (p) { return Math.sqrt(2 * Math.PI * p.turns); },
+      gen: function (p) {
+        var out = [], N = 1400, tm = 2 * Math.PI * p.turns, i, th, r;
+        for (i = 0; i <= N; i++) {
+          th = tm * i / N;
+          r = p.a * Math.sqrt(th);
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function () { return [{ x: 0, y: 0 }]; }
+    },
+    /* 4 */
+    {
+      id: 'hyperbolic', name: '双曲螺线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 't0', label: '起始 θ', min: 0.3, max: 1.0, step: 0.01, def: 0.55 }
+      ],
+      eq: 'r = a / θ',
+      note: '它在哪见过：极坐标课本里画渐近线的标准例子，也出现在一些追及问题的轨迹里。',
+      half: function (p) { return 1 / p.t0; },
+      gen: function (p) {
+        var out = [], N = 1600, i, th, r, tm = 12 * Math.PI;
+        for (i = 0; i <= N; i++) {
+          th = p.t0 + (tm - p.t0) * i / N;
+          r = p.a / th;
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function (p) { return [{ x: p.a / p.t0, y: 0 }]; }
+    },
+    /* 5 */
+    {
+      id: 'rose', name: '玫瑰线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'k', label: '花瓣因子 k', min: 1, max: 10, step: 1, def: 4 }
+      ],
+      eq: 'r = a·cos(kθ)',
+      note: '它在哪见过：三叶草、四叶草、教堂玫瑰窗——k 为奇数得 k 瓣，为偶数得 2k 瓣。',
+      half: function () { return 1.02; },
+      gen: function (p) {
+        var out = [], N = 2000, i, th, r;
+        for (i = 0; i <= N; i++) {
+          th = 2 * Math.PI * i / N;
+          r = p.a * Math.cos(p.k * th);
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function () { return [{ x: 0, y: 0 }]; }
+    },
+    /* 6 */
+    {
+      id: 'cardioid', name: '心形线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'c', label: '凹陷 c', min: 0, max: 1.5, step: 0.01, def: 1 }
+      ],
+      eq: 'r = a(1 − c·cos θ)',
+      note: '它在哪见过：咖啡杯里光线聚成的焦散线、心形糖果盒、还有麦克风的拾音指向图。',
+      half: function (p) { return 1 + p.c; },
+      gen: function (p) {
+        var out = [], N = 1400, i, th, r;
+        for (i = 0; i <= N; i++) {
+          th = 2 * Math.PI * i / N;
+          r = p.a * (1 - p.c * Math.cos(th));
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function (p) { return [{ x: p.a * (1 - p.c), y: 0 }]; }
+    },
+    /* 7 */
+    {
+      id: 'lemniscate', name: '双纽线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'k', label: '扭转 k', min: 1.2, max: 3, step: 0.05, def: 2 }
+      ],
+      eq: 'r² = a²·cos(kθ)   （k = 2 时为伯努利双纽线）',
+      note: '它在哪见过：数学里那个无穷符号 ∞、八字的赛车弯道、还有双纽线形的丝带。',
+      half: function () { return 1.02; },
+      gen: function (p) {
+        var out = [], N = 1600, i, th, c, r, gap = false;
+        for (i = 0; i <= N; i++) {
+          th = 2 * Math.PI * i / N;
+          c = Math.cos(p.k * th);
+          if (c < 0) { if (!gap) { out.push(null); gap = true; } continue; }
+          gap = false;
+          r = p.a * Math.sqrt(c);
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function () { return [{ x: 0, y: 0 }]; }
+    },
+    /* 8 */
+    {
+      id: 'cassini', name: '卡西尼卵形线',
+      params: [
+        { k: 'a', label: '焦距参数 a', min: 0.5, max: 1.5, step: 0.01, def: 1 },
+        { k: 'b', label: '尺度 b', min: 0.3, max: 1.6, step: 0.01, def: 1.15 }
+      ],
+      eq: '(x² + y²)² − 2a²(x² − y²) = b⁴ − a⁴',
+      note: '它在哪见过：被太阳风压扁的地球磁场、某些双星系统的等势面、还有土星环的卵形轮廓。',
+      half: function (p) { return Math.sqrt(p.a * p.a + p.b * p.b) * 1.02; },
+      gen: function (p) {
+        var A2 = p.a * p.a, A4 = A2 * A2, B4 = p.b * p.b * p.b * p.b;
+        var N = 1440, outer = [], inner = [], i, th, c2, A, disc, s, r2;
+        for (i = 0; i <= N; i++) {
+          th = 2 * Math.PI * i / N;
+          c2 = Math.cos(2 * th);
+          A = A2 * c2;
+          disc = A * A + B4 - A4;
+          if (disc < 0) { outer.push(null); inner.push(null); continue; }
+          s = Math.sqrt(disc);
+          r2 = A + s;
+          outer.push(r2 >= 0 ? { x: Math.sqrt(r2) * Math.cos(th), y: Math.sqrt(r2) * Math.sin(th) } : null);
+          r2 = A - s;
+          inner.push(r2 >= 0 ? { x: Math.sqrt(r2) * Math.cos(th), y: Math.sqrt(r2) * Math.sin(th) } : null);
+        }
+        return outer.concat([null]).concat(inner);
+      },
+      marks: function (p) { return [{ x: 0, y: 0 }]; }
+    },
+    /* 9 */
+    {
+      id: 'cycloid', name: '摆线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'm', label: '拱数', min: 1, max: 3, step: 1, def: 2 }
+      ],
+      eq: 'x = a(t − sin t) ,  y = a(1 − cos t)',
+      note: '它在哪见过：滚动的自行车轮上，气门芯划出的轨迹；也是「最速降线」的答案。',
+      half: function (p) { return Math.PI * p.m; },
+      gen: function (p) {
+        var out = [], N = 1400, tm = 2 * Math.PI * p.m, i, t, ox = Math.PI * p.m, oy = 1;
+        for (i = 0; i <= N; i++) {
+          t = tm * i / N;
+          out.push({ x: p.a * (t - Math.sin(t)) - p.a * ox, y: p.a * (1 - Math.cos(t)) - p.a * oy });
+        }
+        return out;
+      },
+      marks: function (p) {
+        var arr = [], k;
+        for (k = 0; k <= p.m; k++) arr.push({ x: p.a * 2 * Math.PI * k - p.a * Math.PI * p.m, y: -p.a });
+        return arr;
+      }
+    },
+    /* 10 */
+    {
+      id: 'astroid', name: '星形线',
+      params: [
+        { k: 'a', label: '横向 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'b', label: '纵向 b', min: 0.6, max: 1.2, step: 0.01, def: 1 }
+      ],
+      eq: 'x = a·cos³t ,  y = b·sin³t',
+      note: '它在哪见过：方杯子里被光折出的一颗四角星；火车轮缘滚过时留下的包络。',
+      half: function () { return 1.02; },
+      gen: function (p) {
+        var out = [], N = 1400, i, t, c, s;
+        for (i = 0; i <= N; i++) {
+          t = 2 * Math.PI * i / N;
+          c = Math.cos(t); s = Math.sin(t);
+          out.push({ x: p.a * c * c * c, y: p.b * s * s * s });
+        }
+        return out;
+      },
+      marks: function (p) {
+        return [{ x: p.a, y: 0 }, { x: 0, y: p.b }, { x: -p.a, y: 0 }, { x: 0, y: -p.b }];
+      }
+    },
+    /* 11 */
+    {
+      id: 'epicycloid', name: '外摆线',
+      params: [
+        { k: 'R', label: '定圆半径 R', min: 1, max: 5, step: 1, def: 3 },
+        { k: 'r', label: '滚圆半径 r', min: 1, max: 4, step: 1, def: 1 }
+      ],
+      eq: 'x = (R+r)cos t − r·cos((R+r)t/r) ,  y = (R+r)sin t − r·sin((R+r)t/r)',
+      note: '它在哪见过：万花尺（Spirograph）画出的花边、齿轮啮合的齿形、回廊壁上的缠枝纹。',
+      half: function (p) { return p.R + 2 * p.r; },
+      gen: function (p) {
+        var R = Math.round(p.R), r = Math.round(p.r), g = gcd(R, r);
+        var tm = 2 * Math.PI * r / g;
+        var N = Math.min(6000, Math.round(700 * Math.max(1, r / g)));
+        var out = [], i, t, kk;
+        for (i = 0; i <= N; i++) {
+          t = tm * i / N;
+          kk = (R + r) / r;
+          out.push({
+            x: (R + r) * Math.cos(t) - r * Math.cos(kk * t),
+            y: (R + r) * Math.sin(t) - r * Math.sin(kk * t)
+          });
+        }
+        return out;
+      },
+      marks: function (p) { return [{ x: p.R, y: 0 }]; }
+    },
+    /* 12 */
+    {
+      id: 'catenary', name: '悬链线',
+      params: [
+        { k: 'a', label: '松弛参数 a', min: 0.8, max: 2.2, step: 0.02, def: 1.3 },
+        { k: 'L', label: '跨度 L', min: 0.6, max: 1.6, step: 0.02, def: 1.3 }
+      ],
+      eq: 'y = a·cosh(x / a)',
+      note: '它在哪见过：悬索桥的钢缆、脖子上垂下的项链、圣路易斯拱门的轮廓。',
+      half: function (p) {
+        var top = p.a * Math.cosh(p.L / p.a) - p.a;
+        return Math.max(p.L, top / 2) * 1.02;
+      },
+      gen: function (p) {
+        var out = [], N = 900, i, x, y, ymax = p.a * Math.cosh(p.L / p.a), yc = (ymax + p.a) / 2;
+        for (i = 0; i <= N; i++) {
+          x = -p.L + 2 * p.L * i / N;
+          y = p.a * Math.cosh(x / p.a) - yc;
+          out.push({ x: x, y: y });
+        }
+        return out;
+      },
+      marks: function (p) {
+        var ymax = p.a * Math.cosh(p.L / p.a), yc = (ymax + p.a) / 2;
+        return [{ x: 0, y: p.a - yc }];
+      }
+    },
+    /* 13 */
+    {
+      id: 'tractrix', name: '曳物线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'T', label: '延伸 T', min: 1.2, max: 3.2, step: 0.05, def: 2.4 }
+      ],
+      eq: 'x = a(t − tanh t) ,  y = a·sech t',
+      note: '它在哪见过：你拖着行李箱直走时，箱子在地上划出的曲线；也是双曲几何「伪球面」的母线。',
+      half: function (p) {
+        var xm = p.T - Math.tanh(p.T);
+        return Math.max(xm, 0.55) * 1.04;
+      },
+      gen: function (p) {
+        var out = [], N = 1200, i, t;
+        for (i = 0; i <= N; i++) {
+          t = -p.T + 2 * p.T * i / N;
+          out.push({
+            x: p.a * (t - Math.tanh(t)),
+            y: p.a / Math.cosh(t) - p.a / 2
+          });
+        }
+        return out;
+      },
+      marks: function (p) { return [{ x: 0, y: p.a / 2 }]; }
+    },
+    /* 14 */
+    {
+      id: 'cissoid', name: '蔓叶线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'T', label: '延伸 T', min: 1, max: 3, step: 0.05, def: 2.2 }
+      ],
+      eq: 'y² = x³ / (2a − x)',
+      note: '它在哪见过：古希腊人为了「倍立方」问题造出来的辅助曲线，也是微积分课本的常客。',
+      half: function (p) {
+        var ym = 2 * p.T * p.T * p.T / (1 + p.T * p.T);
+        return Math.max(1, ym) * 1.02;
+      },
+      gen: function (p) {
+        var out = [], N = 1400, i, t, d, x, y;
+        for (i = 0; i <= N; i++) {
+          t = -p.T + 2 * p.T * i / N;
+          d = 1 + t * t;
+          x = 2 * p.a * t * t / d - p.a;
+          y = 2 * p.a * t * t * t / d;
+          out.push({ x: x, y: y });
+        }
+        return out;
+      },
+      marks: function (p) { return [{ x: -p.a, y: 0 }]; }
+    },
+    /* 15 */
+    {
+      id: 'lissajous', name: '利萨如图形',
+      params: [
+        { k: 'fa', label: '横向频率 a', min: 1, max: 6, step: 1, def: 3 },
+        { k: 'fb', label: '纵向频率 b', min: 1, max: 6, step: 1, def: 2 },
+        { k: 'd', label: '相位 δ', min: 0, max: 6.28, step: 0.01, def: 1.57 }
+      ],
+      eq: 'x = A·sin(at + δ) ,  y = B·sin(bt)',
+      note: '它在哪见过：示波器上两根正弦信号叠出来的图形、调音时看谐波比例、还有沙摆留下的轨迹。',
+      half: function () { return 1.04; },
+      gen: function (p) {
+        var out = [], N = 2400, i, t;
+        for (i = 0; i <= N; i++) {
+          t = 2 * Math.PI * i / N;
+          out.push({
+            x: Math.sin(p.fa * t + p.d),
+            y: Math.sin(p.fb * t)
+          });
+        }
+        return out;
+      },
+      marks: function () { return []; }
+    },
+    /* 16 */
+    {
+      id: 'butterfly', name: '蝴蝶曲线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.6, max: 1.2, step: 0.01, def: 1 },
+        { k: 'b', label: '翅形 b', min: 12, max: 36, step: 1, def: 24 }
+      ],
+      eq: 'r = e^(sin θ) − 2·cos 4θ + sin⁵((2θ − π)/b)',
+      note: '它在哪见过：Temple Fay 在 1989 年用一条极坐标方程画出的蝴蝶，后来成了无数屏保的开场。',
+      half: function () { return 5.8; },
+      gen: function (p) {
+        var out = [], N = 3600, tm = 12 * Math.PI, i, th, s, r;
+        for (i = 0; i <= N; i++) {
+          th = tm * i / N;
+          s = Math.sin((2 * th - Math.PI) / p.b);
+          r = Math.exp(Math.sin(th)) - 2 * Math.cos(4 * th) + Math.pow(s, 5);
+          r = r * p.a;
+          out.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+        }
+        return out;
+      },
+      marks: function () { return [{ x: 0, y: 0 }]; }
+    },
+    /* 17 */
+    {
+      id: 'superellipse', name: '超椭圆',
+      params: [
+        { k: 'a', label: '横向 a', min: 0.5, max: 1.15, step: 0.01, def: 1 },
+        { k: 'b', label: '纵向 b', min: 0.5, max: 1.15, step: 0.01, def: 0.86 },
+        { k: 'n', label: '方度 n', min: 2, max: 8, step: 0.1, def: 4 }
+      ],
+      eq: 'x = a·sgn(cos t)|cos t|^(2/n) ,  y = b·sgn(sin t)|sin t|^(2/n)',
+      note: '它在哪见过：手机 App 图标的圆角矩形、斯德哥尔摩的椭圆广场、机场跑道的转弯。',
+      half: function () { return 1.04; },
+      gen: function (p) {
+        var out = [], N = 1600, i, t, c, s, e = 2 / p.n;
+        for (i = 0; i <= N; i++) {
+          t = 2 * Math.PI * i / N;
+          c = Math.cos(t); s = Math.sin(t);
+          out.push({
+            x: p.a * (c < 0 ? -1 : 1) * Math.pow(Math.abs(c), e),
+            y: p.b * (s < 0 ? -1 : 1) * Math.pow(Math.abs(s), e)
+          });
+        }
+        return out;
+      },
+      marks: function (p) {
+        return [{ x: p.a, y: 0 }, { x: 0, y: p.b }, { x: -p.a, y: 0 }, { x: 0, y: -p.b }];
+      }
+    },
+    /* 18 */
+    {
+      id: 'agnesi', name: '阿涅西箕舌线',
+      params: [
+        { k: 'a', label: '尺度 a', min: 0.5, max: 1.6, step: 0.01, def: 1 },
+        { k: 'L', label: '横向范围 L', min: 1, max: 2.6, step: 0.05, def: 2 }
+      ],
+      eq: 'y = a³ / (x² + a²)',
+      note: '它在哪见过：微积分教材里那条「女巫曲线」，山丘在水面上的倒影轮廓也常被这么描述。',
+      half: function (p) { return Math.max(p.L, p.a * 0.85) * 1.04; },
+      gen: function (p) {
+        var out = [], N = 1000, i, x, y, a3 = p.a * p.a * p.a;
+        var ytop = a3 / (p.L * p.L + p.a * p.a), yc = (p.a + ytop) / 2;
+        for (i = 0; i <= N; i++) {
+          x = -p.L + 2 * p.L * i / N;
+          y = a3 / (x * x + p.a * p.a) - yc;
+          out.push({ x: x, y: y });
+        }
+        return out;
+      },
+      marks: function (p) {
+        var ytop = p.a * p.a * p.a / (p.L * p.L + p.a * p.a), yc = (p.a + ytop) / 2;
+        return [{ x: 0, y: p.a - yc }];
+      }
+    }
+  ];
+
+  /* ================= 画布初始化 ================= */
+  var mainCanvas, mainCtx, mainDpr = 1;
+  var tayCanvas, tayCtx, tayDpr = 1;
+  var fouCanvas, fouCtx, fouDpr = 1;
+
+  function prep(cv, w, h) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
+    cv.width = Math.round(w * dpr);
+    cv.height = Math.round(h * dpr);
+    cv.style.width = '100%';
+    cv.style.height = 'auto';
+    return { ctx: cv.getContext('2d'), dpr: dpr };
+  }
+
+  function setupCanvases() {
+    var r1 = prep(mainCanvas, MAIN_W, MAIN_H);
+    mainCtx = r1.ctx; mainDpr = r1.dpr;
+    var r2 = prep(tayCanvas, TAY_W, TAY_H);
+    tayCtx = r2.ctx; tayDpr = r2.dpr;
+    var r3 = prep(fouCanvas, FOU_W, FOU_H);
+    fouCtx = r3.ctx; fouDpr = r3.dpr;
+  }
+
+  /* ================= 主画布状态 ================= */
+  var curIdx = 0;
+  var pvals = {};
+  var cache = { pts: [], scale: 1, cx: MAIN_W / 2, cy: MAIN_H / 2, marks: [] };
+  var drawProgress = 1;
+  var animStart = 0;
+  var animating = false;
+  var ANIM_MS = 1500;
+
+  function resetParams(c) {
+    pvals = {};
+    for (var i = 0; i < c.params.length; i++) pvals[c.params[i].k] = c.params[i].def;
+  }
+
+  function rebuild() {
+    var c = CURVES[curIdx];
+    var pts = c.gen(pvals);
+    var half = c.half ? c.half(pvals) : 1;
+    if (!isFinite(half) || half <= 0) half = 1;
+    cache.pts = pts;
+    cache.scale = (MAIN_W * 0.5 * FIT) / half;
+    cache.cx = MAIN_W / 2;
+    cache.cy = MAIN_H / 2;
+    cache.marks = c.marks ? c.marks(pvals) : [];
+  }
+
+  /* ================= 主画布绘制 ================= */
+  function drawGrid(ctx) {
+    var s = cache.scale, cx = cache.cx, cy = cache.cy, W = MAIN_W, H = MAIN_H;
+    if (!isFinite(s) || s <= 0) return;
+
+    var raw = 78 / s;
+    var pw = Math.pow(10, Math.floor(Math.log10(raw)));
+    var nrm = raw / pw;
+    var mult = nrm < 1.5 ? 1 : (nrm < 3.5 ? 2 : (nrm < 7.5 ? 5 : 10));
+    var step = mult * pw;
+
+    var xS = Math.ceil((-cx / s) / step) * step;
+    var xE = (W - cx) / s;
+    var yS = Math.ceil((-cy / s) / step) * step;
+    var yE = (H - cy) / s;
+
+    var v, X, Y;
+
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#efece4';
+    ctx.beginPath();
+    for (v = xS; v <= xE; v += step) {
+      X = Math.round(cx + v * s) + 0.5;
+      ctx.moveTo(X, 0); ctx.lineTo(X, H);
+    }
+    for (v = yS; v <= yE; v += step) {
+      Y = Math.round(cy - v * s) + 0.5;
+      ctx.moveTo(0, Y); ctx.lineTo(W, Y);
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = '#d9d3c5';
+    ctx.beginPath();
+    ctx.moveTo(0, Math.round(cy) + 0.5); ctx.lineTo(W, Math.round(cy) + 0.5);
+    ctx.moveTo(Math.round(cx) + 0.5, 0); ctx.lineTo(Math.round(cx) + 0.5, H);
+    ctx.stroke();
+
+    ctx.fillStyle = C.muted;
+    ctx.font = '12.5px ' + FONT;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    for (v = xS; v <= xE; v += step) {
+      if (Math.abs(v) < step * 0.01) continue;
+      X = cx + v * s;
+      if (X < 14 || X > W - 14) continue;
+      Y = Math.min(Math.max(cy + 6, 4), H - 20);
+      ctx.fillText(tickLabel(v, step), X, Y);
+    }
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    for (v = yS; v <= yE; v += step) {
+      if (Math.abs(v) < step * 0.01) continue;
+      Y = cy - v * s;
+      if (Y < 10 || Y > H - 10) continue;
+      X = Math.min(Math.max(cx - 7, 32), W - 6);
+      ctx.fillText(tickLabel(v, step), X, Y);
+    }
+  }
+
+  function drawCurve(ctx, count) {
+    var pts = cache.pts;
+    if (count < 2) return;
+    ctx.beginPath();
+    var started = false, i, q, X, Y;
+    for (i = 0; i < count; i++) {
+      q = pts[i];
+      if (!q) { started = false; continue; }
+      X = cache.cx + q.x * cache.scale;
+      Y = cache.cy - q.y * cache.scale;
+      if (!started) { ctx.moveTo(X, Y); started = true; }
+      else ctx.lineTo(X, Y);
+    }
+    ctx.lineWidth = 1.9;
+    ctx.strokeStyle = C.accent;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+
+  function drawMarks(ctx) {
+    var m = cache.marks, i, X, Y;
+    for (i = 0; i < m.length; i++) {
+      X = cache.cx + m[i].x * cache.scale;
+      Y = cache.cy - m[i].y * cache.scale;
+      if (X < -10 || X > MAIN_W + 10 || Y < -10 || Y > MAIN_H + 10) continue;
+      ctx.beginPath();
+      ctx.arc(X, Y, 5.4, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(X, Y, 3.2, 0, Math.PI * 2);
+      ctx.fillStyle = C.accent;
+      ctx.fill();
+    }
+  }
+
+  function renderMain() {
+    var ctx = mainCtx;
+    if (!ctx) return;
+    ctx.setTransform(mainDpr, 0, 0, mainDpr, 0, 0);
+    ctx.fillStyle = C.card;
+    ctx.fillRect(0, 0, MAIN_W, MAIN_H);
+    drawGrid(ctx);
+    var total = cache.pts.length;
+    var n = Math.floor(total * drawProgress);
+    if (n < 2 && drawProgress > 0) n = 2;
+    drawCurve(ctx, n);
+    if (drawProgress > 0.992) drawMarks(ctx);
+  }
+
+  /* ================= 交互 ================= */
+  function buildList() {
+    var box = document.getElementById('lib-list');
+    box.innerHTML = '';
+    for (var i = 0; i < CURVES.length; i++) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'lib-item' + (i === curIdx ? ' active' : '');
+      b.setAttribute('data-idx', String(i));
+      var s1 = document.createElement('span');
+      s1.className = 'lib-idx';
+      s1.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+      var s2 = document.createElement('span');
+      s2.className = 'lib-name';
+      s2.textContent = CURVES[i].name;
+      b.appendChild(s1);
+      b.appendChild(s2);
+      b.addEventListener('click', makeSelect(i));
+      box.appendChild(b);
+    }
+  }
+
+  function makeSelect(i) {
+    return function () { selectCurve(i); };
+  }
+
+  function setActive(i) {
+    var items = document.querySelectorAll('.lib-item');
+    for (var k = 0; k < items.length; k++) {
+      if (k === i) items[k].classList.add('active');
+      else items[k].classList.remove('active');
+    }
+  }
+
+  function buildSliders() {
+    var c = CURVES[curIdx];
+    var box = document.getElementById('sliders');
+    box.innerHTML = '';
+    for (var i = 0; i < c.params.length; i++) {
+      box.appendChild(makeCtrl(c.params[i]));
+    }
+  }
+
+  function makeCtrl(p) {
+    var row = document.createElement('div');
+    row.className = 'ctrl';
+
+    var head = document.createElement('div');
+    head.className = 'ctrl-head';
+    var lab = document.createElement('span');
+    lab.className = 'ctrl-label';
+    lab.textContent = p.label;
+    var val = document.createElement('span');
+    val.className = 'ctrl-val';
+    val.textContent = fmtNum(pvals[p.k]);
+    head.appendChild(lab);
+    head.appendChild(val);
+
+    var inp = document.createElement('input');
+    inp.type = 'range';
+    inp.min = String(p.min);
+    inp.max = String(p.max);
+    inp.step = String(p.step);
+    inp.value = String(pvals[p.k]);
+
+    inp.addEventListener('input', function () {
+      var v = parseFloat(inp.value);
+      pvals[p.k] = v;
+      val.textContent = fmtNum(v);
+      animating = false;
+      drawProgress = 1;
+      rebuild();
+      renderMain();
+      updateEq();
+    });
+
+    row.appendChild(head);
+    row.appendChild(inp);
+    return row;
+  }
+
+  function updateEq() {
+    var c = CURVES[curIdx];
+    document.getElementById('eq-text').textContent = c.eq;
+    document.getElementById('note-text').textContent = c.note;
+    document.getElementById('stage-name').textContent = c.name;
+  }
+
+  function restartAnim() {
+    drawProgress = 0;
+    animStart = performance.now();
+    animating = true;
+    renderMain();
+  }
+
+  function selectCurve(i) {
+    curIdx = i;
+    resetParams(CURVES[i]);
+    setActive(i);
+    buildSliders();
+    updateEq();
+    rebuild();
+    drawProgress = 0;
+    renderMain();
+    restartAnim();
+  }
+
+  /* ================= 泰勒面板 ================= */
+  var taylorN = 5;
+  var TAY_XMIN = -4.3, TAY_XMAX = 4.3, TAY_YMAX = 2.6;
+
+  function taylorPoly(x, n) {
+    var sum = 0, term = x, k;
+    var x2 = x * x;
+    for (k = 1; k <= n; k += 2) {
+      sum += term;
+      term = -term * x2 / ((k + 1) * (k + 2));
+    }
+    return sum;
+  }
+
+  function renderTaylor() {
+    var ctx = tayCtx;
+    if (!ctx) return;
+    ctx.setTransform(tayDpr, 0, 0, tayDpr, 0, 0);
+    ctx.fillStyle = C.card;
+    ctx.fillRect(0, 0, TAY_W, TAY_H);
+
+    var padL = 34, padR = 16, padT = 14, padB = 26;
+    var plotW = TAY_W - padL - padR;
+    var plotH = TAY_H - padT - padB;
+    var sc = Math.min(plotW / (TAY_XMAX - TAY_XMIN), plotH / (2 * TAY_YMAX));
+    var ox = padL + plotW / 2;
+    var oy = padT + plotH / 2;
+
+    function MX(x) { return ox + x * sc; }
+    function MY(y) { return oy - y * sc; }
+
+    /* 网格 */
+    var v, X, Y;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#efece4';
+    ctx.beginPath();
+    for (v = -4; v <= 4; v += 1) {
+      X = Math.round(MX(v)) + 0.5;
+      ctx.moveTo(X, padT); ctx.lineTo(X, padT + plotH);
+    }
+    for (v = -2; v <= 2; v += 1) {
+      Y = Math.round(MY(v)) + 0.5;
+      ctx.moveTo(padL, Y); ctx.lineTo(padL + plotW, Y);
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = '#d9d3c5';
+    ctx.beginPath();
+    ctx.moveTo(padL, Math.round(MY(0)) + 0.5); ctx.lineTo(padL + plotW, Math.round(MY(0)) + 0.5);
+    ctx.moveTo(Math.round(MX(0)) + 0.5, padT); ctx.lineTo(Math.round(MX(0)) + 0.5, padT + plotH);
+    ctx.stroke();
+
+    /* 目标曲线 y = sin x */
+    var i, x, px, py;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(padL, padT, plotW, plotH);
+    ctx.clip();
+
+    ctx.beginPath();
+    for (i = 0; i <= 400; i++) {
+      x = TAY_XMIN + (TAY_XMAX - TAY_XMIN) * i / 400;
+      px = MX(x); py = MY(Math.sin(x));
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = C.blue;
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+
+    /* 泰勒多项式 */
+    ctx.beginPath();
+    var maxErr = 0, err, yv;
+    for (i = 0; i <= 500; i++) {
+      x = TAY_XMIN + (TAY_XMAX - TAY_XMIN) * i / 500;
+      yv = taylorPoly(x, taylorN);
+      err = Math.abs(yv - Math.sin(x));
+      if (err > maxErr) maxErr = err;
+      px = MX(x); py = MY(Math.max(-40, Math.min(40, yv)));
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = C.accent;
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+    ctx.restore();
+
+    /* 边界 */
+    ctx.strokeStyle = '#e4e0d6';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(padL + 0.5, padT + 0.5, plotW, plotH);
+
+    /* 文字 */
+    ctx.fillStyle = C.muted;
+    ctx.font = '12.5px ' + FONT;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    var labels = [-4, -2, 2, 4];
+    for (i = 0; i < labels.length; i++) {
+      ctx.fillText(String(labels[i]), MX(labels[i]), padT + plotH + 5);
+    }
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('1', padL - 8, MY(1));
+    ctx.fillText('−1', padL - 20, MY(-1));
+
+    /* 图例 */
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    var lx = padL + 8, ly = padT + 12;
+    ctx.strokeStyle = C.blue; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx + 18, ly); ctx.stroke();
+    ctx.fillStyle = C.muted;
+    ctx.fillText('sin x', lx + 24, ly + 1);
+
+    ctx.strokeStyle = C.accent; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.moveTo(lx, ly + 18); ctx.lineTo(lx + 18, ly + 18); ctx.stroke();
+    ctx.fillStyle = C.muted;
+    ctx.fillText('泰勒多项式 n = ' + taylorN, lx + 24, ly + 19);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = C.ink;
+    ctx.font = '12.5px ' + FONT;
+    ctx.fillText('最大误差 ' + maxErr.toFixed(4), padL + plotW - 8, padT + 12);
+  }
+
+  /* ================= 傅里叶面板 ================= */
+  var fourierK = 7;
+  var fourierPhase = 0;
+  var fourierWave = [];
+  var FOU_SAMPLES = 210;
+  var FOU_DX = 1.5;
+  var FOU_AMP = 33;
+
+  function fourierValue(phase, k) {
+    var sum = 0, n;
+    for (n = 1; n <= k; n += 2) {
+      sum += (4 / (Math.PI * n)) * Math.sin(n * phase);
+    }
+    return sum;
+  }
+
+  function renderFourier(dt) {
+    var ctx = fouCtx;
+    if (!ctx) return;
+    ctx.setTransform(fouDpr, 0, 0, fouDpr, 0, 0);
+    ctx.fillStyle = C.card;
+    ctx.fillRect(0, 0, FOU_W, FOU_H);
+
+    var cx = 96, cy = 152;
+    var wvx0 = 182;
+    var wvx1 = FOU_W - 10;
+
+    fourierPhase += dt * 0.0018;
+    if (fourierPhase > Math.PI * 2) fourierPhase -= Math.PI * 2;
+
+    /* 背景基线 */
+    ctx.strokeStyle = '#efece4';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(wvx0, Math.round(cy) + 0.5);
+    ctx.lineTo(wvx1, Math.round(cy) + 0.5);
+    ctx.stroke();
+
+    /* 旋转圆 */
+    var px = cx, py = cy, n, rad, ang, nx, ny;
+    for (n = 1; n <= fourierK; n += 2) {
+      rad = FOU_AMP * 4 / (Math.PI * n);
+      ang = n * fourierPhase;
+      nx = px + rad * Math.cos(ang);
+      ny = py - rad * Math.sin(ang);
+
+      ctx.beginPath();
+      ctx.arc(px, py, Math.max(0.6, rad), 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(43,79,129,0.22)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(nx, ny);
+      ctx.strokeStyle = 'rgba(43,79,129,0.45)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      px = nx; py = ny;
+    }
+
+    /* 圆心的点 */
+    ctx.beginPath();
+    ctx.arc(cx, cy, 2, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(43,79,129,0.5)';
+    ctx.fill();
+
+    /* 端点 */
+    ctx.beginPath();
+    ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+    ctx.fillStyle = C.accent;
+    ctx.fill();
+
+    /* 连接到波形 */
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = 'rgba(179,84,30,0.45)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(px, py);
+    ctx.lineTo(wvx0, py);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* 波形历史 */
+    fourierWave.push(py);
+    while (fourierWave.length > FOU_SAMPLES) fourierWave.shift();
+
+    var i, X, Y;
+    ctx.beginPath();
+    for (i = 0; i < fourierWave.length; i++) {
+      X = wvx0 + (fourierWave.length - 1 - i) * FOU_DX;
+      if (X > wvx1) continue;
+      Y = fourierWave[i];
+      if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+    }
+    ctx.strokeStyle = C.accent;
+    ctx.lineWidth = 1.8;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    /* 竖直起始线 */
+    ctx.strokeStyle = '#e4e0d6';
+    ctx.beginPath();
+    ctx.moveTo(Math.round(wvx0) + 0.5, 26);
+    ctx.lineTo(Math.round(wvx0) + 0.5, FOU_H - 16);
+    ctx.stroke();
+
+    /* 标注 */
+    ctx.fillStyle = C.muted;
+    ctx.font = '12.5px ' + FONT;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillText('k = ' + fourierK + ' 项谐波', 12, 12);
+    ctx.textAlign = 'right';
+    ctx.fillText('合成波形', wvx1, 12);
+  }
+
+  /* ================= 主循环 ================= */
+  function tick(now) {
+    if (animating) {
+      var e = (now - animStart) / ANIM_MS;
+      if (e >= 1) { drawProgress = 1; animating = false; }
+      else if (e < 0) { drawProgress = 0; }
+      else { drawProgress = e; }
+      renderMain();
+    }
+    renderFourier(16.7);
+    requestAnimationFrame(tick);
+  }
+
+  /* ================= 启动 ================= */
+  function init() {
+    mainCanvas = document.getElementById('main-canvas');
+    tayCanvas = document.getElementById('taylor-canvas');
+    fouCanvas = document.getElementById('fourier-canvas');
+    setupCanvases();
+
+    buildList();
+    selectCurve(0);
+
+    /* 泰勒滑块 */
+    var tr = document.getElementById('taylor-range');
+    var tv = document.getElementById('taylor-val');
+    tr.addEventListener('input', function () {
+      taylorN = parseInt(tr.value, 10);
+      tv.textContent = String(taylorN);
+      renderTaylor();
+    });
+    renderTaylor();
+
+    /* 傅里叶滑块 */
+    var fr = document.getElementById('fourier-range');
+    var fv = document.getElementById('fourier-val');
+    fr.addEventListener('input', function () {
+      fourierK = parseInt(fr.value, 10);
+      fv.textContent = String(fourierK);
+      fourierWave.length = 0;
+    });
+    fourierWave.length = 0;
+
+    /* 重播 */
+    document.getElementById('btn-replay').addEventListener('click', function () {
+      restartAnim();
+    });
+
+    /* 保存 PNG */
+    document.getElementById('btn-save').addEventListener('click', function () {
+      var prev = drawProgress;
+      drawProgress = 1;
+      renderMain();
+      var url = mainCanvas.toDataURL('image/png');
+      drawProgress = prev;
+      renderMain();
+      var a = document.createElement('a');
+      a.download = '曲线-' + CURVES[curIdx].id + '.png';
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+
+    /* 尺寸/像素比重建 */
+    var rz = null;
+    window.addEventListener('resize', function () {
+      if (rz) clearTimeout(rz);
+      rz = setTimeout(function () {
+        setupCanvases();
+        renderMain();
+        renderTaylor();
+        fourierWave.length = 0;
+      }, 200);
+    });
+
+    requestAnimationFrame(tick);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

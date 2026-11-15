@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Math Map — a prerequisite graph of mathematics</title>
+<meta name="description" content="24 course cells, 124 knowledge points, 166 catalogue entries. Every cell has a textbook-level definition, a chapter citation, and a live visual.">
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#1c1b19; --muted:#6a6155; --line:#e4e0d6;
+    --accent:#b3541e; --blue:#2b4f81; --card:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif;
+    font-size:16px;line-height:1.75}
+  .wrap{max-width:860px;margin:0 auto;padding:56px 22px 80px}
+
+  h1{font-size:34px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px}
+  .tagline{font-size:17px;color:var(--muted);margin:0 0 6px}
+  .meta{font-size:13px;color:#a89c84;letter-spacing:.04em;margin:0}
+
+  .lede{margin:26px 0 0;font-size:16.5px;line-height:1.85;max-width:640px}
+  .lede b{font-weight:600}
+  .lede .hl{color:var(--accent)}
+
+  h2{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin:52px 0 4px}
+  .h2note{font-size:13px;color:#a89c84;margin:0 0 16px}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .card{display:block;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:22px 24px;text-decoration:none;color:inherit;
+    transition:border-color .15s, box-shadow .15s, transform .15s}
+  .card:hover{border-color:#cfc7b6;box-shadow:0 4px 16px rgba(0,0,0,.05);transform:translateY(-1px)}
+  .card h3{font-size:18px;font-weight:600;margin:0 0 2px}
+  .card .cn{font-size:13px;color:#a89c84;margin:0 0 10px;letter-spacing:.02em}
+  .card p{font-size:14px;line-height:1.7;color:var(--muted);margin:0 0 12px}
+  .card .num{font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+
+  .why{margin:56px 0 0;padding:24px 26px;background:#fbf7ef;
+    border:1px solid #ece5d6;border-radius:10px}
+  .why h3{font-size:15px;font-weight:600;margin:0 0 10px}
+  .why p{margin:0 0 12px;font-size:14.5px;line-height:1.8;color:#4a453a}
+  .why p:last-child{margin-bottom:0}
+  .why em{font-style:normal;color:var(--accent);font-weight:600}
+
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:13px;color:#a89c84;line-height:1.9}
+  footer a{color:var(--accent);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  .lic{display:inline-block;font-size:12px;padding:1px 8px;border-radius:3px;
+    background:#f3efe6;color:#6a6155;margin-right:6px}
+
+  @media (max-width:680px){
+    .wrap{padding:34px 16px 60px}
+    h1{font-size:27px}
+    .grid{grid-template-columns:1fr}
+    .lede{font-size:15.5px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Math Map</h1>
+  <p class="tagline">A prerequisite graph of mathematics — from counting to schemes.</p>
+  <p class="meta">24 COURSE CELLS · 124 KNOWLEDGE POINTS · 166 CATALOGUE ENTRIES</p>
+
+  <p class="lede">
+    Most math resources are <b>lists</b>. This one is a <b>graph</b>.
+    A list tells you what exists. A graph tells you <span class="hl">what must come before what</span> —
+    which is the question a stuck student actually has.
+  </p>
+
+  <h2>Four modules</h2>
+  <p class="h2note">All single-file HTML. No build, no CDN, no tracking. Works offline.</p>
+
+  <div class="grid">
+    <a class="card" href="math-map.html">
+      <h3>Math Map</h3>
+      <p class="cn">数学地图</p>
+      <p>The whole territory in one view. Eleven ways to slice it: course order, structure (degree × variables), operators, geometry, group theory, physics, number systems, history. Every cell opens into a visual you can drag.</p>
+      <span class="num">24 cells · 124 points · 166 entries</span>
+    </a>
+
+    <a class="card" href="variations.html">
+      <h3>Variations</h3>
+      <p class="cn">变式全集</p>
+      <p>Every algebraic transformation, closed under composition. Thirteen equivalence operators applied to 192 seed forms — plus 66 operator chains and 51 named error patterns for diagnosis.</p>
+      <span class="num">1814 concrete variants</span>
+    </a>
+
+    <a class="card" href="fitting-lab.html">
+      <h3>Fitting Lab</h3>
+      <p class="cn">拟合实验室</p>
+      <p>Draw a curve by hand. Get back every mathematical language that can describe it — conic, polar, Bézier, NURBS, Fourier, Chebyshev, spline, RBF, symbolic regression — ranked by parsimony, not just fit.</p>
+      <span class="num">35 families · ranked by BIC</span>
+    </a>
+
+    <a class="card" href="diagnose.html">
+      <h3>Diagnose</h3>
+      <p class="cn">诊断</p>
+      <p>Twelve questions to locate which cell you are actually stuck in. If you can do B and B requires A, then you can do A — two inference rules collapse 2<sup>24</sup> possibilities into a handful of questions.</p>
+      <span class="num">124 items · ~12 questions</span>
+    </a>
+  </div>
+
+  <div class="why">
+    <h3>Two things that make this different</h3>
+    <p><em>The structure is argued, not scraped.</em> Every prerequisite edge was decided by asking "can a student learn B without A?" — then checked by an independent reviewer. Three cells turned out to be parallel rather than sequential; one edge was reversed after review. That judgement is the actual content here.</p>
+    <p><em>It refuses to draw what cannot be drawn.</em> Number theory is deliberately absent as a matrix. Class groups and étale cohomology have no picture. Forcing them into a grid of "degree × dimension" would be dishonest, so the map says so instead of padding cells.</p>
+  </div>
+
+  <footer>
+    <span class="lic">Code: MIT</span><span class="lic">Content: CC BY-SA 4.0</span><br>
+    Source and issues: <a href="https://github.com/shenhunyan/math-map">github.com/shenhunyan/math-map</a><br>
+    Upper-division and graduate mathematics is the biggest gap. Contributions welcome — see CONTRIBUTING.md.
+  </footer>
+
+</div>
+</body>
+</html>

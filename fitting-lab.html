@@ -1,0 +1,2836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>拟合实验室 · 一条曲线，多种说法</title>
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#1c1b19; --muted:#6a6155; --line:#e4e0d6;
+    --accent:#b3541e; --blue:#2b4f81;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif;}
+  .page{max-width:1290px;margin:0 auto;padding:34px 22px 60px}
+  h1{font-size:26px;letter-spacing:.05em;margin:0 0 7px;font-weight:600}
+  .sub{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 4px}
+  .sub b{color:var(--accent);font-weight:600}
+  .bar{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 13px;align-items:center}
+  .btn{font:inherit;font-size:12.5px;padding:5px 13px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .btn:hover{border-color:#c3bba8}
+  .btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn.mini{font-size:11.5px;padding:1px 9px;float:right;margin-top:-2px}
+  .sep{width:1px;height:18px;background:var(--line);margin:0 4px}
+  .main{display:grid;grid-template-columns:minmax(0,1fr) 540px;gap:20px;align-items:start}
+  .canvasbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px}
+  canvas{display:block;width:100%;height:auto;border-radius:6px;background:#fdfcf9}
+  #dimInfo{margin-top:4px}
+  #dimInfo b{color:var(--accent);font-weight:600;font-size:13px}
+  #cv{touch-action:none;cursor:crosshair;outline:none;user-select:none;
+      -webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.65}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:13px}
+  .panel h2{font-size:13px;font-weight:600;margin:0 0 9px;letter-spacing:.04em}
+  .chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+  .chip{font:inherit;font-size:11.5px;padding:3px 9px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--muted);}
+  .chip.on{background:#f7f4ec;color:var(--accent);border-color:#e0d5bd}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-weight:500;color:var(--muted);text-align:right;padding:4px 5px;
+    border-bottom:1px solid var(--line);font-size:11.5px}
+  th:first-child{text-align:left}
+  td{padding:6px 4px;border-bottom:1px solid #f4f0e6;text-align:right;font-variant-numeric:tabular-nums}
+  td:first-child{text-align:left;color:var(--ink)}
+  tbody tr{cursor:pointer}
+  tbody tr:hover td{background:#fbf8f0}
+  tr.on td{background:#fdf7ea}
+  tr.best td:first-child{font-weight:600;color:var(--accent)}
+  tr.gh td{background:#faf7ef;color:#8a7f68;font-size:11.5px;padding:6px 5px 4px;
+    letter-spacing:.1em;border-bottom:1px solid var(--line);cursor:default}
+  .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .tag{font-size:11.5px;padding:1px 6px;border-radius:999px;background:#f2eee3;color:var(--muted);margin-left:5px}
+  .eq{padding:10px 12px;background:#f7f4ec;border-left:2px solid var(--accent);border-radius:4px;
+    font-size:12px;line-height:1.8;color:#3a3529;word-break:break-all;min-height:50px}
+  .eq b{color:var(--muted);font-weight:500;margin-right:5px}
+  .note{margin-top:9px;font-size:11.5px;color:var(--muted);line-height:1.7}
+  #fc{background:#fdfcf9;border-radius:6px;border:1px solid #f0ece1}
+  #gc{background:#fdfcf9;border-radius:6px;border:1px solid #f0ece1}
+  #sc{background:#fdfcf9;border-radius:6px;border:1px solid #f0ece1}
+  .fexpr{font-size:12px;line-height:1.8;color:#5a5348;background:#f7f4ec;
+    border-radius:4px;padding:8px 10px;margin-top:9px;font-variant-numeric:tabular-nums;
+    word-break:break-all}
+  .fexpr .fxline{color:#2a2721;margin-bottom:4px}
+  .verdict{font-size:12px;line-height:1.65;color:#4a453a;background:#f7f4ec;
+    border-left:2px solid var(--line);border-radius:4px;padding:7px 10px;margin:0 0 9px}
+  .verdict b{color:var(--accent);font-weight:600}
+  .verdict.yes{border-left-color:var(--accent);background:#fbf6ec}
+  .ref tbody tr{cursor:default}
+  .ref tbody tr:hover td{background:transparent}
+  .ref td,.ref th{text-align:left;font-size:12px;line-height:1.65}
+  .ref td:first-child{white-space:nowrap;color:var(--accent);width:1%}
+  summary{cursor:pointer;font-size:13.5px;font-weight:600;letter-spacing:.04em;
+    list-style:none;outline:none}
+  summary::-webkit-details-marker{display:none}
+  summary:before{content:'▸ ';color:var(--accent)}
+  details[open] summary:before{content:'▾ '}
+  input[type=range]{accent-color:var(--accent)}
+  @media (max-width:1040px){
+    .page{padding:22px 12px 44px}
+    h1{font-size:21px}
+    .main{grid-template-columns:1fr;gap:14px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>拟合实验室</h1>
+  <p class="sub">画一条曲线，看它能被几种数学语言描述。<b>点右边任意一行，就把那条曲线叠上来</b>，不同颜色叠着比。</p>
+  <p class="sub">画法有三种：<b>自由</b>（任意形状）、<b>单值</b>（x 只进不退，所有族都能接）、<b>闭合</b>（松手自动接首尾，激活极坐标与解析 NURBS）。</p>
+  <p class="sub">排序用「误差 × 参数<sup>0.1</sup>」：误差明显更小的排前面，误差接近时参数少的赢。参数少而误差小的族胜出，说明先验放对了地方。<b>点「残差」</b>可以看每个手绘点离拟合线到底差多少。</p>
+
+  <div class="bar">
+    <button class="btn on" id="btnDraw" type="button">手绘</button>
+    <button class="btn" id="btnNaut" type="button">鹦鹉螺</button>
+    <button class="btn" id="btnLeaf" type="button">叶片</button>
+    <button class="btn" id="btnWing" type="button">翼型</button>
+    <button class="btn" id="btnRose" type="button">玫瑰线</button>
+    <button class="btn" id="btnEllipse" type="button">椭圆整圈</button>
+    <button class="btn" id="btnKoch" type="button">Koch 曲线</button>
+    <button class="btn" id="btnSnow" type="button">Koch 雪花</button>
+    <button class="btn" id="btnShark" type="button">鲨鱼皮沟槽</button>
+    <button class="btn" id="btnClear" type="button">清空</button>
+    <span class="sep"></span>
+    <span class="tag" style="margin:0 4px 0 0">画法</span>
+    <button class="btn on" id="btnModeFree" type="button">自由</button>
+    <button class="btn" id="btnModeMono" type="button">单值</button>
+    <button class="btn" id="btnModeClosed" type="button">闭合</button>
+    <span class="sep"></span>
+    <button class="btn" id="btnZin" type="button">放大</button>
+    <button class="btn" id="btnZout" type="button">缩小</button>
+    <button class="btn" id="btnZreset" type="button">复位</button>
+    <span class="sep"></span>
+    <button class="btn" id="btnRes" type="button">残差</button>
+    <button class="btn" id="btnPng" type="button">导出 PNG</button>
+    <button class="btn" id="btnCmp" type="button">对比大图</button>
+    <button class="btn" id="btnCsv" type="button">导出对照表</button>
+  </div>
+
+  <div class="main">
+    <div>
+      <div class="canvasbox"><canvas id="cv"></canvas></div>
+      <div class="hint" id="hoverInfo">按住拖动绘图；滚轮缩放；鼠标停在线附近可看该点坐标与参数 t。</div>
+      <div class="hint" id="dimInfo"></div>
+      <div class="hint" id="modeHint"></div>
+
+      <div class="panel" style="margin-top:13px">
+        <h2>增益 × 粗糙度 <span class="tag">越靠右上越省</span></h2>
+        <canvas id="sc"></canvas>
+        <div class="note" id="scnote"></div>
+      </div>
+
+      <div class="panel" style="margin-top:13px">
+        <h2>沟槽尺度与阻力 <span class="tag">s⁺ = s·uτ/ν</span></h2>
+        <canvas id="gc"></canvas>
+        <input type="range" id="sRange" min="4" max="60" value="17" style="width:100%;margin-top:8px"/>
+        <div class="note" id="gnote"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h2>阶数 / 单元数 <span class="tag">点了会直接叠到图上</span></h2>
+        <div class="chips" id="chipsPoly"></div>
+        <div class="chips" id="chipsBez"></div>
+        <div class="chips" id="chipsFou"></div>
+        <div class="chips" id="chipsNet" style="margin-bottom:0"></div>
+        <div class="chips" id="chipsSeg" style="margin:6px 0 0"></div>
+      </div>
+
+      <div class="panel">
+        <h2>表达族对照 <span class="tag" id="cntTag">0</span></h2>
+        <div class="verdict" id="verdict"></div>
+        <table id="tbl">
+          <thead><tr><th>表达</th><th>参数</th><th>max</th><th>RMSE</th>
+            <th title="盒计数维数：光滑曲线 1.00，科赫曲线 1.26">维数</th>
+            <th title="每个参数买到的数量级：−log10(RMSE/曲线尺寸) ÷ 参数个数">增益</th>
+            <th title="误差 × 参数^0.1，表格的排序依据">评分</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="note" id="tblNote"><b>维数</b> 是盒计数维数（±0.02 的抖动），手绘那条写在画布下面，每行是拟合曲线自己的。差 0.1 以上才算真的变粗糙或变光滑。<br><b>增益</b> = −log₁₀(RMSE ÷ 曲线尺寸) ÷ 参数个数，即这个族的每个参数平均把误差压低几个数量级。0.5 以上说明它真懂这条曲线，0.05 以下说明它在硬堆参数。</div>
+      </div>
+
+      <div class="panel">
+        <h2>傅里叶圆链 <span class="tag">z(t) = Σ cₖ·e^(2πikt)</span></h2>
+        <canvas id="fc"></canvas>
+        <div class="fexpr" id="fexpr"></div>
+        <div class="note" id="fnote">N 个圆首尾相接，笔尖画出整条曲线。半径按幅度从大到小排。</div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:9px">
+          <span class="note" style="margin:0;white-space:nowrap">圆数</span>
+          <input type="range" id="fouRange" min="1" max="24" step="1" value="5" style="flex:1"/>
+          <span class="note" id="fouVal" style="margin:0;width:46px;text-align:right">5</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:5px">
+          <span class="note" style="margin:0;white-space:nowrap">速度</span>
+          <input type="range" id="spRange" min="0.3" max="2.5" step="0.1" value="1" style="flex:1"/>
+          <span class="note" id="spVal" style="margin:0;width:46px;text-align:right">1.0×</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>方程 <button class="btn mini" id="btnCopyEq" type="button">复制</button></h2>
+        <div class="eq" id="eqbox"><b>提示</b>点表格任意一行查看该表达的方程</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <details>
+      <summary>为什么有些表达算不出来 · 表达的四层谱系</summary>
+      <p class="note" style="margin-top:10px">表格里灰掉的行不是 bug，是<b>定义域</b>问题。任何曲线表达都落在下面四层之一，越往下越「能算但说不清」。</p>
+      <table class="ref">
+        <thead><tr><th>层</th><th>形式</th><th>代表</th><th>误差怎么保证</th></tr></thead>
+        <tbody>
+          <tr><td>1 · 闭式</td><td>有限个初等函数</td><td>圆锥、螺线、CST、幂律、解析权重 NURBS</td><td>要么精确，要么族选错了</td></tr>
+          <tr><td>2 · 有限级数</td><td>N 项之和 / N 段折线</td><td>多项式、傅里叶、切比雪夫、B 样条、RBF、折线（分段线性）</td><td>随 N 衰减，可测</td></tr>
+          <tr><td>3 · 无穷级数</td><td>Σ 到 ∞，或极限</td><td>泰勒级数、魏尔斯特拉斯逼近</td><td>理论上趋于 0，但先要证明收敛</td></tr>
+          <tr><td>4 · 迭代 / 隐式</td><td>算法</td><td>牛顿法、二分法、IFS、SDF</td><td>由收敛阶决定，机器精度封顶</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-top:16px"><b>三类定义域限制</b>——这是灰行出现的真正原因</p>
+      <table class="ref">
+        <tbody>
+          <tr><td>单值族</td><td>CST、ReLU 网络、RBF、符号回归、直角函数</td><td>要求 x 单调。闭合或绕回的曲线用不了——科赫曲线的 x 会倒退 1.5%，所以它属于「分段线性但不是函数图像」，该用折线那族。</td></tr>
+          <tr><td>二次族</td><td>圆锥曲线</td><td>只能是圆、椭圆、抛物、双曲。残差超过 12% 就判「不是二次曲线」，不报数字。</td></tr>
+          <tr><td>无限制</td><td>参数式、极坐标、样条、级数</td><td>任意曲线都能接，代价是参数多，或者需要分段。</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-top:14px">
+        <b>三道坎</b>：① 收敛速度取决于光滑性，C<sup>∞</sup> 指数收敛，C<sup>0</sup> 很慢；
+        ② 折角处傅里叶有约 9% 的吉布斯过冲，加多少项都不消失；
+        ③ 无穷项不可写，工程上必须截断——截断就退回第 2 层。这也是工业界停在 NURBS 的原因：
+        它用有限项、分段、有理，把「无穷」换成了「足够多的控制点」。
+      </p>
+    </details>
+  </div>
+</div>
+
+<script>
+/* ===== 状态 ===== */
+var W = 640, H = 620, PAD = 38;
+var cv = document.getElementById('cv'), ctx = null;
+var fc = document.getElementById('fc'), fctx = null;
+var FWS = 400, FHS = 240;
+var VIEW = { z: 1, ox: 0, oy: 0 };
+var RAW = [], PTS = [], TT = [], RESULT = [], SHOW = {};
+var HOVERP = null, DRAWING = false, ANIMT = 0;
+var FOCUS = -1, SHOWRES = false, FITMS = 0;
+var MODE = 'free', CUREQ = '';
+var CURVE_SCALE = 1, HAND_DIM = null, SPEED = 1;
+var COLORS = ['#b3541e','#2b4f81','#3f6b4a','#8a4b6b','#a8894a','#4a6b8a',
+              '#8a5a3a','#5a5a8a','#4a7a6a','#7a6a4a','#6a4a7a','#3a6a6a'];
+var OPT = { poly: 6, bez: 4, fou: 5, net: 6, seg: 32 };
+var CHAIN = null;
+var FNOTE = null;
+
+function setupCv(c, w, h, ss) {
+  var dpr = Math.min(window.devicePixelRatio || 1, 3);
+  var k = dpr * (ss || 1.3);
+  c.width = Math.round(w * k); c.height = Math.round(h * k);
+  c.style.width = '100%'; c.style.height = 'auto';
+  var g = c.getContext('2d');
+  g.setTransform(k, 0, 0, k, 0, 0);
+  return g;
+}
+
+function P2S(x, y) {
+  var px = PAD + (x + 1.15) / 2.3 * (W - 2 * PAD);
+  var py = H - PAD - (y + 1.15) / 2.3 * (H - 2 * PAD);
+  return { x: W/2 + (px - W/2) * VIEW.z + VIEW.ox,
+           y: H/2 + (py - H/2) * VIEW.z + VIEW.oy };
+}
+function S2P(px, py) {
+  var qx = (px - VIEW.ox - W/2) / VIEW.z + W/2;
+  var qy = (py - VIEW.oy - H/2) / VIEW.z + H/2;
+  return { x: (qx - PAD) / (W - 2*PAD) * 2.3 - 1.15,
+           y: (H - PAD - qy) / (H - 2*PAD) * 2.3 - 1.15 };
+}
+
+/* ===== 线代 ===== */
+function solve(A, b) {
+  var n = b.length, i, j, k, r, c, p;
+  var M = [];
+  for (i = 0; i < n; i++) M.push(A[i].slice().concat([b[i]]));
+  for (c = 0; c < n; c++) {
+    p = c;
+    for (r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+    if (Math.abs(M[p][c]) < 1e-13) return null;
+    var t = M[c]; M[c] = M[p]; M[p] = t;
+    for (r = 0; r < n; r++) {
+      if (r === c) continue;
+      var f = M[r][c] / M[c][c];
+      if (!f) continue;
+      for (k = c; k <= n; k++) M[r][k] -= f * M[c][k];
+    }
+  }
+  var out = [];
+  for (i = 0; i < n; i++) out.push(M[i][n] / M[i][i]);
+  return out;
+}
+function lstsq(B, y) {
+  var m = B.length, k = B[0].length, i, j, r, s;
+  var A = [], b = [];
+  for (i = 0; i < k; i++) { A.push(new Array(k).fill(0)); b.push(0); }
+  for (i = 0; i < k; i++) {
+    for (j = i; j < k; j++) {
+      s = 0;
+      for (r = 0; r < m; r++) s += B[r][i] * B[r][j];
+      A[i][j] = s; A[j][i] = s;
+    }
+    s = 0;
+    for (r = 0; r < m; r++) s += B[r][i] * y[r];
+    b[i] = s;
+  }
+  for (i = 0; i < k; i++) A[i][i] += 1e-11;
+  var out = solve(A, b);
+  /* 病态的基（比如两列几乎相同）会把解推到 inf/nan。宁可判失败，
+     也不要让一条 NaN 曲线混进表格——它会污染增益、维数和排序。 */
+  if (out) {
+    for (i = 0; i < out.length; i++) if (!isFinite(out[i])) return null;
+  }
+  return out;
+}
+function binom(n, k) {
+  var r = 1, i;
+  for (i = 0; i < k; i++) r = r * (n - i) / (i + 1);
+  return r;
+}
+function linearFit(xs, ys) {
+  var i, sxx = 0, sxy = 0, sy = 0, sx = 0, n = 0;
+  for (i = 0; i < xs.length; i++) {
+    if (!isFinite(xs[i]) || !isFinite(ys[i])) continue;
+    sx += xs[i]; sy += ys[i]; sxx += xs[i]*xs[i]; sxy += xs[i]*ys[i]; n++;
+  }
+  if (n < 3) return null;
+  var den = n * sxx - sx * sx;
+  if (Math.abs(den) < 1e-12) return null;
+  var b = (n * sxy - sx * sy) / den;
+  return { a: (sy - b * sx) / n, b: b };
+}
+
+/* ===== 点集 ===== */
+function resample(raw, n) {
+  if (raw.length < 2) return [];
+  var i, cum = [0];
+  for (i = 1; i < raw.length; i++)
+    cum.push(cum[i-1] + Math.hypot(raw[i].x - raw[i-1].x, raw[i].y - raw[i-1].y));
+  var total = cum[cum.length-1];
+  if (total < 1e-9) return [];
+  var out = [], j = 0;
+  for (i = 0; i < n; i++) {
+    var tg = total * i / (n - 1);
+    while (j < cum.length - 2 && cum[j+1] < tg) j++;
+    var seg = cum[j+1] - cum[j];
+    var f = seg > 1e-12 ? (tg - cum[j]) / seg : 0;
+    out.push({ x: raw[j].x + (raw[j+1].x - raw[j].x) * f,
+               y: raw[j].y + (raw[j+1].y - raw[j].y) * f });
+  }
+  return out;
+}
+
+function trimClosed(raw) {
+  var n = raw.length, i;
+  if (n < 8) return { pts: raw, closed: false };
+  var per = 0;
+  for (i = 1; i < n; i++) per += Math.hypot(raw[i].x - raw[i-1].x, raw[i].y - raw[i-1].y);
+  var thr = 0.06 * per, cut = -1;
+  for (i = Math.floor(n * 0.25); i < n; i++)
+    if (Math.hypot(raw[i].x - raw[0].x, raw[i].y - raw[0].y) < thr) cut = i;
+  if (cut < 0) return { pts: raw, closed: false };
+  var best = cut, bd = Math.hypot(raw[cut].x - raw[0].x, raw[cut].y - raw[0].y);
+  var lo = Math.max(1, cut - 60), hi = Math.min(n - 1, cut + 60), j, dj;
+  for (j = lo; j <= hi; j++) {
+    dj = Math.hypot(raw[j].x - raw[0].x, raw[j].y - raw[0].y);
+    if (dj < bd) { bd = dj; best = j; }
+  }
+  return { pts: raw.slice(0, best + 1), closed: true };
+}
+
+function monoX() {
+  if (PTS.length < 6) return false;
+  var dir = 0, i;
+  for (i = 1; i < PTS.length; i++) {
+    var dv = PTS[i].x - PTS[i-1].x;
+    if (Math.abs(dv) < 1e-9) continue;
+    var sg = dv > 0 ? 1 : -1;
+    if (dir === 0) dir = sg;
+    else if (sg !== dir) return false;
+  }
+  return true;
+}
+
+/* ===== 误差 ===== */
+/* 点到折线段的最短距离。之前用「点到最近采样点」，误差被采样步长系统性抬高：
+   320 段的折线，点即使正好落在曲线上，也会被判成半个步长的距离。 */
+function nearestOnPoly(pts, p) {
+  var best = Infinity, bx = 0, by = 0, i;
+  for (i = 1; i < pts.length; i++) {
+    var a = pts[i - 1], b = pts[i];
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var L2 = dx * dx + dy * dy;
+    var t = L2 > 1e-18 ? ((p.x - a.x) * dx + (p.y - a.y) * dy) / L2 : 0;
+    if (t < 0) t = 0; else if (t > 1) t = 1;
+    var qx = a.x + t * dx, qy = a.y + t * dy;
+    var d = Math.hypot(p.x - qx, p.y - qy);
+    if (d < best) { best = d; bx = qx; by = qy; }
+  }
+  return { d: best, x: bx, y: by };
+}
+
+function sampleCurve(f, n) {
+  var out = [], i;
+  for (i = 0; i < n; i++) out.push(f.eval(i / (n - 1)));
+  return out;
+}
+function errorOf(f) {
+  var maxd = 0, ss = 0, i, j;
+  if (f.implicit) {
+    for (i = 0; i < PTS.length; i++) {
+      var g = f.grad(PTS[i]);
+      var d = g > 1e-9 ? Math.abs(f.F(PTS[i])) / g : 0;
+      maxd = Math.max(maxd, d); ss += d * d;
+    }
+  } else if (f.xmin !== undefined) {
+    for (i = 0; i < PTS.length; i++) {
+      var u = (PTS[i].x - f.xmin) / (f.xmax - f.xmin), dd;
+      if (u < -0.02 || u > 1.02) dd = Math.abs(PTS[i].y);
+      else dd = Math.abs(f.eval(u) - PTS[i].y);
+      maxd = Math.max(maxd, dd); ss += dd * dd;
+    }
+  } else {
+    var pts = sampleCurve(f, 280);
+    for (i = 0; i < PTS.length; i++) {
+      var nd = nearestOnPoly(pts, PTS[i]);
+      maxd = Math.max(maxd, nd.d); ss += nd.d * nd.d;
+    }
+  }
+  return { max: maxd, rmse: Math.sqrt(ss / PTS.length) };
+}
+/* 参数对齐的快速残差：O(N) 而不是 O(N·M)，只用于内部搜索的排序。
+   最终报给用户的误差一律用 errorOf（最近点距离），两件事不能混。 */
+function quickErr(f) {
+  var ss = 0, i;
+  for (i = 0; i < PTS.length; i++) {
+    var q = f.eval(TT[i]);
+    var dx = q.x - PTS[i].x, dy = q.y - PTS[i].y;
+    ss += dx * dx + dy * dy;
+  }
+  return Math.sqrt(ss / PTS.length);
+}
+
+/* ===== 排序 =====
+   评分 = 误差 × 参数个数的 0.1 次方。参数翻十倍，相当于误差要求紧 26%。
+
+   为什么不用 AIC / BIC：它们把复杂度和误差放在同一个加法里，而这个场景里是乘法关系——
+   「用两倍的参数换一半的误差」值不值，跟误差的绝对量级有关。
+   试过的两个都出过荒唐结果：
+     AIC 让 112 个参数的折线靠小数点后第五位，压过 30 个参数的切比雪夫；
+     BIC 反过来让 2 个参数的玫瑰线用 3.9% 的误差，赢过误差 2.0% 的折线。
+   乘性惩罚没有这个问题：它永远偏好「误差明显更小」的那个，只在误差接近时比较参数。
+
+   另外给误差设了地板：手绘输入本身的抖动就在 0.1% 量级，两条曲线都做到 0.01% 时，
+   谁更小只是数值噪声，这时候该让参数个数说话。 */
+var RMSE_FLOOR = 0.0006;   /* 约 0.2 个像素，低于这个的差别画在屏幕上看不出来 */
+
+function fitScore(rmse, k) {
+  var r = Math.max(rmse, RMSE_FLOOR);
+  return r * Math.pow(Math.max(k, 1), 0.1);
+}
+
+/* ===== 参数式 ===== */
+function fitPoly(n) {
+  var B = TT.map(function (t) {
+    var r = [], i, v = 1;
+    for (i = 0; i <= n; i++) { r.push(v); v *= t; }
+    return r;
+  });
+  var ax = lstsq(B, PTS.map(function (p) { return p.x; }));
+  var ay = lstsq(B, PTS.map(function (p) { return p.y; }));
+  if (!ax || !ay) return null;
+  return {
+    name: '多项式 ' + n + ' 阶', k: 2 * (n + 1),
+    eval: function (t) {
+      var x = 0, y = 0, i, vx = 1, vy = 1;
+      for (i = 0; i <= n; i++) { x += ax[i]*vx; y += ay[i]*vy; vx *= t; vy *= t; }
+      return { x: x, y: y };
+    },
+    expr: 'x(t) = ' + ax.slice(0,4).map(function(v){return v.toFixed(3);}).join(' + ') + ' + …\n' +
+          'y(t) = ' + ay.slice(0,4).map(function(v){return v.toFixed(3);}).join(' + ') + ' + …'
+  };
+}
+
+function fitFourier(m) {
+  var B = TT.map(function (t) {
+    var r = [1], i;
+    for (i = 1; i <= m; i++) {
+      r.push(Math.cos(2*Math.PI*i*t)); r.push(Math.sin(2*Math.PI*i*t));
+    }
+    return r;
+  });
+  var ax = lstsq(B, PTS.map(function (p) { return p.x; }));
+  var ay = lstsq(B, PTS.map(function (p) { return p.y; }));
+  if (!ax || !ay) return null;
+  return {
+    name: '傅里叶 ' + m + ' 项', k: 2 * (2*m + 1),
+    eval: function (t) {
+      var x = ax[0], y = ay[0], i;
+      for (i = 1; i <= m; i++) {
+        var c = Math.cos(2*Math.PI*i*t), s = Math.sin(2*Math.PI*i*t);
+        x += ax[2*i-1]*c + ax[2*i]*s;
+        y += ay[2*i-1]*c + ay[2*i]*s;
+      }
+      return { x: x, y: y };
+    },
+    expr: 'x(t) = a₀ + Σₖ[aₖcos2πkt + bₖsin2πkt]\ny(t) = c₀ + Σₖ[cₖcos2πkt + dₖsin2πkt]\n' + m + ' 个频率，' + (2*m+1) + ' 个系数 × 2'
+  };
+}
+
+function fitBezier(n) {
+  var B = TT.map(function (t) {
+    var r = [], i;
+    for (i = 0; i <= n; i++) r.push(binom(n,i)*Math.pow(1-t,n-i)*Math.pow(t,i));
+    return r;
+  });
+  var ax = lstsq(B, PTS.map(function (p) { return p.x; }));
+  var ay = lstsq(B, PTS.map(function (p) { return p.y; }));
+  if (!ax || !ay) return null;
+  var ctr = [], i;
+  for (i = 0; i < ax.length; i++) ctr.push('(' + ax[i].toFixed(2) + ',' + ay[i].toFixed(2) + ')');
+  return {
+    name: '贝塞尔 ' + n + ' 阶', k: 2*(n+1), bezier: { ax: ax, ay: ay, n: n },
+    eval: function (t) {
+      var x = 0, y = 0, i, b;
+      for (i = 0; i <= n; i++) {
+        b = binom(n,i)*Math.pow(1-t,n-i)*Math.pow(t,i);
+        x += ax[i]*b; y += ay[i]*b;
+      }
+      return { x: x, y: y };
+    },
+    expr: 'P(t) = Σ C(' + n + ',i)(1−t)^(' + n + '−i) t^i Pᵢ\n控制点：' + ctr.join(' ')
+  };
+}
+
+/* 单隐层 ReLU：等价于 N 段折线 */
+function fitReLUnet(n) {
+  if (!monoX()) {
+    return { name: '神经网络 ReLU ' + n + ' 单元', k: 0, skip: true,
+      why: '这一行是 y=f(x) 的单值网络，要求 x 单调。你这条曲线的 x 会折返，所以它不是函数图像。' +
+        '但它照样是「线段堆砌」——去看「样条」组里的折线（分段线性）：那等于把 ReLU 网络用两次，x(t) 一条、y(t) 一条，拐点位置自由，不受 x 单调的限制。' };
+  }
+  var xs = [], ys = [], i;
+  for (i = 0; i < PTS.length; i++) { xs.push(PTS[i].x); ys.push(PTS[i].y); }
+  var xa = Math.min.apply(null, xs), xb = Math.max.apply(null, xs);
+  var span = xb - xa;
+  if (span < 1e-9) return null;
+  var knots = [];
+  for (i = 1; i <= n; i++) knots.push(xa + span * i / (n + 1));
+  var B = xs.map(function (x) {
+    var r = [1], j;
+    for (j = 0; j < knots.length; j++) r.push(Math.max(0, x - knots[j]));
+    return r;
+  });
+  var c = lstsq(B, ys);
+  if (!c) return null;
+  function yAt(x) {
+    var y = c[0], j;
+    for (j = 0; j < knots.length; j++) y += c[j+1] * Math.max(0, x - knots[j]);
+    return y;
+  }
+  var terms = [];
+  for (i = 0; i < knots.length && i < 4; i++)
+    terms.push(c[i+1].toFixed(2) + '·ReLU(x−' + knots[i].toFixed(2) + ')');
+  return {
+    name: '神经网络 ReLU ' + n + ' 单元', k: n + 1, yfun: yAt,
+    eval: function (t) { var x = xa + span * t; return { x: x, y: yAt(x) }; },
+    expr: 'y = ' + c[0].toFixed(3) + ' + ' + terms.join(' + ') + (knots.length > 4 ? ' + …' : '') +
+          '\n' + (n + 1) + ' 段折线：每个 ReLU 在断点处拐一次弯。' +
+          '这就是「多层线性代数嵌套」在二维下的样子——没有激活函数就还是直线，加了 ReLU 才有折角。'
+  };
+}
+
+/* ===== 极坐标 ===== */
+function polarData(cx, cy) {
+  var th = [], r = [], i, prev = null, acc = 0;
+  for (i = 0; i < PTS.length; i++) {
+    var ux = PTS[i].x - cx, uy = PTS[i].y - cy;
+    var a0 = Math.atan2(uy, ux);
+    if (prev === null) acc = a0;
+    else {
+      var d = a0 - prev;
+      while (d > Math.PI) d -= 2*Math.PI;
+      while (d < -Math.PI) d += 2*Math.PI;
+      acc += d;
+    }
+    prev = a0; th.push(acc); r.push(Math.hypot(ux, uy));
+  }
+  return { th: th, r: r, th0: th[0], th1: th[th.length-1] };
+}
+function centerCandidates() {
+  var cx = 0, cy = 0, i, out = [], span = 0;
+  for (i = 0; i < PTS.length; i++) { cx += PTS[i].x; cy += PTS[i].y; }
+  cx /= PTS.length; cy /= PTS.length;
+  for (i = 0; i < PTS.length; i++) span = Math.max(span, Math.hypot(PTS[i].x-cx, PTS[i].y-cy));
+  out.push({x:cx,y:cy});
+  out.push({x:PTS[0].x,y:PTS[0].y});
+  out.push({x:PTS[PTS.length-1].x,y:PTS[PTS.length-1].y});
+  out.push({x:cx+span*0.25,y:cy});
+  out.push({x:cx-span*0.25,y:cy});
+  out.push({x:cx,y:cy+span*0.25});
+  out.push({x:cx,y:cy-span*0.25});
+  return out;
+}
+function polarBasis(kind, u) {
+  if (kind === 'rose') return Math.cos(u);
+  if (kind === 'cardioid') return Math.cos(u);
+  if (kind === 'log') return Math.exp(u);
+  if (kind === 'arch') return u;
+  if (kind === 'fermat') return Math.sqrt(Math.max(u, 0));
+  return 1 / Math.max(u, 0.06);
+}
+
+/* 给定形状参数，A 与 B 是线性的：r = A·f(u) + B */
+function polarAB(kind, d, kk, phi) {
+  /* 对数螺线必须在 ln r 空间拟合：r 指数增长，在 r 空间做最小二乘会被大 r 段主导，
+     而且加 B 偏置就不再是等角螺线了 */
+  if (kind === 'log') {
+    var xs0 = [], ys0 = [], j;
+    for (j = 0; j < d.r.length; j++) {
+      if (d.r[j] > 1e-9) { xs0.push(kk * d.th[j]); ys0.push(Math.log(d.r[j])); }
+    }
+    var f0 = linearFit(xs0, ys0);
+    if (!f0) return null;
+    return { A: Math.exp(f0.a), B: 0 };
+  }
+  var B = [], y = [], i, u;
+  for (i = 0; i < d.th.length; i++) {
+    if (kind === 'log') u = kk * d.th[i];
+    else if (kind === 'arch') u = d.th[i] - d.th0;
+    else if (kind === 'fermat') u = d.th[i] - d.th0;
+    else if (kind === 'hyp') u = d.th[i];
+    else u = kk * d.th[i] + phi;
+    var fv = polarBasis(kind, u);
+    if (!isFinite(fv)) return null;
+    B.push([fv, 1]);
+    y.push(d.r[i]);
+  }
+  var c = lstsq(B, y);
+  return c ? { A: c[0], B: c[1] } : null;
+}
+
+function polarErr(d, kind, kk, phi) {
+  var ab = polarAB(kind, d, kk, phi);
+  if (!ab) return Infinity;
+  if (kind === 'log') {
+    var e0 = 0, j0, pr0;
+    for (j0 = 0; j0 < d.r.length; j0++) {
+      if (d.r[j0] <= 1e-9) continue;
+      pr0 = Math.log(Math.max(ab.A * Math.exp(kk * d.th[j0]), 1e-9));
+      e0 += (pr0 - Math.log(d.r[j0])) * (pr0 - Math.log(d.r[j0]));
+    }
+    return e0;
+  }
+  var e = 0, i, u, fv, pr;
+  for (i = 0; i < d.th.length; i++) {
+    if (kind === 'log') u = kk * d.th[i];
+    else if (kind === 'arch') u = d.th[i] - d.th0;
+    else if (kind === 'fermat') u = d.th[i] - d.th0;
+    else if (kind === 'hyp') u = d.th[i];
+    else u = kk * d.th[i] + phi;
+    fv = polarBasis(kind, u);
+    if (!isFinite(fv)) return Infinity;
+    pr = ab.A * fv + ab.B;
+    e += (pr - d.r[i]) * (pr - d.r[i]);
+  }
+  return e;
+}
+
+/* 在给定中心上搜索形状参数：k 与相位 φ */
+function polarSearch(d, kind) {
+  var best = null, k, phi, e;
+  if (kind === 'rose') {
+    for (k = 0.2; k <= 10.01; k += 0.2) {
+      for (phi = 0; phi < Math.PI; phi += Math.PI / 8) {
+        e = polarErr(d, kind, k, phi);
+        if (!best || e < best.e) best = { e: e, k: k, phi: phi };
+      }
+    }
+    /* 局部精修 */
+    var bk = best.k, bp = best.phi, it;
+    for (it = 0; it < 2; it++) {
+      for (k = bk - 0.1; k <= bk + 0.101; k += 0.02) {
+        for (phi = bp - 0.26; phi <= bp + 0.261; phi += 0.05) {
+          e = polarErr(d, kind, k, phi);
+          if (e < best.e) best = { e: e, k: k, phi: phi };
+        }
+      }
+      bk = best.k; bp = best.phi;
+    }
+  } else if (kind === 'cardioid') {
+    for (phi = 0; phi < 2 * Math.PI; phi += Math.PI / 16) {
+      e = polarErr(d, kind, 1, phi);
+      if (!best || e < best.e) best = { e: e, k: 1, phi: phi };
+    }
+  } else if (kind === 'log') {
+    for (k = -2; k <= 2.001; k += 0.04) {
+      e = polarErr(d, kind, k, 0);
+      if (!best || e < best.e) best = { e: e, k: k, phi: 0 };
+    }
+  } else {
+    e = polarErr(d, kind, 1, 0);
+    best = { e: e, k: 1, phi: 0 };
+  }
+  return best;
+}
+
+function fitPolar2(kind) {
+  var cands = centerCandidates(), best = null, i;
+  /* 先按 r 空间误差粗筛，再按几何误差定稿——
+     两者在 r 很大时不一致，必须用几何误差收尾 */
+  cands.forEach(function (c) {
+    var d = polarData(c.x, c.y);
+    var b = polarSearch(d, kind);
+    if (!b || !isFinite(b.e)) return;
+    if (!best || b.e < best.b.e) best = { c: c, d: d, b: b };
+  });
+  if (!best) return null;
+
+  var kk = best.b.k, ph = best.b.phi;
+  function geoScore(cx, cy) {
+    var d2 = polarData(cx, cy);
+    var ab2 = polarAB(kind, d2, kk, ph);
+    if (!ab2) return null;
+    var cv2 = polarCurve2(kind, ab2, kk, ph, d2, cx, cy);
+    return { rmse: errorOf(cv2).rmse, max: 0, ab: ab2, d: d2 };
+  }
+
+  var cur = geoScore(best.c.x, best.c.y);
+  if (!cur) return null;
+
+  var cx0 = 0, cy0 = 0, span = 0;
+  for (i = 0; i < PTS.length; i++) { cx0 += PTS[i].x; cy0 += PTS[i].y; }
+  cx0 /= PTS.length; cy0 /= PTS.length;
+  for (i = 0; i < PTS.length; i++) span = Math.max(span, Math.hypot(PTS[i].x - cx0, PTS[i].y - cy0));
+
+  var it, a, b2, bx, by, step, g2;
+  for (it = 0; it < 3; it++) {
+    step = span * 0.055 * Math.pow(0.36, it);
+    bx = best.c.x; by = best.c.y;
+    for (a = -1; a <= 1; a++) {
+      for (b2 = -1; b2 <= 1; b2++) {
+        if (!a && !b2) continue;
+        g2 = geoScore(bx + a * step, by + b2 * step);
+        if (g2 && g2.rmse < cur.rmse) {
+          best.c = { x: bx + a * step, y: by + b2 * step };
+          cur = g2;
+        }
+      }
+    }
+  }
+
+  var finalCv = polarCurve2(kind, cur.ab, kk, ph, cur.d, best.c.x, best.c.y);
+  var finalE = errorOf(finalCv);
+  return { A: cur.ab.A, B: cur.ab.B, k: kk, phi: ph,
+           cx: best.c.x, cy: best.c.y, d: cur.d,
+           rmse: finalE.rmse, max: finalE.max };
+}
+
+function polarCurve2(kind, ab, kk, phi, d, cx, cy) {
+  var th0 = d.th0, th1 = d.th1;
+  return {
+    eval: function (t) {
+      var th = th0 + (th1 - th0) * t, u;
+      if (kind === 'log') u = kk * th;
+      else if (kind === 'arch') u = th - th0;
+      else if (kind === 'fermat') u = th - th0;
+      else if (kind === 'hyp') u = th;
+      else u = kk * th + phi;
+      var r = ab.A * polarBasis(kind, u) + ab.B;
+      return { x: cx + r * Math.cos(th), y: cy + r * Math.sin(th) };
+    }
+  };
+}
+
+function polarCandidate(kind, label, kc) {
+  var f = fitPolar2(kind);
+  if (!f) return null;
+  var d = f.d, th0 = d.th0, th1 = d.th1;
+  var evalFn = function (t) {
+    var th = th0 + (th1 - th0) * t, u;
+    if (kind === 'log') u = f.k * th;
+    else if (kind === 'arch') u = th - th0;
+    else if (kind === 'fermat') u = th - th0;
+    else if (kind === 'hyp') u = th;
+    else u = f.k * th + f.phi;
+    var r = f.A * polarBasis(kind, u) + f.B;
+    return { x: f.cx + r * Math.cos(th), y: f.cy + r * Math.sin(th) };
+  };
+  var ex = '';
+  if (kind === 'rose') {
+    ex = 'r = A·cos(kθ + φ) + B\nA = ' + f.A.toFixed(4) + '，k = ' + f.k.toFixed(3) +
+         '，φ = ' + f.phi.toFixed(3) + '，B = ' + f.B.toFixed(4) +
+         '\n花瓣数 ≈ ' + Math.round(2 * Math.abs(f.k)) + '　中心 (' + f.cx.toFixed(3) + ', ' + f.cy.toFixed(3) + ')';
+  } else if (kind === 'log') {
+    ex = 'r = A·e^(bθ) + B\nA = ' + f.A.toFixed(4) + '，b = ' + f.k.toFixed(4) + '，B = ' + f.B.toFixed(4) +
+         '\n中心 (' + f.cx.toFixed(3) + ', ' + f.cy.toFixed(3) + ')';
+  } else if (kind === 'cardioid') {
+    ex = 'r = A·cos(θ + φ) + B\nA = ' + f.A.toFixed(4) + '，φ = ' + f.phi.toFixed(3) + '，B = ' + f.B.toFixed(4);
+  } else if (kind === 'arch') {
+    ex = 'r = A·(θ−θ₀) + B\nA = ' + f.A.toFixed(4) + '，B = ' + f.B.toFixed(4);
+  } else if (kind === 'fermat') {
+    ex = 'r = A·√(θ−θ₀) + B\nA = ' + f.A.toFixed(4) + '，B = ' + f.B.toFixed(4);
+  } else {
+    ex = 'r = A/θ + B\nA = ' + f.A.toFixed(4) + '，B = ' + f.B.toFixed(4);
+  }
+  return { name: label, k: kc, eval: evalFn, expr: ex, max: f.max, rmse: f.rmse };
+}
+
+/* ===== 直角函数族 ===== */
+/* 直角函数族：y = A·f(x) + B
+   形状参数（幂次 p 或指数率 b）网格搜索，A 与 B 线性解。
+   这是「不改变结构、只让参数自由」在直角坐标下的形式。 */
+function fitBaseFamily(kind) {
+  var xs = [], ys = [], i;
+  for (i = 0; i < PTS.length; i++) { xs.push(PTS[i].x); ys.push(PTS[i].y); }
+  var xa = Math.min.apply(null, xs), xb = Math.max.apply(null, xs);
+  var span = Math.max(xb - xa, 1e-9);
+  var x0 = xa - span * 0.001;
+
+  function basis(x, sh) {
+    var u = x - x0;
+    if (u <= 1e-9) u = 1e-9;
+    if (kind === 'power') return Math.pow(u, sh);
+    if (kind === 'exp') return Math.exp(sh * u);
+    if (kind === 'log') return Math.log(u);
+    return 1 / u;
+  }
+  function solveAB(sh) {
+    var B = [], y = [], j, fv;
+    for (j = 0; j < xs.length; j++) {
+      fv = basis(xs[j], sh);
+      if (!isFinite(fv)) return null;
+      B.push([fv, 1]);
+      y.push(ys[j]);
+    }
+    var c = lstsq(B, y);
+    return c ? { A: c[0], B: c[1] } : null;
+  }
+  function errOf(sh) {
+    var ab = solveAB(sh);
+    if (!ab) return Infinity;
+    var e = 0, j, pr;
+    for (j = 0; j < xs.length; j++) {
+      pr = ab.A * basis(xs[j], sh) + ab.B;
+      if (!isFinite(pr)) return Infinity;
+      e += (pr - ys[j]) * (pr - ys[j]);
+    }
+    return e;
+  }
+
+  var best = null, sh, e, it;
+  if (kind === 'power') {
+    for (sh = -3; sh <= 3.001; sh += 0.02) {
+      e = errOf(sh);
+      if (!best || e < best.e) best = { e: e, sh: sh };
+    }
+    /* 局部精修 */
+    var b0 = best.sh;
+    for (it = 0; it < 2; it++) {
+      for (sh = b0 - 0.02; sh <= b0 + 0.0201; sh += 0.004) {
+        e = errOf(sh);
+        if (e < best.e) best = { e: e, sh: sh };
+      }
+      b0 = best.sh;
+    }
+  } else if (kind === 'exp') {
+    for (sh = -8; sh <= 8.001; sh += 0.05) {
+      e = errOf(sh);
+      if (!best || e < best.e) best = { e: e, sh: sh };
+    }
+    var b1 = best.sh;
+    for (it = 0; it < 2; it++) {
+      for (sh = b1 - 0.05; sh <= b1 + 0.0501; sh += 0.01) {
+        e = errOf(sh);
+        if (e < best.e) best = { e: e, sh: sh };
+      }
+      b1 = best.sh;
+    }
+  } else {
+    best = { e: errOf(1), sh: 1 };
+  }
+  if (!best || !isFinite(best.e)) return null;
+
+  var ab = solveAB(best.sh);
+  if (!ab) return null;
+  var A = ab.A, Bv = ab.B, SH = best.sh;
+
+  function yAt(x) { return A * basis(x, SH) + Bv; }
+  var nm, ex;
+  if (kind === 'power') {
+    nm = '幂律 y=A(x−x₀)^p+B';
+    ex = 'y = ' + A.toFixed(4) + '·(x−' + x0.toFixed(3) + ')^(' + SH.toFixed(4) + ') + ' + Bv.toFixed(4);
+  } else if (kind === 'exp') {
+    nm = '指数 y=A·e^(b(x−x₀))+B';
+    ex = 'y = ' + A.toFixed(4) + '·e^(' + SH.toFixed(4) + '(x−' + x0.toFixed(3) + ')) + ' + Bv.toFixed(4);
+  } else if (kind === 'log') {
+    nm = '对数 y=A·ln(x−x₀)+B';
+    ex = 'y = ' + A.toFixed(4) + '·ln(x−' + x0.toFixed(3) + ') + ' + Bv.toFixed(4);
+  } else {
+    nm = '反比例 y=A/(x−x₀)+B';
+    ex = 'y = ' + A.toFixed(4) + '/(x−' + x0.toFixed(3) + ') + ' + Bv.toFixed(4);
+  }
+  return {
+    name: nm, k: (kind === 'log' || kind === 'inv') ? 2 : 3,
+    eval: function (t) { var x = xa + span * t; return { x: x, y: yAt(x) }; },
+    expr: ex, yfun: yAt
+  };
+}
+
+/* ===== 圆锥 ===== */
+function fitConic() {
+  var i0, cx = 0, cy = 0;
+  for (i0 = 0; i0 < PTS.length; i0++) { cx += PTS[i0].x; cy += PTS[i0].y; }
+  cx /= PTS.length; cy /= PTS.length;
+  var sc = 0;
+  for (i0 = 0; i0 < PTS.length; i0++)
+    sc = Math.max(sc, Math.abs(PTS[i0].x-cx), Math.abs(PTS[i0].y-cy));
+  if (sc < 1e-9) return null;
+  var B = PTS.map(function (p) {
+    var u = (p.x-cx)/sc, v = (p.y-cy)/sc;
+    return [u*u, u*v, v*v, u, v];
+  });
+  var y = PTS.map(function () { return -1; });
+  var c = lstsq(B, y);
+  if (!c) return null;
+  var A = c[0], Bb = c[1], C = c[2], D = c[3], E = c[4], F = -1;
+  var disc = Bb*Bb - 4*A*C;
+  var type = Math.abs(disc) < 1e-6 ? '抛物线' : (disc > 0 ? '双曲线' : '椭圆');
+  if (Math.abs(A-C) < 1e-6 && Math.abs(Bb) < 1e-6) type = '圆';
+  function Fv(p) {
+    var u = (p.x-cx)/sc, v = (p.y-cy)/sc;
+    /* 拟合的是 Au²+…= −1，所以方程是 Au²+…+1 = 0。
+       写成 −1 会让所有点上 F 恒为 −2，残差直接翻倍。 */
+    return A*u*u + Bb*u*v + C*v*v + D*u + E*v + 1;
+  }
+  function grad(p) {
+    var u = (p.x-cx)/sc, v = (p.y-cy)/sc;
+    return Math.hypot(2*A*u + Bb*v + D, 2*C*v + Bb*u + E) / sc;
+  }
+  return { name: '圆锥曲线（' + type + '）', k: 5, implicit: true, F: Fv, grad: grad,
+    coef: { A: A, B: Bb, C: C, D: D, E: E, cx: cx, cy: cy, sc: sc, type: type },
+    expr: 'Ax² + Bxy + Cy² + Dx + Ey + 1 = 0\nA=' + A.toFixed(3) + ' B=' + Bb.toFixed(3) +
+      ' C=' + C.toFixed(3) + ' D=' + D.toFixed(3) + ' E=' + E.toFixed(3) +
+      '\n判别式 B²−4AC = ' + disc.toFixed(3) + ' → ' + type };
+}
+
+
+/* ================= NURBS 解析权重 =================
+   圆锥的有理二次表示不是拟合出来的，是算出来的。两种情形：
+
+   ① 整圈椭圆/圆 → 拆成 4 段 90° 圆弧，每段权重 [1, √2/2, 1]，
+      中间控制点是两端切线交点。权重就是 cos45°。
+   ② 任意开弧（椭圆弧、抛物线、双曲线一支）→ 单段有理二次 Bézier：
+      端点 P₀、P₂ 处的切线交于 P₁，肩点 M 是直线 S→P₁ 与圆锥的交点（S 为 P₀P₂ 中点），
+      则 w = |M−S| / |P₁−M| = σ/(1−σ)，σ 是 M 在 S→P₁ 上的参数。
+      抛物线会算出 σ=1/2，即 w=1——于是退化成普通二次 Bézier，正好对上
+      「抛物线本身就是多项式曲线」这个事实。 */
+function conicArcNURBS(G) {
+  var A = G.A, B = G.B, C = G.C, D = G.D, E = G.E;
+  function Fdat(x, y) {
+    var u = (x - G.cx) / G.sc, v = (y - G.cy) / G.sc;
+    return A*u*u + B*u*v + C*v*v + D*u + E*v + 1;
+  }
+  function tang(p) {
+    var u = (p.x - G.cx) / G.sc, v = (p.y - G.cy) / G.sc;
+    var fx = 2*A*u + B*v + D, fy = 2*C*v + B*u + E;
+    return { x: -fy, y: fx };
+  }
+
+  var P0 = PTS[0], P2 = PTS[PTS.length - 1];
+  var t0 = tang(P0), t2 = tang(P2);
+  var den = t0.x * t2.y - t0.y * t2.x;
+  if (Math.abs(den) < 1e-14) return null;
+  var dx = P2.x - P0.x, dy = P2.y - P0.y;
+  var k0 = (dx * t2.y - dy * t2.x) / den;
+  var P1 = { x: P0.x + t0.x * k0, y: P0.y + t0.y * k0 };
+  if (!isFinite(P1.x) || !isFinite(P1.y)) return null;
+
+  var S = { x: (P0.x + P2.x) / 2, y: (P0.y + P2.y) / 2 };
+  var ex = P1.x - S.x, ey = P1.y - S.y;
+  if (Math.hypot(ex, ey) < 1e-12) return null;
+
+  /* F(S + σe) 是 σ 的二次式，采样三点定系数 */
+  var c0 = Fdat(S.x, S.y);
+  var c1 = Fdat(S.x + 0.5 * ex, S.y + 0.5 * ey);
+  var c2 = Fdat(P1.x, P1.y);
+  var bq = 4 * c1 - c2 - 3 * c0;
+  var aq = c2 - c0 - bq;
+
+  var roots = [];
+  if (Math.abs(aq) < 1e-14) {
+    if (Math.abs(bq) > 1e-14) roots.push(-c0 / bq);
+  } else {
+    var disc = bq * bq - 4 * aq * c0;
+    if (disc >= 0) {
+      var sq = Math.sqrt(disc);
+      roots.push((-bq - sq) / (2 * aq), (-bq + sq) / (2 * aq));
+    }
+  }
+  var sig = null, r, i;
+  for (i = 0; i < roots.length; i++) {
+    r = roots[i];
+    if (r > 0.02 && r < 0.98 && (sig === null || Math.abs(r - 0.5) < Math.abs(sig - 0.5))) sig = r;
+  }
+  if (sig === null) return null;
+
+  var w = sig / (1 - sig);
+  if (!(w > 0.02) || w > 60) return null;
+
+  var isParab = Math.abs(w - 1) < 0.02;
+  var wLine = isParab ? ' 权重 w = 1.000（σ = 0.500）——抛物线退化成普通二次 Bézier'
+                      : ' 权重 w = ' + w.toFixed(4) + '（σ = ' + sig.toFixed(4) + '，肩点位置）';
+
+  return {
+    name: 'NURBS 解析权重（' + (isParab ? '抛物线' : (G.type === '双曲线' ? '双曲线' : '椭圆') + '弧') + '）',
+    k: 5,
+    eval: function (t) {
+      var m = 1 - t;
+      var b0 = m*m, b1 = 2*t*m*w, b2 = t*t;
+      var dn = b0 + b1 + b2;
+      return { x: (b0*P0.x + b1*P1.x + b2*P2.x) / dn,
+               y: (b0*P0.y + b1*P1.y + b2*P2.y) / dn };
+    },
+    expr: 'C(t) = [(1−t)²P₀ + 2t(1−t)w·P₁ + t²P₂] / [(1−t)² + 2t(1−t)w + t²]\n' +
+      'P₀ = (' + P0.x.toFixed(3) + ', ' + P0.y.toFixed(3) + ')\n' +
+      'P₁ = (' + P1.x.toFixed(3) + ', ' + P1.y.toFixed(3) + ')　← 两端切线的交点\n' +
+      'P₂ = (' + P2.x.toFixed(3) + ', ' + P2.y.toFixed(3) + ')\n' + wLine + '\n' +
+      'w 由肩点唯一确定，不是搜出来的。这条曲线精确落在那条圆锥上，残留的误差全部来自圆锥本身'
+  };
+}
+
+function fitNURBSanalytic(conic) {
+  if (!conic || conic.skip || !conic.coef) return null;
+  /* 圆锥本身贴不住，基于它构造的解析 NURBS 也就没有意义 */
+  if (errorOf(conic).rmse > 0.12) return null;
+  var G = conic.coef;
+  var A = G.A, B = G.B, C = G.C, D = G.D, E = G.E;
+  var det = 4 * A * C - B * B;
+
+  /* 开弧：任何圆锥的一段都能用单段有理二次表示 */
+  if (!isClosedNow()) return conicArcNURBS(G);
+
+  /* 整圈：只有椭圆/圆做得了 4 段圆弧 */
+  if (!(det > 0)) return null;
+
+  var u0 = (B * E - 2 * C * D) / det;
+  var v0 = (B * D - 2 * A * E) / det;
+  var Fp = A*u0*u0 + B*u0*v0 + C*v0*v0 + D*u0 + E*v0 + 1;
+  var tr = A + C, det2 = A*C - B*B/4;
+  var disc = Math.sqrt(Math.max(tr*tr/4 - det2, 0));
+  var l1 = tr/2 + disc, l2 = tr/2 - disc;
+  if (!(l1 * l2 > 0)) return null;
+  var a2 = -Fp / l1, b2 = -Fp / l2;
+  if (!(a2 > 0) || !(b2 > 0)) return null;
+
+  var sa = Math.sqrt(a2) * G.sc, sb = Math.sqrt(b2) * G.sc;
+  var vx = B/2, vy = l1 - A;
+  if (Math.hypot(vx, vy) < 1e-12) { vx = l1 - C; vy = B/2; }
+  if (Math.hypot(vx, vy) < 1e-12) { vx = 1; vy = 0; }
+  var phi = Math.atan2(vy, vx);
+  var Cx = G.cx + u0 * G.sc, Cy = G.cy + v0 * G.sc;
+
+  var ca = Math.cos(phi), sn = Math.sin(phi);
+  function ep(t) {
+    var ux = sa * Math.cos(t), vy2 = sb * Math.sin(t);
+    return { x: Cx + ca*ux - sn*vy2, y: Cy + sn*ux + ca*vy2 };
+  }
+  function corner(t) {
+    var ux = sa * (Math.cos(t) - Math.sin(t)), vy2 = sb * (Math.sin(t) + Math.cos(t));
+    return { x: Cx + ca*ux - sn*vy2, y: Cy + sn*ux + ca*vy2 };
+  }
+
+  var W1 = Math.SQRT1_2, Q = [], kk;
+  for (kk = 0; kk < 4; kk++) {
+    var th = kk * Math.PI / 2;
+    Q.push([ep(th), corner(th), ep(th + Math.PI / 2)]);
+  }
+
+  var evalN = function (t) {
+    var u = t * 4, a = Math.floor(u);
+    if (a > 3) a = 3; if (a < 0) a = 0;
+    var s2 = u - a, m = 1 - s2;
+    var P0 = Q[a][0], P1 = Q[a][1], P2 = Q[a][2];
+    var b0 = m*m, b1 = 2*s2*m*W1, b2 = s2*s2;
+    var den2 = b0 + b1 + b2;
+    return { x: (b0*P0.x + b1*P1.x + b2*P2.x) / den2,
+             y: (b0*P0.y + b1*P1.y + b2*P2.y) / den2 };
+  };
+
+  var isCircle = Math.abs(sa - sb) < 1e-4 * Math.max(sa, sb);
+  var geomLine = isCircle
+    ? '半径 r=' + ((sa + sb) / 2).toFixed(4) + '，中心 (' + Cx.toFixed(3) + ', ' + Cy.toFixed(3) + ')'
+    : '半轴 a=' + sa.toFixed(4) + '，b=' + sb.toFixed(4) + '，中心 (' +
+      Cx.toFixed(3) + ', ' + Cy.toFixed(3) + ')，转角 ' + (phi*180/Math.PI).toFixed(2) + '°';
+
+  return {
+    name: 'NURBS 解析权重（' + (isCircle ? '圆' : '椭圆') + '）', k: 5, nurbsAnalytic: true,
+    eval: evalN,
+    expr: 'C(u) = Σ Nᵢ(u)·wᵢ·Pᵢ ／ Σ Nᵢ(u)·wᵢ\n' +
+      '4 段 90° 圆弧，9 个控制点，权重 [1, 0.707, 1, 0.707, 1, 0.707, 1, 0.707, 1]\n' +
+      geomLine + '\n' +
+      '0.707 就是 cos45°——不是拟合出来的，是圆弧的解析值\n' +
+      '存储 18 个坐标 + 4 个权重，但独立自由度只有 5：「这是一条圆锥曲线」这个先验把其余全定死了'
+  };
+}
+
+/* ===== CST ===== */
+function fitCST(n) {
+  if (!monoX()) {
+    return { name: 'CST n=' + n, k: 0, skip: true,
+      why: 'CST 只描述 y=f(x) 的单值函数，x 必须单调。你这条曲线的 x 会折返（闭合或绕回），所以用不了。要描述闭合轮廓，得把它拆成上下两支分别拟合——翼型就是这么做的。' };
+  }
+  var xs = PTS.map(function (p) { return p.x; });
+  var xmin = Math.min.apply(null, xs), xmax = Math.max.apply(null, xs);
+  if (xmax - xmin < 1e-6) return null;
+  var B = PTS.map(function (p) {
+    var u = (p.x-xmin)/(xmax-xmin);
+    var cls = Math.sqrt(Math.max(u,0)) * (1-u), r = [], j;
+    for (j = 0; j <= n; j++) r.push(cls*binom(n,j)*Math.pow(u,j)*Math.pow(1-u,n-j));
+    return r;
+  });
+  var ay = lstsq(B, PTS.map(function (p) { return p.y; }));
+  if (!ay) return null;
+  return { name: 'CST n=' + n, k: n + 1, xmin: xmin, xmax: xmax,
+    eval: function (u) {
+      var uu = Math.max(0, Math.min(1, u));
+      var cls = Math.sqrt(uu)*(1-uu), y = 0, j;
+      for (j = 0; j <= n; j++) y += ay[j]*cls*binom(n,j)*Math.pow(uu,j)*Math.pow(1-uu,n-j);
+      return y;
+    },
+    expr: 'y(ψ) = √ψ(1−ψ) · Σ aᵢ C(n,i) ψⁱ(1−ψ)^(n−i)\na = [' + ay.map(function(v){return v.toFixed(3);}).join(', ') + ']' };
+}
+
+/* ===== 傅里叶圆链：对复序列做 DFT ===== */
+function dftChain(m) {
+  if (PTS.length < 8) return null;
+  var N = PTS.length, k, n, co = [], half = Math.floor(N/2);
+  for (k = -half; k <= half; k++) {
+    var re = 0, im = 0;
+    for (n = 0; n < N; n++) {
+      var ang = -2*Math.PI*k*n/N;
+      re += PTS[n].x*Math.cos(ang) - PTS[n].y*Math.sin(ang);
+      im += PTS[n].x*Math.sin(ang) + PTS[n].y*Math.cos(ang);
+    }
+    co.push({ k: k, re: re/N, im: im/N, mag: Math.hypot(re,im)/N });
+  }
+  var dc = null, rest = [];
+  co.forEach(function (o) { if (o.k === 0) dc = o; else rest.push(o); });
+  rest.sort(function (a, b) { return b.mag - a.mag; });
+  return { dc: dc, terms: rest.slice(0, m) };
+}
+
+function drawFourier(t) {
+  if (!fctx) return;
+  fctx.clearRect(0, 0, FWS, FHS);
+  var ch = CHAIN;
+  if (!ch || !ch.dc) return;
+  var co = ch.terms, i, j, k2;
+
+  var maxR = 0;
+  for (i = 0; i < co.length; i++) maxR += co[i].mag;
+  var scale = Math.min(FWS, FHS) * 0.40 / Math.max(maxR, 1e-6);
+  var cx = FWS / 2, cy = FHS / 2;
+  /* 屏幕 y 向下，数学 y 向上，所以虚部取负 */
+  var x = cx + ch.dc.re * scale, y = cy - ch.dc.im * scale;
+
+  for (i = 0; i < co.length; i++) {
+    var c = co[i], r = c.mag * scale;
+    var ang = 2 * Math.PI * c.k * t + Math.atan2(c.im, c.re);
+    var nx = x + r * Math.cos(ang);
+    var ny = y - r * Math.sin(ang);
+    fctx.beginPath(); fctx.arc(x, y, Math.max(r, 0.5), 0, 2 * Math.PI);
+    fctx.strokeStyle = 'rgba(43,79,129,.24)'; fctx.lineWidth = 0.8; fctx.stroke();
+    fctx.beginPath(); fctx.moveTo(x, y); fctx.lineTo(nx, ny);
+    fctx.strokeStyle = 'rgba(179,84,30,.65)'; fctx.lineWidth = 1.1; fctx.stroke();
+    x = nx; y = ny;
+  }
+  fctx.beginPath(); fctx.arc(x, y, 2.6, 0, 2 * Math.PI);
+  fctx.fillStyle = '#b3541e'; fctx.fill();
+
+  /* 前 N 项合成的整条轨迹 */
+  fctx.beginPath();
+  for (j = 0; j <= 260; j++) {
+    var tt = j / 260 * 2 * Math.PI;
+    var px = cx + ch.dc.re * scale, py = cy - ch.dc.im * scale;
+    for (k2 = 0; k2 < co.length; k2++) {
+      var c2 = co[k2];
+      var a2 = 2 * Math.PI * c2.k * tt + Math.atan2(c2.im, c2.re);
+      px += c2.mag * scale * Math.cos(a2);
+      py -= c2.mag * scale * Math.sin(a2);
+    }
+    if (j === 0) fctx.moveTo(px, py); else fctx.lineTo(px, py);
+  }
+  fctx.strokeStyle = 'rgba(28,27,25,.22)'; fctx.lineWidth = 1; fctx.stroke();
+
+  if (FNOTE) FNOTE.textContent = (co.length + 1) +
+    ' 个圆首尾相接（含 1 个直流偏移）。最大的圆定整体尺度，小的圆只补细节。';
+}
+
+
+/* ================= B 样条 / NURBS（权重全 1 的特例） ================= */
+function makeKnots(n, p) {
+  var m = n + p + 1, knots = [], i, inner = n - p;
+  for (i = 0; i <= p; i++) knots.push(0);
+  for (i = 1; i < inner; i++) knots.push(i / inner);
+  for (i = 0; i <= p; i++) knots.push(1);
+  while (knots.length < m) knots.push(1);
+  return knots;
+}
+
+function bsBasis(i, p, u, K) {
+  /* clamped 节点在 u=1 处有 p+1 个重复值，p=0 层会同时命中多个基函数，
+     导致 ΣN ≠ 1（单位分解被破坏）。把端点往内推一点点即可。 */
+  if (u >= 1) u = 1 - 1e-9;
+  if (u < 0) u = 0;
+  if (p === 0) return (u >= K[i] && u < K[i + 1]) ? 1 : 0;
+  var a = 0, b = 0;
+  if (K[i + p] > K[i]) a = (u - K[i]) / (K[i + p] - K[i]) * bsBasis(i, p - 1, u, K);
+  if (K[i + p + 1] > K[i + 1]) b = (K[i + p + 1] - u) / (K[i + p + 1] - K[i + 1]) * bsBasis(i + 1, p - 1, u, K);
+  return a + b;
+}
+
+function fitBSpline(nCtrl, deg) {
+  if (nCtrl <= deg) return null;
+  var K = makeKnots(nCtrl, deg);
+  var B = TT.map(function (t) {
+    var row = [], i;
+    for (i = 0; i < nCtrl; i++) row.push(bsBasis(i, deg, t, K));
+    return row;
+  });
+  var ax = lstsq(B, PTS.map(function (p) { return p.x; }));
+  var ay = lstsq(B, PTS.map(function (p) { return p.y; }));
+  if (!ax || !ay) return null;
+  var ctr = [], i;
+  for (i = 0; i < nCtrl; i++) ctr.push('(' + ax[i].toFixed(2) + ',' + ay[i].toFixed(2) + ')');
+  var isPoly = (deg === 1);
+  return {
+    name: isPoly ? ('折线 ' + (nCtrl - 1) + ' 段（分段线性）')
+                 : ('B 样条 ' + deg + ' 次 · ' + nCtrl + ' 控制点'),
+    k: 2 * nCtrl, spline: { ax: ax, ay: ay, K: K, deg: deg, n: nCtrl },
+    eval: function (t) {
+      var x = 0, y = 0, i, b;
+      for (i = 0; i < nCtrl; i++) {
+        b = bsBasis(i, deg, t, K);
+        x += ax[i] * b; y += ay[i] * b;
+      }
+      return { x: x, y: y };
+    },
+    expr: isPoly
+      ? ('折线的顶点就是控制点，段与段之间只有 G0 连续（切向会跳）：\n' + ctr.join(' ') +
+         '\n它等价于把 ReLU 网络用两次——x(t) 一条折线、y(t) 一条折线。' +
+         '\n所以「分段线性」这类曲线（科赫、海岸线、锯齿）该用它，不是用 y=f(x) 的 ReLU 网络。')
+      : ('C(u) = Σ Nᵢ,ₚ(u)·Pᵢ　（' + deg + ' 次 B 样条，NURBS 在权重全为 1 时的特例）\n控制点：' + ctr.join(' '))
+  };
+}
+
+
+/* ================= NURBS（权重自动优化） =================
+   关键性质：权重 w 固定时，控制点是线性的。
+   把曲线写成 x = Σ N·w·Px / Σ N·w，两边乘分母 S=ΣN·w：
+       x·S = Σ N·(w·Px)
+   所以 (w·Px) 可由线性最小二乘解出，再除以 w 得到控制点。
+   权重本身用坐标下降在 {0.2…3} 里逐个搜。 */
+function fitNURBS(nCtrl, deg, rounds) {
+  if (nCtrl <= deg) return null;
+  var K = makeKnots(nCtrl, deg);
+  var N = TT.map(function (t) {
+    var row = [], i;
+    for (i = 0; i < nCtrl; i++) row.push(bsBasis(i, deg, t, K));
+    return row;
+  });
+  var w = [], i;
+  for (i = 0; i < nCtrl; i++) w.push(1);
+
+  function solve() {
+    var B = [], S = [], j;
+    for (j = 0; j < N.length; j++) {
+      var row = [], ssum = 0, k;
+      for (k = 0; k < nCtrl; k++) {
+        var v = N[j][k] * w[k];
+        row.push(v);
+        ssum += v;
+      }
+      B.push(row);
+      S.push(ssum);
+    }
+    var rhsX = [], rhsY = [];
+    for (j = 0; j < N.length; j++) {
+      rhsX.push(PTS[j].x * S[j]);
+      rhsY.push(PTS[j].y * S[j]);
+    }
+    var Ax = lstsq(B, rhsX), Ay = lstsq(B, rhsY);
+    if (!Ax || !Ay) return null;
+    var px = [], py = [];
+    for (i = 0; i < nCtrl; i++) {
+      px.push(Ax[i] / Math.max(w[i], 1e-6));
+      py.push(Ay[i] / Math.max(w[i], 1e-6));
+    }
+    /* 必须把权重快照下来：坐标下降会继续改 w，
+       旧解如果引用外部 w，画出来的就不是当初那条曲线了 */
+    return { px: px, py: py, w: w.slice() };
+  }
+
+  function curveOf(sol) {
+    var ww = sol.w;
+    return function (t) {
+      var nx = 0, ny = 0, den = 0, k;
+      for (k = 0; k < nCtrl; k++) {
+        var b = bsBasis(k, deg, t, K) * ww[k];
+        nx += b * sol.px[k];
+        ny += b * sol.py[k];
+        den += b;
+      }
+      if (Math.abs(den) < 1e-12) return { x: 0, y: 0 };
+      return { x: nx / den, y: ny / den };
+    };
+  }
+
+  var sol = solve();
+  if (!sol) return null;
+  var best = quickErr({ eval: curveOf(sol) });
+
+  /* 坐标下降：逐个权重试几个档位，谁降误差就用谁 */
+  var grid = [0.2, 0.35, 0.55, 0.8, 1, 1.3, 1.8, 2.5, 3.2];
+  var r, g, old, e;
+  for (r = 0; r < (rounds || 2); r++) {
+    for (i = 0; i < nCtrl; i++) {
+      old = w[i];
+      var bestW = old;
+      for (g = 0; g < grid.length; g++) {
+        w[i] = grid[g];
+        var s2 = solve();
+        if (!s2) continue;
+        e = quickErr({ eval: curveOf(s2) });
+        if (e < best) { best = e; bestW = grid[g]; sol = s2; }
+      }
+      w[i] = bestW;
+    }
+  }
+
+  var ctr = [], ws = [];
+  for (i = 0; i < nCtrl; i++) {
+    ctr.push('(' + sol.px[i].toFixed(2) + ',' + sol.py[i].toFixed(2) + ')');
+    ws.push(sol.w[i].toFixed(2));
+  }
+  return {
+    name: 'NURBS ' + deg + ' 次 · ' + nCtrl + ' 控制点',
+    k: 3 * nCtrl, nurbs: { px: sol.px, py: sol.py, w: w, K: K, deg: deg, n: nCtrl },
+    eval: curveOf(sol),
+    expr: 'C(u) = Σ Nᵢ,ₚ(u)·wᵢ·Pᵢ ／ Σ Nᵢ,ₚ(u)·wᵢ\n控制点：' + ctr.join(' ') +
+      '\n权重：[' + ws.join(', ') + ']\n权重自动优化（坐标下降），' + (3 * nCtrl) + ' 个参数 = 控制点 ×2 + 权重'
+  };
+}
+
+/* ================= 弹性样条（自然三次样条 = 最小弯曲能量） ================= */
+function thomas(a, b, c, d) {
+  var n = d.length, i;
+  var cp = [], dp = [], x = [];
+  cp[0] = c[0] / b[0];
+  dp[0] = d[0] / b[0];
+  for (i = 1; i < n; i++) {
+    var m = b[i] - a[i] * cp[i - 1];
+    if (Math.abs(m) < 1e-14) return null;
+    cp[i] = c[i] / m;
+    dp[i] = (d[i] - a[i] * dp[i - 1]) / m;
+  }
+  x[n - 1] = dp[n - 1];
+  for (i = n - 2; i >= 0; i--) x[i] = dp[i] - cp[i] * x[i + 1];
+  return x;
+}
+
+function naturalSpline(ts, ys) {
+  var n = ts.length, i;
+  if (n < 3) return null;
+  var h = [], al = [], l = [], mu = [], z = [], c = [], b = [], d = [], a = [];
+  for (i = 0; i < n - 1; i++) h.push(ts[i + 1] - ts[i]);
+  for (i = 1; i < n - 1; i++) al.push(3 * ((ys[i + 1] - ys[i]) / h[i] - (ys[i] - ys[i - 1]) / h[i - 1]));
+  l[0] = 1; mu[0] = 0; z[0] = 0;
+  for (i = 1; i < n - 1; i++) {
+    l[i] = 2 * (ts[i + 1] - ts[i - 1]) - h[i - 1] * mu[i - 1];
+    mu[i] = h[i] / l[i];
+    z[i] = (al[i - 1] - h[i - 1] * z[i - 1]) / l[i];
+  }
+  l[n - 1] = 1; z[n - 1] = 0; c[n - 1] = 0;
+  for (i = n - 2; i >= 0; i--) {
+    c[i] = z[i] - mu[i] * c[i + 1];
+    b[i] = (ys[i + 1] - ys[i]) / h[i] - h[i] * (c[i + 1] + 2 * c[i]) / 3;
+    d[i] = (c[i + 1] - c[i]) / (3 * h[i]);
+  }
+  a[0] = ys[0];
+  for (i = 1; i < n; i++) a[i] = ys[i];
+  return { ts: ts, a: a, b: b, c: c, d: d, h: h, n: n };
+}
+
+function evalNS(sp, t) {
+  var n = sp.n, i = n - 2;
+  while (i > 0 && t < sp.ts[i]) i--;
+  var dt = t - sp.ts[i];
+  return sp.a[i] + sp.b[i] * dt + sp.c[i] * dt * dt + sp.d[i] * dt * dt * dt;
+}
+
+function fitSpline(nKnots) {
+  if (PTS.length < nKnots + 2) return null;
+  var idx = [], i;
+  for (i = 0; i < nKnots; i++) idx.push(Math.round(i * (PTS.length - 1) / (nKnots - 1)));
+  var ts = idx.map(function (j) { return TT[j]; });
+  var xs = idx.map(function (j) { return PTS[j].x; });
+  var ys = idx.map(function (j) { return PTS[j].y; });
+  var sx = naturalSpline(ts, xs), sy = naturalSpline(ts, ys);
+  if (!sx || !sy) return null;
+  return {
+    name: '弹性样条 ' + nKnots + ' 节点',
+    k: 2 * nKnots, xmin2: null,
+    eval: function (t) { return { x: evalNS(sx, t), y: evalNS(sy, t) }; },
+    expr: 'S(t) = 三次样条，节点 ' + nKnots + ' 个\n它等于「弯曲能量 ∫(κ′)² dt 取极小」的解——肥皂膜和弹性梁就是这个形状'
+  };
+}
+
+/* ================= 径向基网络 RBF ================= */
+function fitRBF(n) {
+  var xs = [], ys = [], i;
+  for (i = 0; i < PTS.length; i++) { xs.push(PTS[i].x); ys.push(PTS[i].y); }
+  var xa = Math.min.apply(null, xs), xb = Math.max.apply(null, xs);
+  var span = xb - xa;
+  if (span < 1e-9) return null;
+  var sig = span / (n - 1) * 0.9;
+  var cen = [];
+  for (i = 0; i < n; i++) cen.push(xa + span * i / (n - 1));
+  var B = xs.map(function (x) {
+    var row = [], j;
+    for (j = 0; j < n; j++) {
+      var z = (x - cen[j]) / sig;
+      row.push(Math.exp(-z * z));
+    }
+    row.push(1);
+    return row;
+  });
+  var c = lstsq(B, ys);
+  if (!c) return null;
+  function yAt(x) {
+    var y = c[n], j;
+    for (j = 0; j < n; j++) {
+      var z = (x - cen[j]) / sig;
+      y += c[j] * Math.exp(-z * z);
+    }
+    return y;
+  }
+  var terms = [];
+  for (i = 0; i < n && i < 4; i++) terms.push(c[i].toFixed(2) + '·G(x;' + cen[i].toFixed(2) + ')');
+  return {
+    name: 'RBF 网络 ' + n + ' 核', k: n + 1, yfun: yAt,
+    eval: function (t) { var x = xa + span * t; return { x: x, y: yAt(x) }; },
+    expr: 'y = ' + c[n].toFixed(3) + ' + ' + terms.join(' + ') + (n > 4 ? ' + …' : '') +
+      '\nG(x;c) = exp(−((x−c)/' + sig.toFixed(3) + ')²)，每个核只管自己附近一段'
+  };
+}
+
+/* ================= 切比雪夫逼近 ================= */
+function chebT(k, u) {
+  if (k === 0) return 1;
+  if (k === 1) return u;
+  var t0 = 1, t1 = u, i, t2;
+  for (i = 2; i <= k; i++) { t2 = 2 * u * t1 - t0; t0 = t1; t1 = t2; }
+  return t1;
+}
+
+function fitCheb(n) {
+  var B = TT.map(function (t) {
+    var u = 2 * t - 1, row = [], i;
+    for (i = 0; i <= n; i++) row.push(chebT(i, u));
+    return row;
+  });
+  var ax = lstsq(B, PTS.map(function (p) { return p.x; }));
+  var ay = lstsq(B, PTS.map(function (p) { return p.y; }));
+  if (!ax || !ay) return null;
+  return {
+    name: '切比雪夫 ' + n + ' 阶', k: 2 * (n + 1),
+    eval: function (t) {
+      var u = 2 * t - 1, x = 0, y = 0, i, tk;
+      for (i = 0; i <= n; i++) {
+        tk = chebT(i, u);
+        x += ax[i] * tk; y += ay[i] * tk;
+      }
+      return { x: x, y: y };
+    },
+    expr: 'x(t) = Σ aₖ Tₖ(2t−1)，y(t) = Σ bₖ Tₖ(2t−1)\nTₖ 是切比雪夫多项式：T₀=1，T₁=u，Tₖ₊₁=2uTₖ−Tₖ₋₁\n' +
+      '在所有 n 阶多项式里，它的最大误差最小——这叫「最佳一致逼近」'
+  };
+}
+
+
+/* ================= 符号回归（贪心前向选择） =================
+   不预设基，而是从一个函数库里逐个挑「最能解释残差」的那一个。
+   比遗传编程简单，但给出的是可读的式子。 */
+function fitSymbolic(maxT) {
+  if (!monoX()) return null;
+  var xs = [], ys = [], i;
+  for (i = 0; i < PTS.length; i++) { xs.push(PTS[i].x); ys.push(PTS[i].y); }
+  var xa = Math.min.apply(null, xs), xb = Math.max.apply(null, xs);
+  var span = Math.max(xb - xa, 1e-9);
+  function z(x) { return (x - xa) / span; }
+
+  var lib = [];
+  function L(nm, fn) { lib.push({ name: nm, f: fn }); }
+  L('1', function (u) { return 1; });
+  L('u', function (u) { return u; });
+  L('u²', function (u) { return u * u; });
+  L('u³', function (u) { return u * u * u; });
+  L('√u', function (u) { return Math.sqrt(Math.max(u, 0)); });
+  L('1/u', function (u) { return 1 / Math.max(u, 0.06); });
+  L('sin2πu', function (u) { return Math.sin(2 * Math.PI * u); });
+  L('cos2πu', function (u) { return Math.cos(2 * Math.PI * u); });
+  L('sin4πu', function (u) { return Math.sin(4 * Math.PI * u); });
+  L('cos4πu', function (u) { return Math.cos(4 * Math.PI * u); });
+  L('e^u', function (u) { return Math.exp(u); });
+  L('ln u', function (u) { return Math.log(Math.max(u, 1e-6)); });
+  L('tanh3u', function (u) { return Math.tanh(3 * u); });
+
+  var chosen = [], res = ys.slice(), bestIC = Infinity, coef = null, bestSet = null;
+  for (var t = 0; t < maxT; t++) {
+    var bi = -1, bScore = 0, j, k;
+    for (i = 0; i < lib.length; i++) {
+      if (chosen.indexOf(i) >= 0) continue;
+      var num = 0, den = 0;
+      for (j = 0; j < xs.length; j++) {
+        var g = lib[i].f(z(xs[j]));
+        num += g * res[j]; den += g * g;
+      }
+      if (den < 1e-9) continue;
+      var sc = num * num / den;
+      if (sc > bScore) { bScore = sc; bi = i; }
+    }
+    if (bi < 0) break;
+    chosen.push(bi);
+
+    var B = xs.map(function (x) {
+      return chosen.map(function (ci) { return lib[ci].f(z(x)); });
+    });
+    var c = lstsq(B, ys);
+    if (!c) { chosen.pop(); break; }
+    var bad2 = false, q0;
+    for (q0 = 0; q0 < c.length; q0++) if (!isFinite(c[q0])) bad2 = true;
+    if (bad2) { chosen.pop(); break; }
+
+    var ss = 0;
+    for (j = 0; j < xs.length; j++) {
+      var pr = 0;
+      for (k = 0; k < chosen.length; k++) pr += c[k] * lib[chosen[k]].f(z(xs[j]));
+      res[j] = ys[j] - pr;
+      if (!isFinite(res[j])) { ss = Infinity; break; }
+      ss += res[j] * res[j];
+    }
+    var kk = chosen.length;
+    var a = xs.length * 2 * Math.log(Math.max(ss / xs.length, 1e-12)) + kk * Math.log(xs.length * 2);
+    /* 必须把「这一轮选了哪些项」跟着系数一起存下来。
+       以前只存 coef，最后却拿末尾的 chosen 去配对——一旦中途 pop 过，
+       两者长度就对不上，式子里会冒出 NaN·cos 这样的项。 */
+    if (a < bestIC) { bestIC = a; coef = c.slice(); bestSet = chosen.slice(); }
+  }
+  if (!coef || !bestSet || !bestSet.length) return null;
+  var chosen2 = bestSet;
+
+  var terms = [];
+  for (i = 0; i < chosen2.length; i++) {
+    var v = coef[i];
+    terms.push((v >= 0 ? ' + ' : ' − ') + Math.abs(v).toFixed(3) + '·' + lib[chosen2[i]].name);
+  }
+  function yAt(x) {
+    var u = z(x), y = 0;
+    for (var q = 0; q < chosen2.length; q++) y += coef[q] * lib[chosen2[q]].f(u);
+    return y;
+  }
+  return {
+    name: '符号回归 ' + chosen2.length + ' 项', k: chosen2.length, yfun: yAt,
+    eval: function (t) { var x = xa + span * t; return { x: x, y: yAt(x) }; },
+    expr: 'y =' + terms.join('') + '\n其中 u = (x − ' + xa.toFixed(3) + ') / ' + span.toFixed(3) +
+      '\n从 13 个候选里贪心挑出 ' + chosen2.length + ' 个，BIC 决定停在哪一步'
+  };
+}
+
+/* ================= 盒计数分形维数 ================= */
+function boxDim(pts) {
+  if (!pts || pts.length < 30) return null;
+  /* 必须先把点加密到远多于格子数，否则小格子阶段「每点一格」，
+     N 饱和、斜率被压到 0.7，光滑曲线会被误判成分形 */
+  var densePts = pts.length >= 2000 ? pts : resample(pts, 2400);
+  if (!densePts || densePts.length < 30) return null;
+  pts = densePts;
+  var xa = Infinity, xb = -Infinity, ya = Infinity, yb = -Infinity, i;
+  for (i = 0; i < pts.length; i++) {
+    if (pts[i].x < xa) xa = pts[i].x;
+    if (pts[i].x > xb) xb = pts[i].x;
+    if (pts[i].y < ya) ya = pts[i].y;
+    if (pts[i].y > yb) yb = pts[i].y;
+  }
+  var w = Math.max(xb - xa, yb - ya);
+  if (w < 1e-9) return null;
+  var logs = [], k;
+  for (k = 0; k < 7; k++) {
+    var sz = w / Math.pow(2, k + 2);
+    var set = {};
+    var cnt = 0;
+    for (i = 0; i < pts.length; i++) {
+      var gx = Math.floor((pts[i].x - xa) / sz);
+      var gy = Math.floor((pts[i].y - ya) / sz);
+      var key = gx + ',' + gy;
+      if (!set[key]) { set[key] = 1; cnt++; }
+    }
+    logs.push({ X: Math.log(1 / sz), Y: Math.log(cnt), n: cnt });
+  }
+  var n = logs.length, sx = 0, sy = 0, sxx = 0, sxy = 0;
+  for (i = 0; i < n; i++) {
+    sx += logs[i].X; sy += logs[i].Y;
+    sxx += logs[i].X * logs[i].X; sxy += logs[i].X * logs[i].Y;
+  }
+  var den = n * sxx - sx * sx;
+  if (Math.abs(den) < 1e-12) return null;
+  var d = (n * sxy - sx * sy) / den;
+  return { dim: d, pts: logs };
+}
+
+/* ===== 闭合曲线拆成上下两支 =====
+   单值族要求 x 单调。闭合轮廓的 x 会折返，
+   但若从 x 最小点切到 x 最大点，上下两条弧各自都满足单值。 */
+function isClosedNow() {
+  if (PTS.length < 8) return false;
+  var per = 0, i;
+  for (i = 1; i < PTS.length; i++)
+    per += Math.hypot(PTS[i].x - PTS[i - 1].x, PTS[i].y - PTS[i - 1].y);
+  return Math.hypot(PTS[0].x - PTS[PTS.length - 1].x,
+                    PTS[0].y - PTS[PTS.length - 1].y) < 0.07 * per;
+}
+
+function splitArcs() {
+  var n = PTS.length, i, i0 = 0, i1 = 0;
+  for (i = 0; i < n; i++) {
+    if (PTS[i].x < PTS[i0].x) i0 = i;
+    if (PTS[i].x > PTS[i1].x) i1 = i;
+  }
+  if (i0 === i1) return null;
+  var a1 = [], a2 = [], k;
+  for (k = i0; ; k = (k + 1) % n) { a1.push(PTS[k]); if (k === i1 || a1.length > n) break; }
+  for (k = i0; ; k = (k - 1 + n) % n) { a2.push(PTS[k]); if (k === i1 || a2.length > n) break; }
+  if (a1.length < 5 || a2.length < 5) return null;
+  return [a1, a2];
+}
+
+function withPts(pts, fn) {
+  var sP = PTS, sT = TT;
+  PTS = pts;
+  TT = pts.map(function (_, i) { return i / (pts.length - 1); });
+  var r = fn();
+  PTS = sP; TT = sT;
+  return r;
+}
+
+function fitSplit(name, kEach, fn) {
+  var arcs = splitArcs();
+  if (!arcs) return null;
+  var parts = [], ss = 0, mx = 0, ok = true;
+  arcs.forEach(function (arc) {
+    var res = withPts(arc, function () {
+      var f = fn();
+      if (!f || f.skip) return null;
+      return { f: f, e: errorOf(f) };
+    });
+    if (!res) { ok = false; return; }
+    parts.push(res.f);
+    ss += res.e.rmse * res.e.rmse * arc.length;
+    mx = Math.max(mx, res.e.max);
+  });
+  if (!ok || parts.length !== 2) return null;
+  return { name: name, k: kEach * 2, parts: parts,
+           rmse: Math.sqrt(ss / PTS.length), max: mx };
+}
+
+
+/* ================= 沟槽尺度 vs 阻力 ================= */
+var gc = document.getElementById('gc'), gctx = null;
+var GW = 600, GH = 210;
+
+function dragPenalty(sp) {
+  /* 经验形状：s⁺≈17 最优，两侧上升；>35 转为增阻。
+     量级参考 NASA Langley / DLR 的 riblet 风洞数据（减阻 5–10%） */
+  var core = -0.085 * Math.exp(-Math.pow((sp - 17) / 9, 2));
+  var over = 0.00014 * Math.pow(Math.max(sp - 17, 0), 2);
+  return core + over;
+}
+
+function drawDrag(sp) {
+  if (!gctx) return;
+  gctx.clearRect(0, 0, GW, GH);
+  var L = 52, R = GW - 16, T = 18, B = GH - 34;
+  var x0 = 4, x1 = 60, y0 = -0.11, y1 = 0.16;
+  function px(v) { return L + (v - x0) / (x1 - x0) * (R - L); }
+  function py(v) { return B - (v - y0) / (y1 - y0) * (B - T); }
+
+  /* 零线 */
+  gctx.strokeStyle = '#d8d2c2'; gctx.lineWidth = 1;
+  gctx.beginPath(); gctx.moveTo(L, py(0)); gctx.lineTo(R, py(0)); gctx.stroke();
+
+  /* 最优区间阴影 */
+  gctx.fillStyle = 'rgba(179,84,30,.10)';
+  gctx.fillRect(px(15), T, px(20) - px(15), B - T);
+  gctx.fillStyle = '#a89c84'; gctx.font = '10px sans-serif';
+  gctx.fillText('实测最优 15–20', px(15) + 2, T + 11);
+
+  /* 曲线 */
+  gctx.beginPath();
+  var v;
+  for (v = x0; v <= x1; v += 0.5) {
+    var yv = dragPenalty(v);
+    if (v === x0) gctx.moveTo(px(v), py(yv)); else gctx.lineTo(px(v), py(yv));
+  }
+  gctx.strokeStyle = '#2b4f81'; gctx.lineWidth = 2; gctx.stroke();
+
+  /* 最优点 */
+  var bestV = 17, bestY = dragPenalty(17);
+  gctx.beginPath(); gctx.arc(px(bestV), py(bestY), 3.5, 0, 2 * Math.PI);
+  gctx.fillStyle = '#b3541e'; gctx.fill();
+
+  /* 当前值 */
+  var cy = dragPenalty(sp);
+  gctx.beginPath(); gctx.arc(px(sp), py(cy), 4.5, 0, 2 * Math.PI);
+  gctx.fillStyle = '#3f6b4a'; gctx.fill();
+  gctx.strokeStyle = '#fff'; gctx.lineWidth = 1.5; gctx.stroke();
+
+  /* 坐标轴 */
+  gctx.strokeStyle = '#c9c2b2'; gctx.lineWidth = 1;
+  gctx.beginPath(); gctx.moveTo(L, T); gctx.lineTo(L, B); gctx.lineTo(R, B); gctx.stroke();
+  gctx.fillStyle = '#9a9080'; gctx.font = '10.5px serif';
+  [0, 10, 20, 30, 40, 50, 60].forEach(function (t) {
+    gctx.fillText(String(t), px(t) - 6, B + 14);
+  });
+  [0, -5, -10, 10, 15].forEach(function (t) {
+    var yy = py(t / 100);
+    gctx.fillText((t > 0 ? '+' : '') + t + '%', 6, yy + 3.5);
+    gctx.strokeStyle = '#f0ece1';
+    gctx.beginPath(); gctx.moveTo(L, yy); gctx.lineTo(R, yy); gctx.stroke();
+  });
+  gctx.fillStyle = '#9a9080';
+  gctx.fillText('s⁺（壁面单位）', R - 76, B + 26);
+}
+
+function updateDragNote(sp) {
+  var y = dragPenalty(sp);
+  var pct = (y * 100).toFixed(1);
+  var verdict;
+  if (sp < 8) verdict = '沟槽太细，涡直接跨过去，几乎无效';
+  else if (sp < 14) verdict = '开始起效，但没到最优';
+  else if (sp <= 21) verdict = '最优区间，减阻最大';
+  else if (sp <= 32) verdict = '沟槽变粗，效果衰减';
+  else verdict = '沟槽本身成了粗糙度，反而增阻';
+  var el = document.getElementById('gnote');
+  if (el) el.innerHTML = 's⁺ = <b>' + sp + '</b>　阻力变化 <b>' +
+    (y < 0 ? '−' : '+') + Math.abs(pct) + '%</b>　' + verdict +
+    '　<br>维数随沟槽变粗而降低：细沟槽 ≈1.2，粗沟槽 ≈1.05。但减阻最优在中等尺度——<b>不是越复杂越好</b>。';
+}
+
+/* ===== 主流程 ===== */
+function nowMs() {
+  return (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+}
+
+function runFit() {
+  var t0 = nowMs();
+  RESULT = []; SHOW = {}; HOVERP = null;
+  if (PTS.length < 8) { render(); return; }
+
+  /* 曲线尺寸：增益要除以它，误差才是无量纲的 */
+  var sxa = Infinity, sxb = -Infinity, sya = Infinity, syb = -Infinity, si;
+  for (si = 0; si < PTS.length; si++) {
+    if (PTS[si].x < sxa) sxa = PTS[si].x;
+    if (PTS[si].x > sxb) sxb = PTS[si].x;
+    if (PTS[si].y < sya) sya = PTS[si].y;
+    if (PTS[si].y > syb) syb = PTS[si].y;
+  }
+  CURVE_SCALE = Math.max(Math.hypot(sxb - sxa, syb - sya), 1e-6);
+  var hdim = boxDim(RAW.length > 30 ? RAW : PTS);
+  HAND_DIM = hdim ? hdim.dim : null;
+  var cands = [];
+  function add(gp, c, tag) { if (c) { c.group = gp; if (tag) c.tag = tag; cands.push(c); } }
+
+  var cc = fitConic();
+  add('隐式', cc);
+  add('样条', fitNURBSanalytic(cc), 'nurbs');
+  add('参数式', fitPoly(OPT.poly), 'poly');
+  add('参数式', fitPoly(3));
+  add('参数式', fitFourier(OPT.fou), 'fou');
+  add('参数式', fitBezier(OPT.bez), 'bez');
+  add('参数式', fitBezier(3));
+  add('半解析', fitCST(5));
+  add('神经网络', fitReLUnet(OPT.net), 'net');
+  add('神经网络', fitReLUnet(3));
+  add('样条', fitBSpline(6, 3));
+  add('样条', fitBSpline(9, 3));
+  add('样条', fitBSpline(8, 1), 'seg');
+  add('样条', fitBSpline(OPT.seg, 1), 'seg');
+  add('样条', fitBSpline(56, 1), 'seg');
+  add('样条', fitNURBS(6, 3, 2));
+  add('样条', fitNURBS(8, 3, 2));
+  add('样条', fitSpline(8));
+  add('样条', fitSpline(14));
+  add('级数', fitCheb(8));
+  add('级数', fitCheb(14));
+  if (monoX()) {
+    add('神经网络', fitRBF(6), 'rbf');
+    add('神经网络', fitRBF(10));
+    add('符号回归', fitSymbolic(5));
+    add('符号回归', fitSymbolic(8));
+  }
+
+  var PL = [['log','对数螺线 r=ae^(bθ)',4],['arch','阿基米德 r=a+bθ',2],['fermat','费马 r=a√θ',2],
+            ['hyp','双曲 r=a/θ',1],['rose','玫瑰 r=a·cos(kθ)',2],['cardioid','心形 r=a(1−cosθ)',1]];
+  PL.forEach(function (p) { add('极坐标', polarCandidate(p[0], p[1], p[2])); });
+
+  if (monoX()) {
+    ['power','exp','log','inv'].forEach(function (k) { add('直角函数', fitBaseFamily(k)); });
+  } else if (isClosedNow()) {
+    add('半解析', fitSplit('CST 上下两支', 6, function () { return fitCST(5); }));
+    add('神经网络', fitSplit('ReLU 上下两支', 7, function () { return fitReLUnet(6); }));
+  }
+
+  cands.forEach(function (c) {
+    if (c.skip) { RESULT.push(c); return; }
+    if (c.rmse !== undefined) { c.scorev = fitScore(c.rmse, c.k); RESULT.push(c); return; }
+    var e = errorOf(c);
+    if (!isFinite(e.rmse) || !isFinite(e.max)) {
+      c.skip = true; c.why = '这一族的拟合数值溢出了（病态的基函数把解推到了无穷大），换一条曲线再看。';
+      RESULT.push(c); return;
+    }
+    c.max = e.max; c.rmse = e.rmse;
+    if (c.implicit && e.rmse > 0.12) {
+      c.skip = true;
+      c.why = '最接近的是' + c.name.replace('圆锥曲线（','').replace('）','') + '，但残差 ' +
+        (e.rmse*100).toFixed(0) + '%。这条曲线不是二次曲线——圆锥只能描述圆、椭圆、抛物、双曲这四类。';
+      RESULT.push(c); return;
+    }
+    c.scorev = fitScore(e.rmse, c.k);
+    RESULT.push(c);
+  });
+
+  RESULT.sort(function (a, b) {
+    if (a.skip && !b.skip) return 1;
+    if (!a.skip && b.skip) return -1;
+    if (a.skip && b.skip) return 0;
+    return a.scorev - b.scorev;
+  });
+
+  /* 增益：每个参数买到的数量级。分母用参数个数本身，
+     所以 1 个参数做到 1% 会得高分，100 个参数做到 0.5% 只有零头。 */
+  RESULT.forEach(function (r) {
+    if (r.skip) return;
+    r.gain = -Math.log(Math.max(r.rmse, RMSE_FLOOR) / CURVE_SCALE) / Math.LN10 / Math.max(r.k, 1);
+    r.dim = dimOf(r);
+  });
+
+  var first = RESULT.filter(function (r) { return !r.skip; })[0];
+  if (first) { SHOW[RESULT.indexOf(first)] = true; FOCUS = RESULT.indexOf(first); }
+  CHAIN = dftChain(OPT.fou);
+  renderFourierExpr();
+  syncFouCtl();
+  updateDim();
+  FITMS = Math.round(nowMs() - t0);
+  render();
+}
+
+/* ===== 渲染 ===== */
+function lineOf(r, steps) {
+  var out = [], i;
+  if (r.xmin !== undefined) {
+    for (i = 0; i <= steps; i++) {
+      var u = i/steps;
+      out.push({ x: r.xmin + (r.xmax-r.xmin)*u, y: r.eval(u) });
+    }
+    return out;
+  }
+  for (i = 0; i <= steps; i++) out.push(r.eval(i/steps));
+  return out;
+}
+
+
+/* ===== 残差：每个数据点到拟合曲线的最近距离 ===== */
+function residualPairs(r) {
+  var out = [], i;
+  if (r.implicit) {
+    var h = 1e-4;
+    for (i = 0; i < PTS.length; i++) {
+      var p = PTS[i], f0 = r.F(p);
+      var fx = (r.F({ x: p.x + h, y: p.y }) - r.F({ x: p.x - h, y: p.y })) / (2 * h);
+      var fy = (r.F({ x: p.x, y: p.y + h }) - r.F({ x: p.x, y: p.y - h })) / (2 * h);
+      var nn = fx * fx + fy * fy;
+      if (nn < 1e-14) continue;
+      var kq = f0 / nn;
+      var q = { x: p.x - fx * kq, y: p.y - fy * kq };
+      out.push({ x: p.x, y: p.y, qx: q.x, qy: q.y, d: Math.hypot(p.x - q.x, p.y - q.y) });
+    }
+    return out;
+  }
+  var poly = [];
+  (r.parts ? r.parts : [r]).forEach(function (sg) { poly = poly.concat(lineOf(sg, 420)); });
+  for (i = 0; i < PTS.length; i++) {
+    var nd = nearestOnPoly(poly, PTS[i]);
+    out.push({ x: PTS[i].x, y: PTS[i].y, qx: nd.x, qy: nd.y, d: nd.d });
+  }
+  return out;
+}
+
+function drawResiduals(r) {
+  var pr = residualPairs(r), i, maxd = 1e-9, worst = 0;
+  for (i = 0; i < pr.length; i++) if (pr[i].d > maxd) { maxd = pr[i].d; worst = i; }
+  ctx.lineWidth = 1;
+  for (i = 0; i < pr.length; i++) {
+    var a = P2S(pr[i].x, pr[i].y), b = P2S(pr[i].qx, pr[i].qy);
+    var al = 0.08 + 0.70 * (pr[i].d / maxd);
+    ctx.strokeStyle = 'rgba(179,84,30,' + al.toFixed(3) + ')';
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+  }
+  if (pr.length) {
+    var wp = P2S(pr[worst].x, pr[worst].y);
+    ctx.beginPath(); ctx.arc(wp.x, wp.y, 3.2, 0, 2 * Math.PI);
+    ctx.fillStyle = '#b3541e'; ctx.fill();
+    ctx.fillStyle = '#8a4b2a';
+    ctx.font = '11.5px "Iowan Old Style", Georgia, serif';
+    ctx.fillText('最差点 ' + (maxd * 100).toFixed(2) + '%', wp.x + 7, wp.y - 6);
+  }
+}
+
+function render() {
+  if (!ctx) return;
+  ctx.clearRect(0, 0, W, H);
+  drawGrid();
+
+  if (PTS.length > 1) {
+    ctx.beginPath();
+    var p0 = P2S(PTS[0].x, PTS[0].y);
+    ctx.moveTo(p0.x, p0.y);
+    for (var i = 1; i < PTS.length; i++) {
+      var q = P2S(PTS[i].x, PTS[i].y);
+      ctx.lineTo(q.x, q.y);
+    }
+    ctx.strokeStyle = '#1c1b19'; ctx.lineWidth = 2.4; ctx.stroke();
+  }
+
+  RESULT.forEach(function (r, idx) {
+    if (!SHOW[idx] || r.skip || r.implicit) return;
+    var col = COLORS[idx % COLORS.length];
+    var segs = r.parts ? r.parts : [r];
+    segs.forEach(function (sg) {
+    var pts = lineOf(sg, 300), k;
+    ctx.beginPath();
+    for (k = 0; k < pts.length; k++) {
+      var s = P2S(pts[k].x, pts[k].y);
+      if (k === 0) ctx.moveTo(s.x, s.y); else ctx.lineTo(s.x, s.y);
+    }
+    ctx.strokeStyle = col; ctx.lineWidth = 1.8;
+    ctx.setLineDash([7, 4]); ctx.stroke(); ctx.setLineDash([]);
+    });
+
+    if (r.bezier) {
+      var ax = r.bezier.ax, ay = r.bezier.ay, b;
+      ctx.beginPath();
+      for (b = 0; b < ax.length; b++) {
+        var sp = P2S(ax[b], ay[b]);
+        if (b === 0) ctx.moveTo(sp.x, sp.y); else ctx.lineTo(sp.x, sp.y);
+      }
+      ctx.strokeStyle = 'rgba(179,84,30,.28)'; ctx.lineWidth = 1; ctx.stroke();
+      for (b = 0; b < ax.length; b++) {
+        var sp2 = P2S(ax[b], ay[b]);
+        ctx.beginPath(); ctx.arc(sp2.x, sp2.y, 3, 0, 2*Math.PI);
+        ctx.fillStyle = col; ctx.fill();
+      }
+    }
+  });
+
+  if (SHOWRES && FOCUS >= 0 && RESULT[FOCUS] && !RESULT[FOCUS].skip) {
+    drawResiduals(RESULT[FOCUS]);
+  }
+
+  if (HOVERP) {
+    var hp = P2S(HOVERP.x, HOVERP.y);
+    ctx.beginPath(); ctx.arc(hp.x, hp.y, 5, 0, 2*Math.PI);
+    ctx.fillStyle = 'rgba(179,84,30,.9)'; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+  }
+
+  drawLegend();
+  renderTable();
+  drawScatter();
+}
+
+function drawGrid() {
+  var i, steps = 10, v;
+  ctx.strokeStyle = '#efeade'; ctx.lineWidth = 0.7;
+  for (i = -steps; i <= steps; i++) {
+    v = i/steps*1.15;
+    var a = P2S(v,-1.15), b = P2S(v,1.15);
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    var c = P2S(-1.15,v), d = P2S(1.15,v);
+    ctx.beginPath(); ctx.moveTo(c.x,c.y); ctx.lineTo(d.x,d.y); ctx.stroke();
+  }
+  ctx.strokeStyle = '#d8d2c2'; ctx.lineWidth = 1.1;
+  var o1 = P2S(-1.15,0), o2 = P2S(1.15,0);
+  ctx.beginPath(); ctx.moveTo(o1.x,o1.y); ctx.lineTo(o2.x,o2.y); ctx.stroke();
+  var o3 = P2S(0,-1.15), o4 = P2S(0,1.15);
+  ctx.beginPath(); ctx.moveTo(o3.x,o3.y); ctx.lineTo(o4.x,o4.y); ctx.stroke();
+  ctx.fillStyle = '#9a9080';
+  ctx.font = '11px "Iowan Old Style", Georgia, serif';
+  for (i = -1; i <= 1; i++) {
+    if (i === 0) continue;
+    var t1 = P2S(i,0); ctx.fillText(i.toFixed(1), t1.x-9, t1.y+14);
+    var t2 = P2S(0,i); ctx.fillText(i.toFixed(1), t2.x-22, t2.y+4);
+  }
+}
+
+function drawLegend() {
+  var y = 20, i, n = 0;
+  for (i = 0; i < RESULT.length; i++) {
+    if (!SHOW[i] || RESULT[i].skip) continue;
+    ctx.fillStyle = COLORS[i % COLORS.length];
+    ctx.fillRect(16, y-8, 10, 3);
+    ctx.fillStyle = '#3a3529';
+    ctx.font = '12px "Iowan Old Style", Georgia, serif';
+    ctx.fillText(RESULT[i].name, 32, y);
+    y += 17; n++;
+    if (n > 6) break;
+  }
+}
+
+/* ===== 表格 ===== */
+function renderTable() {
+  var tb = document.querySelector('#tbl tbody');
+  tb.innerHTML = '';
+  document.getElementById('cntTag').textContent =
+    RESULT.filter(function (r) { return !r.skip; }).length + ' 种可用 · ' + FITMS + ' ms';
+
+  var bestAll = RESULT.filter(function (r) { return !r.skip; })[0];
+  renderVerdict();
+  var GROUPS = ['符号回归','参数式','样条','级数','神经网络','半解析','极坐标','直角函数','隐式'];
+  var seq = [];
+  GROUPS.forEach(function (g) {
+    var list = RESULT.filter(function (r) { return r.group === g; });
+    if (!list.length) return;
+    seq.push({ head: g });
+    list.forEach(function (r) { seq.push({ row: r }); });
+  });
+
+  seq.forEach(function (item) {
+    if (item.head) {
+      var gh = document.createElement('tr');
+      gh.className = 'gh';
+      gh.innerHTML = '<td colspan="7">' + item.head + '</td>';
+      tb.appendChild(gh); return;
+    }
+    var r = item.row, idx = RESULT.indexOf(r);
+    var tr = document.createElement('tr');
+    if (r === bestAll) tr.className = 'best';
+    if (SHOW[idx]) tr.className += ' on';
+
+    if (r.skip) {
+      tr.innerHTML = '<td><span class="sw" style="background:#ddd8cb"></span>' + r.name +
+        '<span class="tag">不适用</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>';
+    } else {
+      /* 低于显示精度的误差统一写成「<0.06%」：这些差别画在屏幕上看不见，
+         再往下比小数点没有意义，排序已经交给参数个数 */
+      var rmTxt = r.rmse < RMSE_FLOOR
+        ? '&lt;' + (RMSE_FLOOR * 100).toFixed(2) + '%'
+        : (r.rmse * 100).toFixed(2) + '%';
+      tr.innerHTML = '<td><span class="sw" style="background:' + COLORS[idx % COLORS.length] +
+        '"></span>' + r.name + '</td><td>' + r.k + '</td><td>' + (r.max*100).toFixed(2) +
+        '%</td><td>' + rmTxt + '</td><td>' +
+        (r.dim === null || r.dim === undefined ? '—' : r.dim.toFixed(2)) +
+        '</td><td>' + r.gain.toFixed(2) + '</td><td>' + r.scorev.toFixed(3) + '</td>';
+    }
+    tr.addEventListener('click', function () {
+      if (r.skip) {
+        document.getElementById('eqbox').innerHTML = '<b>为什么用不了</b>' + (r.why || '这一族描述不了这条曲线');
+        return;
+      }
+      SHOW[idx] = !SHOW[idx];
+      if (SHOW[idx]) { showEq(r); FOCUS = idx; }
+      render();
+    });
+    tr.addEventListener('mouseenter', function () { if (!r.skip) showEq(r); });
+    tb.appendChild(tr);
+  });
+}
+
+/* 隐式曲线没有参数式，按 u 解二次方程 v 的两支，凑出点集 */
+function conicPts(G) {
+  var A = G.A, B = G.B, C = G.C, D = G.D, E = G.E;
+  if (Math.abs(C) < 1e-9) return null;
+  var ua = Infinity, ub = -Infinity, i, u;
+  for (i = 0; i < PTS.length; i++) {
+    u = (PTS[i].x - G.cx) / G.sc;
+    if (u < ua) ua = u;
+    if (u > ub) ub = u;
+  }
+  if (!(ub > ua)) return null;
+  var pad = (ub - ua) * 0.15, N = 420, up = [], dn = [];
+  for (i = 0; i <= N; i++) {
+    var uu = ua - pad + (ub - ua + 2 * pad) * i / N;
+    var bq = B * uu + E, cq = A * uu * uu + D * uu + 1;
+    var disc = bq * bq - 4 * C * cq;
+    if (disc < 0) continue;
+    var sq = Math.sqrt(disc);
+    up.push({ x: G.cx + uu * G.sc, y: G.cy + ((-bq + sq) / (2 * C)) * G.sc });
+    dn.push({ x: G.cx + uu * G.sc, y: G.cy + ((-bq - sq) / (2 * C)) * G.sc });
+  }
+  /* 必须按「上支从左到右、下支从右到左」接成一条路径。
+     如果两个根交错着排，点集会变成在每个 u 上竖着来回跳的锯齿，
+     盒计数的维数会虚高到 1.3 以上。 */
+  var out = up.concat(dn.reverse());
+  return out.length > 30 ? out : null;
+}
+
+/* 每条拟合曲线也量一遍维数：看哪个族把粗糙度磨平了 */
+function dimOf(r) {
+  var pts;
+  if (r.implicit) {
+    pts = r.coef ? conicPts(r.coef) : null;
+  } else if (r.parts) {
+    pts = lineOf(r.parts[0], 620).concat(lineOf(r.parts[1], 620));
+  } else {
+    pts = lineOf(r, 900);
+  }
+  if (!pts) return null;
+  var b = boxDim(pts);
+  return b ? b.dim : null;
+}
+
+/* ===== 结论：这条曲线到底有没有简洁的数学身份 ===== */
+function pctTxt(v) {
+  return v < RMSE_FLOOR ? '&lt;' + (RMSE_FLOOR * 100).toFixed(2) + '%'
+                        : (v * 100).toFixed(2) + '%';
+}
+
+function renderVerdict() {
+  var box = document.getElementById('verdict');
+  if (!box) return;
+  var ok = RESULT.filter(function (r) { return !r.skip; });
+  var bestR = Infinity, bestM = null, compact = null, i;
+  for (i = 0; i < ok.length; i++) {
+    if (ok[i].rmse < bestR) { bestR = ok[i].rmse; bestM = ok[i]; }
+    if (ok[i].k <= 12 && (!compact || ok[i].rmse < compact.rmse)) compact = ok[i];
+  }
+  if (!compact) { box.innerHTML = ''; box.className = 'verdict'; box.style.display = 'none'; return; }
+  box.style.display = '';
+
+  /* 「有身份」的判据：少参数就能做到 1% 以内，或者离全表最好不到 1.6 倍 */
+  var good = compact.rmse <= Math.max(0.008, 1.6 * bestR);
+  box.className = 'verdict' + (good ? ' yes' : '');
+  if (good) {
+    box.innerHTML = '<b>有紧凑的数学身份</b>：12 个参数以内就能做到 ' + pctTxt(compact.rmse) +
+      '（「' + compact.name + '」，' + compact.k + ' 个参数）。' +
+      (compact.rmse <= 1.02 * bestR
+        ? '整张表都没有更准的——再加参数买不到精度了。'
+        : '全表最好的是 ' + pctTxt(bestR) + '，但那是用 ' + bestM.k + ' 个参数换来的。');
+  } else {
+    box.innerHTML = '<b>没有紧凑描述</b>：12 个参数以内最好只有 ' + pctTxt(compact.rmse) +
+      '（「' + compact.name + '」）；要压到 ' + pctTxt(bestR) + '，得动用 ' + bestM.k +
+      ' 个参数的「' + bestM.name + '」。这条曲线更像被<b>描摹</b>，不是被<b>描述</b>——' +
+      '它的信息量大于任何简洁的数学身份。';
+  }
+}
+
+function showEq(r) {
+  CUREQ = r.name + '\n' + r.expr;
+  document.getElementById('eqbox').innerHTML = '<b>' + r.name + '</b><br>' + r.expr.replace(/\n/g, '<br>');
+}
+
+/* ===== 交互 ===== */
+function pos(e) {
+  var rect = cv.getBoundingClientRect(), px, py;
+  if (e.touches && e.touches.length) {
+    px = e.touches[0].clientX - rect.left;
+    py = e.touches[0].clientY - rect.top;
+  } else if (e.offsetX !== undefined) {
+    /* offsetX 直接给出元素内坐标，不受滚动与边框影响，比 clientX-rect.left 更准 */
+    px = e.offsetX; py = e.offsetY;
+  } else {
+    px = e.clientX - rect.left; py = e.clientY - rect.top;
+  }
+  return S2P(px / rect.width * W, py / rect.height * H);
+}
+function startDraw(e) {
+  e.preventDefault();
+  DRAWING = true; RAW = [pos(e)]; PTS = []; RESULT = []; SHOW = {};
+  render();
+}
+function moveDraw(e) {
+  if (!DRAWING) return;
+  e.preventDefault();
+  var p = pos(e), last = RAW[RAW.length-1];
+  if (MODE === 'mono') {
+    /* 单值模式：x 只进不退。笔尖被卡在右边，y 仍然自由——
+       这样画出来的一定是函数图像，CST / ReLU / RBF / 符号回归全都能接。 */
+    if (last.x > 1.10) return;
+    var minDx = 0.0016;
+    if (p.x < last.x + minDx) p = { x: last.x + minDx, y: p.y };
+    if (p.x > 1.12) p = { x: 1.12, y: p.y };
+  }
+  if (Math.hypot(p.x-last.x, p.y-last.y) > 0.004) { RAW.push(p); preview(); }
+}
+function endDraw() {
+  if (!DRAWING) return;
+  DRAWING = false;
+  if (RAW.length > 5) {
+    if (MODE === 'closed') {
+      var fa = RAW[0], fb = RAW[RAW.length - 1];
+      if (Math.hypot(fa.x - fb.x, fa.y - fb.y) > 1e-6) RAW.push({ x: fa.x, y: fa.y });
+    }
+    var tr = trimClosed(RAW);
+    PTS = resample(tr.pts, 160);
+    TT = PTS.map(function (_, i) { return i/(PTS.length-1); });
+    runFit();
+  } else render();
+}
+function setMode(m) {
+  MODE = m;
+  var pair = [['free', 'Free'], ['mono', 'Mono'], ['closed', 'Closed']], i, b;
+  for (i = 0; i < pair.length; i++) {
+    b = document.getElementById('btnMode' + pair[i][1]);
+    if (b) b.classList.toggle('on', pair[i][0] === m);
+  }
+  var el = document.getElementById('modeHint');
+  if (el) el.innerHTML =
+    m === 'free'
+      ? '画法：自由。任意形状都能画，但单值族（CST / ReLU / RBF / 符号回归 / 直角函数）只在 x 单调时可用。'
+      : m === 'mono'
+      ? '<b>画法：单值</b> — 笔尖只向右推进，不会回头。这样画出来的一定是函数图像，<b>表里所有族都能接</b>。'
+      : '<b>画法：闭合</b> — 松手时自动把首尾接上。闭合曲线才能激活极坐标族、解析权重 NURBS 和上下两支拆分。';
+}
+
+function preview() {
+  ctx.clearRect(0, 0, W, H);
+  drawGrid();
+  if (RAW.length > 1) {
+    ctx.beginPath();
+    var p0 = P2S(RAW[0].x, RAW[0].y);
+    ctx.moveTo(p0.x, p0.y);
+    for (var i = 1; i < RAW.length; i++) {
+      var q = P2S(RAW[i].x, RAW[i].y);
+      ctx.lineTo(q.x, q.y);
+    }
+    ctx.strokeStyle = '#1c1b19'; ctx.lineWidth = 2.4; ctx.stroke();
+  }
+}
+function onHover(e) {
+  if (DRAWING || PTS.length < 2) return;
+  var rect = cv.getBoundingClientRect(), cx, cy;
+  if (e.touches && e.touches.length) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
+  else { cx = e.clientX; cy = e.clientY; }
+  var pd = S2P((cx-rect.left)/rect.width*W, (cy-rect.top)/rect.height*H);
+  var best = null, bd = Infinity, i;
+  for (i = 0; i < PTS.length; i++) {
+    var d = Math.hypot(PTS[i].x-pd.x, PTS[i].y-pd.y);
+    if (d < bd) { bd = d; best = PTS[i]; }
+  }
+  var info = document.getElementById('hoverInfo');
+  if (best && bd < 0.08) {
+    HOVERP = best;
+    var t = PTS.indexOf(best)/(PTS.length-1);
+    info.textContent = '点 (' + best.x.toFixed(3) + ', ' + best.y.toFixed(3) + ')　t = ' +
+      t.toFixed(3) + '　r = ' + Math.hypot(best.x,best.y).toFixed(3) + '　θ = ' +
+      (Math.atan2(best.y,best.x)*180/Math.PI).toFixed(1) + '°';
+    render();
+  } else {
+    if (HOVERP) { HOVERP = null; render(); }
+    info.textContent = '光标 (' + pd.x.toFixed(3) + ', ' + pd.y.toFixed(3) + ')';
+  }
+}
+
+cv.addEventListener('wheel', function (e) {
+  e.preventDefault();
+  var f = e.deltaY < 0 ? 1.12 : 1/1.12;
+  var rect = cv.getBoundingClientRect();
+  var px = (e.clientX-rect.left)/rect.width*W;
+  var py = (e.clientY-rect.top)/rect.height*H;
+  var nz = Math.max(0.4, Math.min(6, VIEW.z*f));
+  var rr = nz/VIEW.z;
+  VIEW.ox = px - W/2 - (px - W/2 - VIEW.ox)*rr;
+  VIEW.oy = py - H/2 - (py - H/2 - VIEW.oy)*rr;
+  VIEW.z = nz;
+  render();
+}, { passive: false });
+
+cv.addEventListener('mousedown', startDraw);
+cv.addEventListener('mousemove', function (e) { if (DRAWING) moveDraw(e); else onHover(e); });
+window.addEventListener('mouseup', endDraw);
+cv.addEventListener('touchstart', startDraw, { passive: false });
+cv.addEventListener('touchmove', function (e) { if (DRAWING) moveDraw(e); }, { passive: false });
+window.addEventListener('touchend', endDraw);
+
+/* ===== 阶数 chips ===== */
+function buildChips(id, list, key, label) {
+  var box = document.getElementById(id);
+  box.innerHTML = '';
+  list.forEach(function (v) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (OPT[key] === v ? ' on' : '');
+    b.textContent = label(v);
+    b._v = v;                      /* 记住取值：滑块和 chips 要互相同步 */
+    b.addEventListener('click', function () {
+      OPT[key] = v;
+      Array.prototype.forEach.call(box.children, function (c) { c.classList.remove('on'); });
+      b.classList.add('on');
+      if (PTS.length > 8) {
+        runFit();
+        /* 光重算不够——图上默认只显示最优那条，看起来像没反应。
+           点哪个按钮，就把对应那一族叠上来。 */
+        RESULT.forEach(function (r, i) { if (r.tag === key) SHOW[i] = true; });
+        render();
+      }
+    });
+    box.appendChild(b);
+  });
+}
+
+/* ===== 预设 ===== */
+/* 一次科赫细分：每段三等分，中段立一个等边三角形的尖 */
+function kochStep(pts) {
+  var out = [], j;
+  for (j = 0; j < pts.length - 1; j++) {
+    var A = pts[j], B = pts[j + 1];
+    var dx = (B.x - A.x) / 3, dy = (B.y - A.y) / 3;
+    var len = Math.hypot(dx, dy);
+    if (len < 1e-12) { out.push(A); continue; }
+    var hh = len * Math.sqrt(3) / 2;
+    var nx = -dy / len, ny = dx / len;
+    out.push(A,
+      { x: A.x + dx, y: A.y + dy },
+      { x: (A.x + B.x) / 2 + nx * hh, y: (A.y + B.y) / 2 + ny * hh },
+      { x: A.x + 2 * dx, y: A.y + 2 * dy });
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}
+
+/* 等比缩放并居中：盒计数用 max(宽,高) 定格子，压扁一边会让维数偏低 */
+function pushNorm(pts) {
+  var xa = Infinity, xb = -Infinity, ya = Infinity, yb = -Infinity, i;
+  for (i = 0; i < pts.length; i++) {
+    if (pts[i].x < xa) xa = pts[i].x;
+    if (pts[i].x > xb) xb = pts[i].x;
+    if (pts[i].y < ya) ya = pts[i].y;
+    if (pts[i].y > yb) yb = pts[i].y;
+  }
+  var w = Math.max(xb - xa, yb - ya, 1e-9), sc = 1.72 / w;
+  var cx = (xa + xb) / 2, cy = (ya + yb) / 2;
+  for (i = 0; i < pts.length; i++) RAW.push({ x: (pts[i].x - cx) * sc, y: (pts[i].y - cy) * sc });
+}
+
+function loadPreset(kind) {
+  RAW = [];
+  var i, n = 260, t, r, x, y;
+  if (kind === 'nautilus') {
+    for (i = 0; i < n; i++) {
+      t = i/(n-1)*4.2*Math.PI;
+      r = 0.055*Math.exp(0.2*t);
+      RAW.push({ x: r*Math.cos(t)*0.92, y: r*Math.sin(t)*0.92 - 0.2 });
+    }
+  } else if (kind === 'leaf') {
+    for (i = 0; i < n; i++) {
+      t = i/(n-1)*Math.PI;
+      x = 1.5*Math.sin(t)*(1+0.38*Math.cos(7*t));
+      y = 1.5*Math.cos(t)*(1+0.38*Math.cos(7*t));
+      RAW.push({ x: x*0.62, y: y*0.62 });
+    }
+  } else if (kind === 'rose') {
+    for (i = 0; i < n; i++) {
+      t = i/(n-1)*Math.PI*2;
+      r = 0.85*Math.cos(5*t);
+      RAW.push({ x: r*Math.cos(t), y: r*Math.sin(t) });
+    }
+  } else if (kind === 'koch' || kind === 'snow') {
+    var kp = [], it2;
+    if (kind === 'snow') {
+      /* 顺时针绕行的等边三角形：法向朝外，雪花才是往外长的 */
+      for (i = 0; i < 3; i++) {
+        var ang = Math.PI / 2 - i * 2 * Math.PI / 3;
+        kp.push({ x: 0.95 * Math.cos(ang), y: 0.95 * Math.sin(ang) });
+      }
+      kp.push({ x: kp[0].x, y: kp[0].y });
+    } else {
+      kp = [{ x: -0.95, y: 0 }, { x: 0.95, y: 0 }];
+    }
+    for (it2 = 0; it2 < 5; it2++) kp = kochStep(kp);
+    pushNorm(kp);
+  } else if (kind === 'shark') {
+    /* 鲨鱼皮盾鳞的沟槽截面：周期 V 形 riblet + 高频微结构 */
+    for (i = 0; i < 900; i++) {
+      var uu = i / 899, ph = uu * 8 * Math.PI;
+      var base = 0.17 * Math.abs(Math.sin(ph));
+      var micro = 0.013 * Math.sin(ph * 9) + 0.006 * Math.sin(ph * 23) + 0.003 * Math.sin(ph * 47);
+      RAW.push({ x: uu * 1.9 - 0.95, y: base + micro - 0.34 });
+    }
+  } else if (kind === 'ellipse') {
+    for (i = 0; i < n; i++) {
+      t = i / (n - 1) * Math.PI * 2;
+      RAW.push({ x: 0.9 * Math.cos(t), y: 0.55 * Math.sin(t) + 0.05 });
+    }
+  } else if (kind === 'wing') {
+    for (i = 0; i < n; i++) {
+      var u = i/(n-1);
+      var yy = 0.34*Math.sqrt(u)*(1-u)*(1+3.0*u*(1-u)) - 0.04*u;
+      RAW.push({ x: u*1.9 - 0.95, y: yy + 0.06 });
+    }
+  }
+  PTS = resample(RAW, 160);
+  TT = PTS.map(function (_, i) { return i/(PTS.length-1); });
+  runFit();
+}
+
+/* 维数统一由 runFit 算一次（HAND_DIM），这里只负责显示。
+   之前 endDraw 走的路没有调 updateDim，所以手绘曲线一直没有维数。 */
+function updateDim() {
+  var el = document.getElementById('dimInfo');
+  if (!el) return;
+  if (HAND_DIM === null || !isFinite(HAND_DIM)) { el.textContent = ''; return; }
+  var d = HAND_DIM;
+  el.innerHTML = '分形维数 <b>' + d.toFixed(3) + '</b>　' +
+    (d < 1.08 ? '接近光滑曲线（1.00）' :
+     d < 1.35 ? '有分形特征——比光滑曲线更「占地方」' :
+     d < 1.7 ? '明显的分形，粗糙度已经进入结构层面' : '几乎填满平面，接近 2') +
+    '　参考：直线 1.000，Koch 曲线 1.262，海岸线 ≈1.2–1.4';
+}
+
+
+
+/* ===== 圆链的表达式：把系数写出来 ===== */
+function fmtC(re, im) {
+  var sgn = im < 0 ? ' − ' : ' + ';
+  return (re < 0 ? '−' : '') + Math.abs(re).toFixed(3) + sgn + Math.abs(im).toFixed(3) + 'i';
+}
+
+function renderFourierExpr() {
+  var el = document.getElementById('fexpr');
+  if (!el) return;
+  var ch = CHAIN;
+  if (!ch || !ch.dc) { el.innerHTML = ''; return; }
+  var all = [ch.dc].concat(ch.terms), out = [], i;
+  var maxN = 6;
+  for (i = 0; i < all.length && i < maxN; i++) {
+    var c = all[i];
+    var ang = Math.atan2(c.im, c.re) * 180 / Math.PI;
+    var ks = c.k < 0 ? '−' + Math.abs(c.k) : '' + c.k;
+    var an = (ang < 0 ? '−' : '') + Math.abs(ang).toFixed(0);
+    out.push('k=' + ks + '　' + fmtC(c.re, c.im) +
+      '　|c|=' + c.mag.toFixed(3) + '　∠' + an + '°');
+  }
+  if (all.length > maxN) out.push('…　共 ' + all.length + ' 项（按 |c| 从大到小）');
+
+  el.innerHTML = '<div class="fxline">z(t) = Σ cₖ · e^(2πi k t)　每个 cₖ 就是一个圆：半径 |cₖ|，起始角 arg cₖ</div>' +
+    out.join('<br>');
+}
+
+/* ===== 散点：省参数 vs 保住粗糙度 ===== */
+var sc = document.getElementById('sc'), sctx = null;
+var SW = 620, SH = 300;
+var GCOL = { '符号回归': '#8a4b6b', '参数式': '#2b4f81', '样条': '#3f6b4a',
+             '级数': '#a8894a', '神经网络': '#4a6b8a', '半解析': '#b3541e',
+             '极坐标': '#8a6b3b', '直角函数': '#6b6b8a', '隐式': '#1c1b19' };
+
+function drawScatter() {
+  if (!sctx) return;
+  sctx.clearRect(0, 0, SW, SH);
+  var ok = RESULT.filter(function (r) { return !r.skip && r.dim !== null && r.dim !== undefined; });
+  if (!ok.length) { return; }
+  if (HAND_DIM === null) return;
+
+  var L = 56, R = SW - 18, T = 20, B = SH - 40;
+  var maxG = 0.2, maxD = 0.05, i;
+  ok.forEach(function (r) {
+    if (r.gain > maxG) maxG = r.gain;
+    var dd = Math.abs(r.dim - HAND_DIM);
+    if (dd > maxD) maxD = dd;
+  });
+  maxG *= 1.08;
+  maxD = Math.max(maxD * 1.15, 0.04);
+
+  function px(v) { return L + v / maxG * (R - L); }
+  function py(v) { return T + (maxD - v) / (2 * maxD) * (B - T); }
+
+  /* 零线（维数完全保住） */
+  sctx.strokeStyle = '#ddd6c6'; sctx.lineWidth = 1;
+  sctx.beginPath(); sctx.moveTo(L, py(0)); sctx.lineTo(R, py(0)); sctx.stroke();
+  sctx.fillStyle = '#a89c84'; sctx.font = '10.5px "Iowan Old Style", Georgia, serif';
+  sctx.fillText('维数不变', L + 4, py(0) - 5);
+
+  /* 象限提示 */
+  sctx.fillStyle = 'rgba(179,84,30,.30)';
+  sctx.fillText('省参数 · 保住细节', R - 108, T + 14);
+  sctx.fillStyle = 'rgba(120,110,95,.35)';
+  sctx.fillText('费参数 · 磨平了', L + 6, B - 8);
+
+  /* 点 */
+  ok.forEach(function (r) {
+    var x = px(r.gain), y = py(r.dim - HAND_DIM);
+    var col = GCOL[r.group] || '#8a8072';
+    sctx.beginPath(); sctx.arc(x, y, 4, 0, 2 * Math.PI);
+    sctx.fillStyle = col; sctx.globalAlpha = 0.82; sctx.fill(); sctx.globalAlpha = 1;
+    if (SHOW[RESULT.indexOf(r)]) {
+      sctx.beginPath(); sctx.arc(x, y, 7.5, 0, 2 * Math.PI);
+      sctx.strokeStyle = col; sctx.lineWidth = 1.4; sctx.stroke();
+    }
+  });
+
+  /* 标出得分最高那一个 */
+  var best = ok[0], bx = px(best.gain), by = py(best.dim - HAND_DIM);
+  sctx.fillStyle = '#3a3529';
+  sctx.font = '11.5px "Iowan Old Style", Georgia, serif';
+  var nm = best.name;
+  if (nm.length > 12) nm = nm.slice(0, 12) + '…';
+  sctx.fillText(nm, Math.min(bx + 9, R - 96), Math.max(by - 7, T + 12));
+
+  /* 轴 */
+  sctx.strokeStyle = '#d8d2c2'; sctx.lineWidth = 1;
+  sctx.beginPath(); sctx.moveTo(L, T); sctx.lineTo(L, B); sctx.lineTo(R, B); sctx.stroke();
+  sctx.fillStyle = '#9a9080'; sctx.font = '10.5px "Iowan Old Style", Georgia, serif';
+  sctx.fillText('0', L - 12, B + 14);
+  sctx.fillText(maxG.toFixed(1), R - 8, B + 14);
+  sctx.fillText('+0.1', L - 40, py(0.1) + 4);
+  sctx.fillText('−0.1', L - 40, py(-0.1) + 4);
+  sctx.fillText('每参数增益 →', R - 92, B + 26);
+
+  /* 文字说明：手绘维数、最接近的那一族 */
+  var closest = ok[0];
+  ok.forEach(function (r) {
+    if (Math.abs(r.dim - HAND_DIM) < Math.abs(closest.dim - HAND_DIM)) closest = r;
+  });
+  var note = document.getElementById('scnote');
+  if (note) {
+    var dd = closest.dim - HAND_DIM;
+    function sn(n) { return n.length > 10 ? n.slice(0, 10) + '…' : n; }
+    note.innerHTML = '手绘维数 <b>' + HAND_DIM.toFixed(3) + '</b>　维数最接近「' + sn(closest.name) +
+      '」' + closest.dim.toFixed(3) + '（' + (dd >= 0 ? '+' : '') + dd.toFixed(2) +
+      '）　精度最高「' + sn(ok[0].name) + '」RMSE ' + (ok[0].rmse * 100).toFixed(2) + '%' +
+      '<br>横轴是每参数增益，纵轴是维数变化。右上＝既省参数又保住细节，右下＝省参数但磨平了。' +
+      '注意：<b>维数接近不等于拟合得好</b>——粗糙度可以靠乱扭凑出来。';
+  }
+}
+
+/* ===== 对比大图：一条曲线的 N 种画法 ===== */
+function exportCompare() {
+  var sel = [], i;
+  for (i = 0; i < RESULT.length; i++) {
+    if (SHOW[i] && !RESULT[i].skip) sel.push(RESULT[i]);
+  }
+  /* 默认只勾了「最优」那一条，直接导出会是一张只有一条线的图。
+     不足 3 条时自动补到 5 条（已有的勾选优先保留）。 */
+  if (sel.length < 3) {
+    var pool = RESULT.filter(function (r) { return !r.skip && sel.indexOf(r) < 0; });
+    for (i = 0; i < pool.length && sel.length < 5; i++) sel.push(pool[i]);
+  }
+  if (!sel.length) { alert('先画一条曲线'); return; }
+  if (sel.length > 6) sel = sel.slice(0, 6);
+
+  var PW2 = 1700, PH2 = 1120;
+  var c = document.createElement('canvas');
+  c.width = PW2; c.height = PH2;
+  var g = c.getContext('2d');
+  var FONT = '"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif';
+
+  g.fillStyle = '#faf9f6';
+  g.fillRect(0, 0, PW2, PH2);
+
+  /* 标题 */
+  g.fillStyle = '#1c1b19';
+  g.font = '600 34px ' + FONT;
+  g.fillText('一条曲线，' + sel.length + ' 种画法', 64, 78);
+  var hand = boxDim(RAW.length > 30 ? RAW : PTS);
+  g.fillStyle = '#6a6155';
+  g.font = '17px ' + FONT;
+  g.fillText('手绘 ' + PTS.length + ' 个采样点　·　分形维数 ' +
+    (hand ? hand.dim.toFixed(3) : '—') + '　·　' +
+    new Date().toISOString().slice(0, 10), 64, 108);
+
+  /* 投影：等比放进左边画框 */
+  var xa = Infinity, xb = -Infinity, ya = Infinity, yb = -Infinity;
+  for (i = 0; i < PTS.length; i++) {
+    if (PTS[i].x < xa) xa = PTS[i].x;
+    if (PTS[i].x > xb) xb = PTS[i].x;
+    if (PTS[i].y < ya) ya = PTS[i].y;
+    if (PTS[i].y > yb) yb = PTS[i].y;
+  }
+  var BX = 64, BY = 148, BW = 996, BH = 900;
+  var pad = 0.10;
+  var sc = Math.min(BW * (1 - 2 * pad) / Math.max(xb - xa, 1e-6),
+                    BH * (1 - 2 * pad) / Math.max(yb - ya, 1e-6));
+  var ox = BX + BW / 2 - (xa + xb) / 2 * sc;
+  var oy = BY + BH / 2 + (ya + yb) / 2 * sc;
+  function X(v) { return ox + v * sc; }
+  function Y(v) { return oy - v * sc; }
+
+  /* 画框与网格 */
+  g.strokeStyle = '#e4e0d6'; g.lineWidth = 1;
+  g.strokeRect(BX, BY, BW, BH);
+  g.strokeStyle = '#efeade'; g.lineWidth = 1;
+  for (i = 1; i < 8; i++) {
+    g.beginPath(); g.moveTo(BX + BW * i / 8, BY); g.lineTo(BX + BW * i / 8, BY + BH); g.stroke();
+    g.beginPath(); g.moveTo(BX, BY + BH * i / 8); g.lineTo(BX + BW, BY + BH * i / 8); g.stroke();
+  }
+
+  /* 手绘 */
+  g.beginPath();
+  for (i = 0; i < PTS.length; i++) {
+    if (i === 0) g.moveTo(X(PTS[i].x), Y(PTS[i].y));
+    else g.lineTo(X(PTS[i].x), Y(PTS[i].y));
+  }
+  g.strokeStyle = '#1c1b19'; g.lineWidth = 2.6; g.stroke();
+
+  /* 每一条选中的画法 */
+  var COL = ['#b3541e', '#2b4f81', '#3f6b4a', '#8a4b6b', '#a8894a', '#4a6b8a'];
+  sel.forEach(function (r, idx) {
+    var col = COL[idx % COL.length];
+    /* 每段单独 beginPath：上下两支如果连成一笔，会横着拉出一条穿过图形的直线 */
+    function drawPoly(poly) {
+      if (!poly || poly.length < 2) return;
+      g.beginPath();
+      for (var k = 0; k < poly.length; k++) {
+        if (k === 0) g.moveTo(X(poly[k].x), Y(poly[k].y));
+        else g.lineTo(X(poly[k].x), Y(poly[k].y));
+      }
+      g.strokeStyle = col; g.lineWidth = 2; g.setLineDash([9, 6]);
+      g.stroke(); g.setLineDash([]);
+    }
+    if (r.implicit) {
+      drawPoly(r.coef ? conicPts(r.coef) : null);
+    } else {
+      (r.parts ? r.parts : [r]).forEach(function (sg) { drawPoly(lineOf(sg, 700)); });
+    }
+
+    /* 右侧条目 */
+    var ry = 200 + idx * 128;
+    g.strokeStyle = col; g.lineWidth = 4;
+    g.beginPath(); g.moveTo(1108, ry - 6); g.lineTo(1146, ry - 6); g.stroke();
+    g.fillStyle = '#1c1b19';
+    g.font = '600 21px ' + FONT;
+    var nm = r.name;
+    while (nm.length > 2 && g.measureText(nm).width > 470) nm = nm.slice(0, -1);
+    g.fillText(nm === r.name ? nm : nm + '…', 1160, ry);
+
+    g.fillStyle = '#6a6155';
+    g.font = '16px ' + FONT;
+    g.fillText('参数 ' + r.k + '　·　RMSE ' + (r.rmse * 100).toFixed(2) + '%' +
+      '　·　增益 ' + r.gain.toFixed(2) + '　·　维数 ' + (r.dim === null ? '—' : r.dim.toFixed(2)),
+      1108, ry + 30);
+    g.strokeStyle = '#eee9dd'; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(1108, ry + 48); g.lineTo(1600, ry + 48); g.stroke();
+  });
+
+  /* 结论 */
+  var vEl = document.getElementById('verdict');
+  var vTxt = vEl ? (vEl.textContent || '').replace(/\s+/g, ' ').trim() : '';
+  if (vTxt) {
+    g.fillStyle = '#8a4b2a';
+    g.font = '17px ' + FONT;
+    var line = vTxt;
+    while (line.length > 2 && g.measureText(line).width > 1520) line = line.slice(0, -1);
+    g.fillText(line === vTxt ? line : line + '…', 64, 1088);
+  }
+
+  g.fillStyle = '#a89c84';
+  g.font = '14px ' + FONT;
+  g.fillText('拟合实验室 · 实线为手绘，虚线为各族的拟合', 64, 1112);
+
+  try {
+    var a = document.createElement('a');
+    a.download = '一条曲线_' + sel.length + '种画法.png';
+    a.href = c.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  } catch (err) {
+    alert('导出失败：' + err.message);
+  }
+}
+
+/* ===== 导出 ===== */
+function exportPNG() {
+  try {
+    var a = document.createElement('a');
+    a.download = '拟合对照_' + new Date().toISOString().slice(0, 10) + '.png';
+    a.href = cv.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  } catch (err) {
+    alert('这个浏览器不允许直接下载，右键画布「图片另存为」即可');
+  }
+}
+
+function exportCSV() {
+  var rows = [['表达', '族', '参数个数', '最大误差%', 'RMSE%', '维数', '每参数增益', '评分']];
+  RESULT.forEach(function (r) {
+    if (r.skip) rows.push([r.name, r.group || '', '', '不适用', '', '', '', '']);
+    else rows.push([r.name, r.group || '', r.k,
+                    (r.max * 100).toFixed(3), (r.rmse * 100).toFixed(3),
+                    r.dim === null ? '' : r.dim.toFixed(3),
+                    r.gain.toFixed(3), r.scorev.toFixed(4)]);
+  });
+  var csv = rows.map(function (r) {
+    return r.map(function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(',');
+  }).join('\r\n');
+  try {
+    var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '拟合对照表_' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+  } catch (err) {
+    alert('导出失败：' + err.message);
+  }
+}
+
+/* ===== 启动 ===== */
+ctx = setupCv(cv, W, H, 1.25);
+fctx = setupCv(fc, FWS, FHS, 1.4);
+FNOTE = document.getElementById('fnote');
+gctx = setupCv(gc, GW, GH, 1.3);
+sctx = setupCv(sc, SW, SH, 1.4);
+var sRange = document.getElementById('sRange');
+if (sRange) {
+  sRange.addEventListener('input', function () {
+    var v = Number(sRange.value);
+    drawDrag(v);
+    updateDragNote(v);
+  });
+  drawDrag(17);
+  updateDragNote(17);
+}
+
+buildChips('chipsPoly', [3,5,7,9], 'poly', function (v) { return '多项式 ' + v + ' 阶'; });
+buildChips('chipsBez', [3,4,5,6], 'bez', function (v) { return '贝塞尔 ' + v + ' 阶'; });
+buildChips('chipsFou', [2,3,5,8], 'fou', function (v) { return '傅里叶 ' + v + ' 项'; });
+buildChips('chipsNet', [2,4,6,10], 'net', function (v) { return 'ReLU ' + v + ' 单元'; });
+buildChips('chipsSeg', [8,16,32,56], 'seg', function (v) { return '折线 ' + (v-1) + ' 段'; });
+/* 圆数滑块与上方的「傅里叶 N 项」chips 是同一个量，双向同步 */
+function syncFouCtl() {
+  var r = document.getElementById('fouRange');
+  if (r) r.value = OPT.fou;
+  var v = document.getElementById('fouVal');
+  if (v) v.textContent = OPT.fou;
+  var box = document.getElementById('chipsFou');
+  if (box) {
+    Array.prototype.forEach.call(box.children, function (c) {
+      c.classList.toggle('on', c._v === OPT.fou);
+    });
+  }
+}
+
+(function () {
+  var r = document.getElementById('fouRange');
+  if (!r) return;
+  r.addEventListener('input', function () {
+    OPT.fou = Math.max(1, Math.min(24, Number(r.value) || 1));
+    syncFouCtl();
+    /* 拖动时只重画圆链，不跑整套拟合（那是 300ms，会卡） */
+    CHAIN = dftChain(OPT.fou);
+    renderFourierExpr();
+    if (fctx) drawFourier(ANIMT);
+  });
+  r.addEventListener('change', function () {
+    if (PTS.length > 8) runFit();   /* 松手后再更新表格里那一行 */
+  });
+})();
+
+(function () {
+  var sp = document.getElementById('spRange');
+  if (!sp) return;
+  sp.addEventListener('input', function () {
+    SPEED = Number(sp.value) || 1;
+    var v = document.getElementById('spVal');
+    if (v) v.textContent = SPEED.toFixed(1) + '×';
+  });
+})();
+
+document.getElementById('btnNaut').addEventListener('click', function () { loadPreset('nautilus'); });
+document.getElementById('btnLeaf').addEventListener('click', function () { loadPreset('leaf'); });
+document.getElementById('btnWing').addEventListener('click', function () { loadPreset('wing'); });
+document.getElementById('btnRose').addEventListener('click', function () { loadPreset('rose'); });
+document.getElementById('btnEllipse').addEventListener('click', function () { loadPreset('ellipse'); });
+document.getElementById('btnKoch').addEventListener('click', function () { loadPreset('koch'); });
+document.getElementById('btnSnow').addEventListener('click', function () { loadPreset('snow'); });
+document.getElementById('btnShark').addEventListener('click', function () { loadPreset('shark'); });
+document.getElementById('btnClear').addEventListener('click', function () {
+  RAW = []; PTS = []; RESULT = []; SHOW = {}; HOVERP = null;
+  document.querySelector('#tbl tbody').innerHTML = '';
+  document.getElementById('eqbox').innerHTML = '<b>提示</b>点表格任意一行查看该表达的方程';
+  render();
+});
+document.getElementById('btnZin').addEventListener('click', function () { VIEW.z = Math.min(6, VIEW.z*1.25); render(); });
+document.getElementById('btnZout').addEventListener('click', function () { VIEW.z = Math.max(0.4, VIEW.z/1.25); render(); });
+document.getElementById('btnZreset').addEventListener('click', function () { VIEW = { z:1, ox:0, oy:0 }; render(); });
+document.getElementById('btnRes').addEventListener('click', function () {
+  SHOWRES = !SHOWRES;
+  this.classList.toggle('on', SHOWRES);
+  render();
+});
+document.getElementById('btnPng').addEventListener('click', exportPNG);
+document.getElementById('btnCmp').addEventListener('click', exportCompare);
+document.getElementById('btnModeFree').addEventListener('click', function () { setMode('free'); });
+document.getElementById('btnModeMono').addEventListener('click', function () { setMode('mono'); });
+document.getElementById('btnModeClosed').addEventListener('click', function () { setMode('closed'); });
+document.getElementById('btnCopyEq').addEventListener('click', function () {
+  if (!CUREQ) return;
+  var btn = this, oldTx = btn.textContent;
+  function done(ok) {
+    btn.textContent = ok ? '已复制' : '复制失败';
+    setTimeout(function () { btn.textContent = oldTx; }, 1200);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(CUREQ).then(function () { done(true); }, function () { done(false); });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = CUREQ;
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(true); } catch (e2) { done(false); }
+    document.body.removeChild(ta);
+  }
+});
+setMode('free');
+document.getElementById('btnCsv').addEventListener('click', exportCSV);
+
+var LASTTS = 0;
+function tick(ts) {
+  /* 按真实时间推进：以前每帧 +0.012，60Hz 下 1.4 秒转一圈，120Hz 还会快一倍。
+     改成每秒 0.27 个循环 → 默认 3.7 秒一圈，跟刷新率无关。 */
+  if (!ts) ts = 0;
+  if (!LASTTS) LASTTS = ts;
+  var dt = (ts - LASTTS) / 1000;
+  LASTTS = ts;
+  if (dt > 0.12) dt = 0.12;          /* 切后台回来别一下跳很远 */
+  if (dt > 0) ANIMT += dt * 0.27 * SPEED;
+  if (ANIMT > 1) ANIMT -= Math.floor(ANIMT);
+  if (PTS.length > 8) drawFourier(ANIMT);
+  requestAnimationFrame(tick);
+}
+
+render();
+loadPreset('nautilus');
+tick();
+</script>
+</body>
+</html>

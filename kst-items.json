@@ -1,0 +1,1476 @@
+{
+ "meta": {
+  "schema": "kst-items-1",
+  "source": "数学地图_v1.5.html",
+  "generated": "2026-11-07T15:26:51.729Z",
+  "n_cells": 24,
+  "n_items": 124,
+  "n_edges": 141,
+  "max_chain": 33
+ },
+ "cells": [
+  {
+   "id": "s_frac",
+   "name": "分数与小数",
+   "stage": "小学",
+   "pre": [],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "s_letter",
+   "name": "用字母表示数",
+   "stage": "小学",
+   "pre": [
+    "s_frac"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "s_area",
+   "name": "周长与面积",
+   "stage": "小学",
+   "pre": [
+    "s_frac"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "s_prop",
+   "name": "找规律与正比例",
+   "stage": "小学",
+   "pre": [
+    "s_letter",
+    "s_coord"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "s_coord",
+   "name": "数对与坐标系",
+   "stage": "小学",
+   "pre": [
+    "s_frac"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "s_stat",
+   "name": "统计三中心",
+   "stage": "小学",
+   "pre": [
+    "s_frac"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "fan",
+   "fan_k": 2,
+   "shape_why": "平均数中位数众数 并列"
+  },
+  {
+   "id": "j_real",
+   "name": "无理数与实数",
+   "stage": "初中",
+   "pre": [
+    "s_frac"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "j_quad",
+   "name": "一元二次方程",
+   "stage": "初中",
+   "pre": [
+    "s_letter",
+    "j_real"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "j_pyth",
+   "name": "勾股定理",
+   "stage": "初中",
+   "pre": [
+    "s_area"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "j_func",
+   "name": "一次与二次函数",
+   "stage": "初中",
+   "pre": [
+    "s_letter",
+    "s_coord"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "j_sys",
+   "name": "二元一次方程组",
+   "stage": "初中",
+   "pre": [
+    "s_letter"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "j_prob",
+   "name": "频率与概率",
+   "stage": "初中",
+   "pre": [
+    "s_stat"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "g_cplx",
+   "name": "复数与复平面",
+   "stage": "高中",
+   "pre": [
+    "j_quad",
+    "s_coord"
+   ],
+   "soft": [
+    "g_trig"
+   ],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "g_seq",
+   "name": "数列",
+   "stage": "高中",
+   "pre": [
+    "j_func"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "g_conic",
+   "name": "圆锥曲线",
+   "stage": "高中",
+   "pre": [
+    "j_quad",
+    "j_pyth",
+    "j_func"
+   ],
+   "soft": [],
+   "items": 6,
+   "shape": "fan",
+   "fan_k": 3,
+   "shape_why": "椭圆/双曲线/抛物线 是三种并列曲线，不是递进步骤"
+  },
+  {
+   "id": "g_trig",
+   "name": "三角函数",
+   "stage": "高中",
+   "pre": [
+    "s_coord",
+    "j_pyth",
+    "j_func"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "g_mat",
+   "name": "矩阵与行列式初步",
+   "stage": "高中",
+   "pre": [
+    "j_sys"
+   ],
+   "soft": [],
+   "items": 4,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "g_dist",
+   "name": "分布列与期望",
+   "stage": "高中",
+   "pre": [
+    "j_prob"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "b_real",
+   "name": "实数完备与数系结构",
+   "stage": "本科",
+   "pre": [
+    "j_real",
+    "g_cplx"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "fan",
+   "fan_k": 4,
+   "shape_why": "确界/分割/基数/有序域 是四种相互独立的刻画"
+  },
+  {
+   "id": "b_linsys",
+   "name": "线性方程组解的结构",
+   "stage": "本科",
+   "pre": [
+    "j_sys",
+    "g_mat"
+   ],
+   "soft": [],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "b_vec3",
+   "name": "空间解析几何",
+   "stage": "本科",
+   "pre": [
+    "g_mat"
+   ],
+   "soft": [
+    "g_conic"
+   ],
+   "items": 5,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "b_calc",
+   "name": "极限 · 导数 · 积分 · 级数",
+   "stage": "本科",
+   "pre": [
+    "j_func",
+    "g_seq",
+    "g_trig"
+   ],
+   "soft": [],
+   "items": 7,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "b_linalg",
+   "name": "线性代数",
+   "stage": "本科",
+   "pre": [
+    "b_linsys"
+   ],
+   "soft": [
+    "b_vec3"
+   ],
+   "items": 6,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  },
+  {
+   "id": "b_prob",
+   "name": "概率论与数理统计",
+   "stage": "本科",
+   "pre": [
+    "g_dist",
+    "b_calc"
+   ],
+   "soft": [],
+   "items": 6,
+   "shape": "chain",
+   "fan_k": 0,
+   "shape_why": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "s_frac#0",
+   "cell": "s_frac",
+   "idx": 0,
+   "name": "自然数、整数、分数、小数",
+   "pre": []
+  },
+  {
+   "id": "s_frac#1",
+   "cell": "s_frac",
+   "idx": 1,
+   "name": "数轴上的位置",
+   "pre": [
+    "s_frac#0"
+   ]
+  },
+  {
+   "id": "s_frac#2",
+   "cell": "s_frac",
+   "idx": 2,
+   "name": "同分母 / 异分母加减",
+   "pre": [
+    "s_frac#1"
+   ]
+  },
+  {
+   "id": "s_frac#3",
+   "cell": "s_frac",
+   "idx": 3,
+   "name": "分数与除法的关系",
+   "pre": [
+    "s_frac#2"
+   ]
+  },
+  {
+   "id": "s_frac#4",
+   "cell": "s_frac",
+   "idx": 4,
+   "name": "百分数初步",
+   "pre": [
+    "s_frac#3"
+   ]
+  },
+  {
+   "id": "s_letter#0",
+   "cell": "s_letter",
+   "idx": 0,
+   "name": "字母表示未知数",
+   "pre": [
+    "s_frac#4"
+   ]
+  },
+  {
+   "id": "s_letter#1",
+   "cell": "s_letter",
+   "idx": 1,
+   "name": "等式的性质",
+   "pre": [
+    "s_letter#0"
+   ]
+  },
+  {
+   "id": "s_letter#2",
+   "cell": "s_letter",
+   "idx": 2,
+   "name": "简易方程",
+   "pre": [
+    "s_letter#1"
+   ]
+  },
+  {
+   "id": "s_letter#3",
+   "cell": "s_letter",
+   "idx": 3,
+   "name": "用方程解应用题",
+   "pre": [
+    "s_letter#2"
+   ]
+  },
+  {
+   "id": "s_letter#4",
+   "cell": "s_letter",
+   "idx": 4,
+   "name": "鸡兔同笼",
+   "pre": [
+    "s_letter#3"
+   ]
+  },
+  {
+   "id": "s_area#0",
+   "cell": "s_area",
+   "idx": 0,
+   "name": "长方形与正方形",
+   "pre": [
+    "s_frac#4"
+   ]
+  },
+  {
+   "id": "s_area#1",
+   "cell": "s_area",
+   "idx": 1,
+   "name": "三角形与平行四边形",
+   "pre": [
+    "s_area#0"
+   ]
+  },
+  {
+   "id": "s_area#2",
+   "cell": "s_area",
+   "idx": 2,
+   "name": "圆的周长与面积",
+   "pre": [
+    "s_area#1"
+   ]
+  },
+  {
+   "id": "s_area#3",
+   "cell": "s_area",
+   "idx": 3,
+   "name": "组合图形",
+   "pre": [
+    "s_area#2"
+   ]
+  },
+  {
+   "id": "s_area#4",
+   "cell": "s_area",
+   "idx": 4,
+   "name": "单位换算",
+   "pre": [
+    "s_area#3"
+   ]
+  },
+  {
+   "id": "s_prop#0",
+   "cell": "s_prop",
+   "idx": 0,
+   "name": "数列找规律",
+   "pre": [
+    "s_letter#4",
+    "s_coord#4"
+   ]
+  },
+  {
+   "id": "s_prop#1",
+   "cell": "s_prop",
+   "idx": 1,
+   "name": "正比例与反比例",
+   "pre": [
+    "s_prop#0"
+   ]
+  },
+  {
+   "id": "s_prop#2",
+   "cell": "s_prop",
+   "idx": 2,
+   "name": "表格 → 图像",
+   "pre": [
+    "s_prop#1"
+   ]
+  },
+  {
+   "id": "s_prop#3",
+   "cell": "s_prop",
+   "idx": 3,
+   "name": "坐标初步",
+   "pre": [
+    "s_prop#2"
+   ]
+  },
+  {
+   "id": "s_prop#4",
+   "cell": "s_prop",
+   "idx": 4,
+   "name": "用图像读关系",
+   "pre": [
+    "s_prop#3"
+   ]
+  },
+  {
+   "id": "s_coord#0",
+   "cell": "s_coord",
+   "idx": 0,
+   "name": "行与列",
+   "pre": [
+    "s_frac#4"
+   ]
+  },
+  {
+   "id": "s_coord#1",
+   "cell": "s_coord",
+   "idx": 1,
+   "name": "数对",
+   "pre": [
+    "s_coord#0"
+   ]
+  },
+  {
+   "id": "s_coord#2",
+   "cell": "s_coord",
+   "idx": 2,
+   "name": "平面直角坐标系",
+   "pre": [
+    "s_coord#1"
+   ]
+  },
+  {
+   "id": "s_coord#3",
+   "cell": "s_coord",
+   "idx": 3,
+   "name": "点的平移",
+   "pre": [
+    "s_coord#2"
+   ]
+  },
+  {
+   "id": "s_coord#4",
+   "cell": "s_coord",
+   "idx": 4,
+   "name": "方向与距离",
+   "pre": [
+    "s_coord#3"
+   ]
+  },
+  {
+   "id": "s_stat#0",
+   "cell": "s_stat",
+   "idx": 0,
+   "name": "统计表与条形图",
+   "pre": [
+    "s_frac#4"
+   ]
+  },
+  {
+   "id": "s_stat#1",
+   "cell": "s_stat",
+   "idx": 1,
+   "name": "平均数、中位数、众数",
+   "pre": [
+    "s_frac#4"
+   ]
+  },
+  {
+   "id": "s_stat#2",
+   "cell": "s_stat",
+   "idx": 2,
+   "name": "三者的适用场景",
+   "pre": [
+    "s_stat#1"
+   ]
+  },
+  {
+   "id": "s_stat#3",
+   "cell": "s_stat",
+   "idx": 3,
+   "name": "异常值的影响",
+   "pre": [
+    "s_stat#2"
+   ]
+  },
+  {
+   "id": "s_stat#4",
+   "cell": "s_stat",
+   "idx": 4,
+   "name": "数据的分组与读图",
+   "pre": [
+    "s_stat#3"
+   ]
+  },
+  {
+   "id": "j_real#0",
+   "cell": "j_real",
+   "idx": 0,
+   "name": "有理数与无理数",
+   "pre": [
+    "s_frac#4"
+   ]
+  },
+  {
+   "id": "j_real#1",
+   "cell": "j_real",
+   "idx": 1,
+   "name": "稠密但不完备",
+   "pre": [
+    "j_real#0"
+   ]
+  },
+  {
+   "id": "j_real#2",
+   "cell": "j_real",
+   "idx": 2,
+   "name": "可数 vs 不可数",
+   "pre": [
+    "j_real#1"
+   ]
+  },
+  {
+   "id": "j_real#3",
+   "cell": "j_real",
+   "idx": 3,
+   "name": "实数与数轴一一对应",
+   "pre": [
+    "j_real#2"
+   ]
+  },
+  {
+   "id": "j_real#4",
+   "cell": "j_real",
+   "idx": 4,
+   "name": "近似数与有效数字",
+   "pre": [
+    "j_real#3"
+   ]
+  },
+  {
+   "id": "j_quad#0",
+   "cell": "j_quad",
+   "idx": 0,
+   "name": "因式分解法",
+   "pre": [
+    "s_letter#4",
+    "j_real#4"
+   ]
+  },
+  {
+   "id": "j_quad#1",
+   "cell": "j_quad",
+   "idx": 1,
+   "name": "配方法",
+   "pre": [
+    "j_quad#0"
+   ]
+  },
+  {
+   "id": "j_quad#2",
+   "cell": "j_quad",
+   "idx": 2,
+   "name": "求根公式",
+   "pre": [
+    "j_quad#1"
+   ]
+  },
+  {
+   "id": "j_quad#3",
+   "cell": "j_quad",
+   "idx": 3,
+   "name": "判别式 Δ = b²−4ac",
+   "pre": [
+    "j_quad#2"
+   ]
+  },
+  {
+   "id": "j_quad#4",
+   "cell": "j_quad",
+   "idx": 4,
+   "name": "韦达定理",
+   "pre": [
+    "j_quad#3"
+   ]
+  },
+  {
+   "id": "j_pyth#0",
+   "cell": "j_pyth",
+   "idx": 0,
+   "name": "全等三角形",
+   "pre": [
+    "s_area#4"
+   ]
+  },
+  {
+   "id": "j_pyth#1",
+   "cell": "j_pyth",
+   "idx": 1,
+   "name": "相似三角形",
+   "pre": [
+    "j_pyth#0"
+   ]
+  },
+  {
+   "id": "j_pyth#2",
+   "cell": "j_pyth",
+   "idx": 2,
+   "name": "面积拼补证法",
+   "pre": [
+    "j_pyth#1"
+   ]
+  },
+  {
+   "id": "j_pyth#3",
+   "cell": "j_pyth",
+   "idx": 3,
+   "name": "勾股数",
+   "pre": [
+    "j_pyth#2"
+   ]
+  },
+  {
+   "id": "j_pyth#4",
+   "cell": "j_pyth",
+   "idx": 4,
+   "name": "圆的性质",
+   "pre": [
+    "j_pyth#3"
+   ]
+  },
+  {
+   "id": "j_func#0",
+   "cell": "j_func",
+   "idx": 0,
+   "name": "一次函数",
+   "pre": [
+    "s_letter#4",
+    "s_coord#4"
+   ]
+  },
+  {
+   "id": "j_func#1",
+   "cell": "j_func",
+   "idx": 1,
+   "name": "反比例函数",
+   "pre": [
+    "j_func#0"
+   ]
+  },
+  {
+   "id": "j_func#2",
+   "cell": "j_func",
+   "idx": 2,
+   "name": "二次函数",
+   "pre": [
+    "j_func#1"
+   ]
+  },
+  {
+   "id": "j_func#3",
+   "cell": "j_func",
+   "idx": 3,
+   "name": "开口、顶点、对称轴",
+   "pre": [
+    "j_func#2"
+   ]
+  },
+  {
+   "id": "j_func#4",
+   "cell": "j_func",
+   "idx": 4,
+   "name": "用图像解方程与不等式",
+   "pre": [
+    "j_func#3"
+   ]
+  },
+  {
+   "id": "j_sys#0",
+   "cell": "j_sys",
+   "idx": 0,
+   "name": "代入消元",
+   "pre": [
+    "s_letter#4"
+   ]
+  },
+  {
+   "id": "j_sys#1",
+   "cell": "j_sys",
+   "idx": 1,
+   "name": "加减消元",
+   "pre": [
+    "j_sys#0"
+   ]
+  },
+  {
+   "id": "j_sys#2",
+   "cell": "j_sys",
+   "idx": 2,
+   "name": "解 = 两直线交点",
+   "pre": [
+    "j_sys#1"
+   ]
+  },
+  {
+   "id": "j_sys#3",
+   "cell": "j_sys",
+   "idx": 3,
+   "name": "无解与无穷多解",
+   "pre": [
+    "j_sys#2"
+   ]
+  },
+  {
+   "id": "j_sys#4",
+   "cell": "j_sys",
+   "idx": 4,
+   "name": "实际应用",
+   "pre": [
+    "j_sys#3"
+   ]
+  },
+  {
+   "id": "j_prob#0",
+   "cell": "j_prob",
+   "idx": 0,
+   "name": "随机事件",
+   "pre": [
+    "s_stat#4"
+   ]
+  },
+  {
+   "id": "j_prob#1",
+   "cell": "j_prob",
+   "idx": 1,
+   "name": "频率估计概率",
+   "pre": [
+    "j_prob#0"
+   ]
+  },
+  {
+   "id": "j_prob#2",
+   "cell": "j_prob",
+   "idx": 2,
+   "name": "等可能概型",
+   "pre": [
+    "j_prob#1"
+   ]
+  },
+  {
+   "id": "j_prob#3",
+   "cell": "j_prob",
+   "idx": 3,
+   "name": "树状图与列表法",
+   "pre": [
+    "j_prob#2"
+   ]
+  },
+  {
+   "id": "j_prob#4",
+   "cell": "j_prob",
+   "idx": 4,
+   "name": "简单事件的概率计算",
+   "pre": [
+    "j_prob#3"
+   ]
+  },
+  {
+   "id": "g_cplx#0",
+   "cell": "g_cplx",
+   "idx": 0,
+   "name": "虚数单位 i² = −1",
+   "pre": [
+    "j_quad#4",
+    "s_coord#4"
+   ]
+  },
+  {
+   "id": "g_cplx#1",
+   "cell": "g_cplx",
+   "idx": 1,
+   "name": "复数的几何意义",
+   "pre": [
+    "g_cplx#0"
+   ]
+  },
+  {
+   "id": "g_cplx#2",
+   "cell": "g_cplx",
+   "idx": 2,
+   "name": "复数的四则运算",
+   "pre": [
+    "g_cplx#1"
+   ]
+  },
+  {
+   "id": "g_cplx#3",
+   "cell": "g_cplx",
+   "idx": 3,
+   "name": "模与共轭",
+   "pre": [
+    "g_cplx#2"
+   ]
+  },
+  {
+   "id": "g_cplx#4",
+   "cell": "g_cplx",
+   "idx": 4,
+   "name": "复数的三角形式",
+   "pre": [
+    "g_cplx#3"
+   ]
+  },
+  {
+   "id": "g_seq#0",
+   "cell": "g_seq",
+   "idx": 0,
+   "name": "等差与等比数列",
+   "pre": [
+    "j_func#4"
+   ]
+  },
+  {
+   "id": "g_seq#1",
+   "cell": "g_seq",
+   "idx": 1,
+   "name": "通项与求和",
+   "pre": [
+    "g_seq#0"
+   ]
+  },
+  {
+   "id": "g_seq#2",
+   "cell": "g_seq",
+   "idx": 2,
+   "name": "差分层级",
+   "pre": [
+    "g_seq#1"
+   ]
+  },
+  {
+   "id": "g_seq#3",
+   "cell": "g_seq",
+   "idx": 3,
+   "name": "数学归纳法",
+   "pre": [
+    "g_seq#2"
+   ]
+  },
+  {
+   "id": "g_seq#4",
+   "cell": "g_seq",
+   "idx": 4,
+   "name": "二项式定理",
+   "pre": [
+    "g_seq#3"
+   ]
+  },
+  {
+   "id": "g_conic#0",
+   "cell": "g_conic",
+   "idx": 0,
+   "name": "椭圆",
+   "pre": [
+    "j_quad#4",
+    "j_pyth#4",
+    "j_func#4"
+   ]
+  },
+  {
+   "id": "g_conic#1",
+   "cell": "g_conic",
+   "idx": 1,
+   "name": "双曲线",
+   "pre": [
+    "j_quad#4",
+    "j_pyth#4",
+    "j_func#4"
+   ]
+  },
+  {
+   "id": "g_conic#2",
+   "cell": "g_conic",
+   "idx": 2,
+   "name": "抛物线",
+   "pre": [
+    "j_quad#4",
+    "j_pyth#4",
+    "j_func#4"
+   ]
+  },
+  {
+   "id": "g_conic#3",
+   "cell": "g_conic",
+   "idx": 3,
+   "name": "离心率与准线",
+   "pre": [
+    "g_conic#2"
+   ]
+  },
+  {
+   "id": "g_conic#4",
+   "cell": "g_conic",
+   "idx": 4,
+   "name": "标准式与一般式互化",
+   "pre": [
+    "g_conic#3"
+   ]
+  },
+  {
+   "id": "g_conic#5",
+   "cell": "g_conic",
+   "idx": 5,
+   "name": "参数方程",
+   "pre": [
+    "g_conic#4"
+   ]
+  },
+  {
+   "id": "g_trig#0",
+   "cell": "g_trig",
+   "idx": 0,
+   "name": "弧度制",
+   "pre": [
+    "s_coord#4",
+    "j_pyth#4",
+    "j_func#4"
+   ]
+  },
+  {
+   "id": "g_trig#1",
+   "cell": "g_trig",
+   "idx": 1,
+   "name": "单位圆定义",
+   "pre": [
+    "g_trig#0"
+   ]
+  },
+  {
+   "id": "g_trig#2",
+   "cell": "g_trig",
+   "idx": 2,
+   "name": "诱导公式",
+   "pre": [
+    "g_trig#1"
+   ]
+  },
+  {
+   "id": "g_trig#3",
+   "cell": "g_trig",
+   "idx": 3,
+   "name": "和差化积",
+   "pre": [
+    "g_trig#2"
+   ]
+  },
+  {
+   "id": "g_trig#4",
+   "cell": "g_trig",
+   "idx": 4,
+   "name": "正弦型函数的图像变换",
+   "pre": [
+    "g_trig#3"
+   ]
+  },
+  {
+   "id": "g_mat#0",
+   "cell": "g_mat",
+   "idx": 0,
+   "name": "二阶行列式",
+   "pre": [
+    "j_sys#4"
+   ]
+  },
+  {
+   "id": "g_mat#1",
+   "cell": "g_mat",
+   "idx": 1,
+   "name": "矩阵加法与乘法",
+   "pre": [
+    "g_mat#0"
+   ]
+  },
+  {
+   "id": "g_mat#2",
+   "cell": "g_mat",
+   "idx": 2,
+   "name": "矩阵与线性变换",
+   "pre": [
+    "g_mat#1"
+   ]
+  },
+  {
+   "id": "g_mat#3",
+   "cell": "g_mat",
+   "idx": 3,
+   "name": "逆矩阵",
+   "pre": [
+    "g_mat#2"
+   ]
+  },
+  {
+   "id": "g_dist#0",
+   "cell": "g_dist",
+   "idx": 0,
+   "name": "离散型随机变量",
+   "pre": [
+    "j_prob#4"
+   ]
+  },
+  {
+   "id": "g_dist#1",
+   "cell": "g_dist",
+   "idx": 1,
+   "name": "分布列",
+   "pre": [
+    "g_dist#0"
+   ]
+  },
+  {
+   "id": "g_dist#2",
+   "cell": "g_dist",
+   "idx": 2,
+   "name": "期望与方差",
+   "pre": [
+    "g_dist#1"
+   ]
+  },
+  {
+   "id": "g_dist#3",
+   "cell": "g_dist",
+   "idx": 3,
+   "name": "二项分布",
+   "pre": [
+    "g_dist#2"
+   ]
+  },
+  {
+   "id": "g_dist#4",
+   "cell": "g_dist",
+   "idx": 4,
+   "name": "正态分布初步",
+   "pre": [
+    "g_dist#3"
+   ]
+  },
+  {
+   "id": "b_real#0",
+   "cell": "b_real",
+   "idx": 0,
+   "name": "实数完备性（确界原理）",
+   "pre": [
+    "j_real#4",
+    "g_cplx#4"
+   ]
+  },
+  {
+   "id": "b_real#1",
+   "cell": "b_real",
+   "idx": 1,
+   "name": "戴德金分割 / 柯西序列",
+   "pre": [
+    "j_real#4",
+    "g_cplx#4"
+   ]
+  },
+  {
+   "id": "b_real#2",
+   "cell": "b_real",
+   "idx": 2,
+   "name": "复数域与代数闭包",
+   "pre": [
+    "j_real#4",
+    "g_cplx#4"
+   ]
+  },
+  {
+   "id": "b_real#3",
+   "cell": "b_real",
+   "idx": 3,
+   "name": "基数和可数性",
+   "pre": [
+    "j_real#4",
+    "g_cplx#4"
+   ]
+  },
+  {
+   "id": "b_real#4",
+   "cell": "b_real",
+   "idx": 4,
+   "name": "有序域与序的丧失",
+   "pre": [
+    "b_real#3"
+   ]
+  },
+  {
+   "id": "b_linsys#0",
+   "cell": "b_linsys",
+   "idx": 0,
+   "name": "高斯消元",
+   "pre": [
+    "j_sys#4"
+   ]
+  },
+  {
+   "id": "b_linsys#1",
+   "cell": "b_linsys",
+   "idx": 1,
+   "name": "秩与解的存在性",
+   "pre": [
+    "b_linsys#0"
+   ]
+  },
+  {
+   "id": "b_linsys#2",
+   "cell": "b_linsys",
+   "idx": 2,
+   "name": "基础解系与通解",
+   "pre": [
+    "b_linsys#1"
+   ]
+  },
+  {
+   "id": "b_linsys#3",
+   "cell": "b_linsys",
+   "idx": 3,
+   "name": "齐次与非齐次",
+   "pre": [
+    "b_linsys#2"
+   ]
+  },
+  {
+   "id": "b_linsys#4",
+   "cell": "b_linsys",
+   "idx": 4,
+   "name": "解空间的维数",
+   "pre": [
+    "b_linsys#3"
+   ]
+  },
+  {
+   "id": "b_vec3#0",
+   "cell": "b_vec3",
+   "idx": 0,
+   "name": "空间直角坐标系",
+   "pre": []
+  },
+  {
+   "id": "b_vec3#1",
+   "cell": "b_vec3",
+   "idx": 1,
+   "name": "平面与直线方程",
+   "pre": [
+    "b_vec3#0"
+   ]
+  },
+  {
+   "id": "b_vec3#2",
+   "cell": "b_vec3",
+   "idx": 2,
+   "name": "点积、叉积、混合积",
+   "pre": [
+    "b_vec3#1"
+   ]
+  },
+  {
+   "id": "b_vec3#3",
+   "cell": "b_vec3",
+   "idx": 3,
+   "name": "曲面与曲线",
+   "pre": [
+    "b_vec3#2"
+   ]
+  },
+  {
+   "id": "b_vec3#4",
+   "cell": "b_vec3",
+   "idx": 4,
+   "name": "二次曲面",
+   "pre": [
+    "b_vec3#3"
+   ]
+  },
+  {
+   "id": "b_calc#0",
+   "cell": "b_calc",
+   "idx": 0,
+   "name": "极限与连续",
+   "pre": [
+    "j_func#4",
+    "g_seq#4",
+    "g_trig#4"
+   ]
+  },
+  {
+   "id": "b_calc#1",
+   "cell": "b_calc",
+   "idx": 1,
+   "name": "导数与微分",
+   "pre": [
+    "b_calc#0"
+   ]
+  },
+  {
+   "id": "b_calc#2",
+   "cell": "b_calc",
+   "idx": 2,
+   "name": "中值定理",
+   "pre": [
+    "b_calc#1"
+   ]
+  },
+  {
+   "id": "b_calc#3",
+   "cell": "b_calc",
+   "idx": 3,
+   "name": "不定积分与定积分",
+   "pre": [
+    "b_calc#2"
+   ]
+  },
+  {
+   "id": "b_calc#4",
+   "cell": "b_calc",
+   "idx": 4,
+   "name": "多元微积分与重积分",
+   "pre": [
+    "b_calc#3"
+   ]
+  },
+  {
+   "id": "b_calc#5",
+   "cell": "b_calc",
+   "idx": 5,
+   "name": "级数与收敛判别",
+   "pre": [
+    "b_calc#4"
+   ]
+  },
+  {
+   "id": "b_calc#6",
+   "cell": "b_calc",
+   "idx": 6,
+   "name": "常微分方程",
+   "pre": [
+    "b_calc#5"
+   ]
+  },
+  {
+   "id": "b_linalg#0",
+   "cell": "b_linalg",
+   "idx": 0,
+   "name": "向量空间与子空间",
+   "pre": [
+    "b_linsys#4"
+   ]
+  },
+  {
+   "id": "b_linalg#1",
+   "cell": "b_linalg",
+   "idx": 1,
+   "name": "线性相关与基",
+   "pre": [
+    "b_linalg#0"
+   ]
+  },
+  {
+   "id": "b_linalg#2",
+   "cell": "b_linalg",
+   "idx": 2,
+   "name": "线性变换与矩阵表示",
+   "pre": [
+    "b_linalg#1"
+   ]
+  },
+  {
+   "id": "b_linalg#3",
+   "cell": "b_linalg",
+   "idx": 3,
+   "name": "特征值与特征向量",
+   "pre": [
+    "b_linalg#2"
+   ]
+  },
+  {
+   "id": "b_linalg#4",
+   "cell": "b_linalg",
+   "idx": 4,
+   "name": "对角化",
+   "pre": [
+    "b_linalg#3"
+   ]
+  },
+  {
+   "id": "b_linalg#5",
+   "cell": "b_linalg",
+   "idx": 5,
+   "name": "二次型与正定性",
+   "pre": [
+    "b_linalg#4"
+   ]
+  },
+  {
+   "id": "b_prob#0",
+   "cell": "b_prob",
+   "idx": 0,
+   "name": "随机变量与分布函数",
+   "pre": [
+    "g_dist#4",
+    "b_calc#6"
+   ]
+  },
+  {
+   "id": "b_prob#1",
+   "cell": "b_prob",
+   "idx": 1,
+   "name": "期望、方差、协方差",
+   "pre": [
+    "b_prob#0"
+   ]
+  },
+  {
+   "id": "b_prob#2",
+   "cell": "b_prob",
+   "idx": 2,
+   "name": "大数定律与中心极限定理",
+   "pre": [
+    "b_prob#1"
+   ]
+  },
+  {
+   "id": "b_prob#3",
+   "cell": "b_prob",
+   "idx": 3,
+   "name": "参数估计",
+   "pre": [
+    "b_prob#2"
+   ]
+  },
+  {
+   "id": "b_prob#4",
+   "cell": "b_prob",
+   "idx": 4,
+   "name": "假设检验",
+   "pre": [
+    "b_prob#3"
+   ]
+  },
+  {
+   "id": "b_prob#5",
+   "cell": "b_prob",
+   "idx": 5,
+   "name": "回归分析",
+   "pre": [
+    "b_prob#4"
+   ]
+  }
+ ],
+ "warnings": []
+}

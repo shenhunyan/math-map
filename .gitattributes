@@ -1,0 +1,7 @@
+# 仓库统一 LF，避免 Windows 上每次提交产生全文件 diff
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.woff2 binary
