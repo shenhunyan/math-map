@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>数学地图 · v1.6</title>
 <script src="i18n.js"></script>
+<script src="defs_en.js"></script>
 <style>
   :root{
     --bg:#faf9f6; --ink:#1c1b19; --muted:#8a8578; --line:#e4e0d6;
@@ -6754,13 +6755,17 @@ function fillDef(cell) {
   if (!D0) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
   document.getElementById('mDefKind').textContent = D0.k || '';
+  const enMode = (typeof MM_LANG === 'function' && MM_LANG() === 'en');
+  const EN = (enMode && typeof MM_DEFS !== 'undefined') ? MM_DEFS[key] : null;
   const dt = document.getElementById('mDef');
-  dt.innerHTML = D0.d;
+  dt.innerHTML = (EN && EN.d) ? EN.d : D0.d;
   const th = document.getElementById('mThm');
-  if (D0.t) { th.style.display = 'block'; th.innerHTML = '<b>关键结论</b>　' + D0.t; }
-  else th.style.display = 'none';
+  if (EN ? EN.t : D0.t) {
+    th.style.display = 'block';
+    th.innerHTML = (EN ? '<b>Key result</b>　' + EN.t : '<b>关键结论</b>　' + D0.t);
+  } else th.style.display = 'none';
   const sd = document.getElementById('mStd');
-  sd.innerHTML = D0.s ? ('<span>参考</span>　' + D0.s.join('　·　')) : '';
+  sd.innerHTML = D0.s ? ((enMode ? '<span>Sources</span>　' : '<span>参考</span>　') + D0.s.join('　·　')) : '';
 }
 
 </script>

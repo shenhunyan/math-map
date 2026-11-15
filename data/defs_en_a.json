@@ -1,0 +1,422 @@
+[
+  {
+    "k": "0 维仿射簇",
+    "d": "A point is a 0-dimensional affine space without direction. In coordinates it is the unique solution of the system x₁=a₁, …, xₙ=aₙ — n linear equations, zero free variables.",
+    "t": "The codimension of a point equals the dimension of the ambient space: a point in Rⁿ is an affine subspace of codimension n."
+  },
+  {
+    "k": "R² 的元素",
+    "d": "A point in the plane is an element (x, y) of R². R² is at the same time a 2-dimensional real vector space and a 2-dimensional Euclidean space — length and angle exist only after the standard inner product is added.",
+    "t": "R² and R are equinumerous as sets (Cantor), but their dimensions differ: dimension is a notion of linear structure, not of cardinality."
+  },
+  {
+    "k": "R³ 的元素",
+    "d": "A point in space is an element (x, y, z) of R³; three real numbers are needed to locate it. Adding the standard inner product gives 3-dimensional Euclidean space.",
+    "t": "A right-handed and a left-handed system in R³ cannot be transformed into each other by rotation, only by reflection — this is decided by the sign of det."
+  },
+  {
+    "k": "R⁴ 的元素 · 投影",
+    "d": "A four-dimensional point is an element (x, y, z, w) of R⁴. It cannot be drawn directly; the figure here is a two-stage projection: first a rotation in four dimensions, then projection to R³, then orthogonal projection to the plane.",
+    "t": "Projection preserves neither distance nor angle, but it preserves which points are connected — the combinatorial structure is invariant under projection."
+  },
+  {
+    "k": "一次方程",
+    "d": "An equation of the form ax + b = 0 (a ≠ 0). Its solution set is the single point {−b/a}; geometrically it is the intersection of a 1-dimensional affine subspace with the coordinate axis.",
+    "t": "For a ≠ 0 the solution is unique; for a = 0 and b ≠ 0 there is no solution; for a = b = 0 the solution set is the whole space — the three cases exhaust all possibilities for rank and consistency."
+  },
+  {
+    "k": "1 维仿射子空间",
+    "d": "The set of points in the plane determined by a linear equation Ax + By + C = 0 (A and B not both zero), that is, a 1-dimensional affine subspace; the direction vector and the normal vector (A, B) are perpendicular.",
+    "t": "The relative position of two lines (intersecting, parallel, coincident) is determined entirely by the rank of the coefficient matrix, with no case distinction needed."
+  },
+  {
+    "k": "2 维仿射子空间",
+    "d": "The set of points in R³ determined by Ax + By + Cz + D = 0 (normal vector (A,B,C) ≠ 0); it is a 2-dimensional affine subspace. The normal vector determines the plane, and any two non-collinear vectors in the plane determine its direction.",
+    "t": "The distance from a point to a plane is |Ax₀+By₀+Cz₀+D| / √(A²+B²+C²); two planes are parallel iff their normal vectors are proportional."
+  },
+  {
+    "k": "n−1 维仿射子空间",
+    "d": "The n−1 dimensional affine subspace of Rⁿ determined by a single linear equation a₁x₁ + ⋯ + aₙxₙ = b (coefficients not all zero), with normal vector a.",
+    "t": "A hyperplane divides Rⁿ into two half-spaces; the decision boundary of a linear classifier (perceptron, SVM) is a hyperplane, which is the geometric meaning of linear separability."
+  },
+  {
+    "k": "二次方程",
+    "d": "ax² + bx + c = 0 (a ≠ 0). Over the complex numbers there are always two roots (counted with multiplicity); the number of real roots is decided by the sign of the discriminant Δ = b² − 4ac: Δ>0 two real roots, Δ=0 a double root, Δ<0 a conjugate pair of complex roots.",
+    "t": "Vieta's formulas: x₁ + x₂ = −b/a, x₁x₂ = c/a. The fundamental theorem of algebra guarantees that a polynomial of degree n over C has exactly n roots (counted with multiplicity), so a quadratic equation is always solvable over C."
+  },
+  {
+    "k": "17 个标准型",
+    "d": "The zero set in R³ of an equation F(x,y,z) = 0 of degree two in three unknowns. With the inertia index (p, q, r) of the quadratic part as a complete invariant, there are 17 normal forms under orthogonal transformations: 9 non-degenerate (ellipsoid, hyperboloid of one sheet, hyperboloid of two sheets, cone, elliptic paraboloid, hyperbolic paraboloid, elliptic cylinder, hyperbolic cylinder, parabolic cylinder) + 8 degenerate types (a point, a line, two intersecting lines, a plane, two parallel planes, the empty set, and so on).",
+    "t": "Sylvester's law of inertia: the normal form of a real quadratic form under invertible linear substitution is determined uniquely by the positive and negative inertia indices, so the classification of quadric surfaces is finite and exhaustive."
+  },
+  {
+    "k": "对称双线性型的对角化",
+    "d": "A quadratic form in n unknowns over a number field K is a homogeneous polynomial of degree two, Q(x) = xᵀAx, with A a symmetric matrix. Congruence A ↦ PᵀAP (P invertible) preserves the rank and, in the real case, the inertia index.",
+    "t": "Sylvester's law of inertia: the normal form of a real quadratic form under invertible linear substitution is determined uniquely by the positive and negative inertia indices (p, q), with p + q = rank A. Positive definiteness is equivalent to all leading principal minors being positive (Hurwitz criterion)."
+  },
+  {
+    "k": "线性映射的坐标表示",
+    "d": "An m×n matrix is the coordinate representation of a linear map A: Kⁿ → Kᵐ with respect to given bases; matrix multiplication corresponds to composition of maps. The determinant det A is the signed volume scaling factor.",
+    "t": "Invertible ⇔ det A ≠ 0 ⇔ rank n ⇔ the null space contains only the zero vector. Similarity A ↦ P⁻¹AP does not change the characteristic polynomial."
+  },
+  {
+    "k": "三次方程 · 根式可解",
+    "d": "ax³ + bx² + cx + d = 0 (a ≠ 0). Over C there are always three roots (counted with multiplicity); the number of real roots is decided by the sign of the discriminant Δ = 18abcd − 4b³d + b²c² − 4ac³ − 27a²d².",
+    "t": "Cardano's formula gives a solution by radicals. But the Galois group of the general cubic is S₃, whose derived series contains A₃, so cube roots must appear in the solution — this is the root cause of why the cubic forces complex numbers into view (casus irreducibilis)."
+  },
+  {
+    "k": "系数 = 三阶对称张量",
+    "d": "A cubic form is F(x) = Σ_{i,j,k=1}^{n} t_{ijk}·x_i·x_j·x_k, where t is a symmetric tensor of order three; symmetry makes different orderings of the indices give the same monomial, so the number of independent coefficients is C(n+2, 3). For n = 3 its zero set is a plane cubic curve.",
+    "t": "A smooth cubic surface contains exactly 27 lines (Cayley–Salmon theorem), and the configuration of these 27 lines is invariant under birational equivalence; this is the starting point of enumerative algebraic geometry."
+  },
+  {
+    "k": "亏格 1 代数曲线 · Abel 簇",
+    "d": "An elliptic curve over a field K is a nonsingular projective algebraic curve of genus 1 together with a K-rational point O. When char K ≠ 2, 3 it can be given by the short Weierstrass equation y² = x³ + ax + b, with nonsingularity condition 4a³ + 27b² ≠ 0. For K = C it is at the same time the complex manifold C/Λ (Λ a rank 2 lattice), that is, a compact Riemann surface of genus 1.",
+    "t": "Mordell–Weil theorem: E(K) is a finitely generated abelian group, E(K) ≅ Z^r ⊕ E(K)_tors. The integer r is called the rank; whether it can be arbitrarily large is still an open problem."
+  },
+  {
+    "k": "群运算 · 逆元",
+    "d": "On y² = x³ + ax + b, the inverse −P of a point P is its reflection in the x-axis. Define P + Q as the inverse of the third intersection point of the line through P and Q with the curve; then O (the point at infinity) is the identity element.",
+    "t": "This operation makes E an abelian variety; geometrically, three points are collinear ⇔ P+Q+R = O, which compresses all the group axioms into a single collinearity condition."
+  },
+  {
+    "k": "四次方程 · 根式可解",
+    "d": "ax⁴ + bx³ + cx² + dx + e = 0. Ferrari's method reduces it to a product of two quadratic equations, so a quartic equation is always solvable by radicals.",
+    "t": "The Galois group of the general quartic is S₄, and S₄ is solvable — this is precisely the group-theoretic reason why a solution by radicals exists. Degree five is the boundary: S₅ is not solvable."
+  },
+  {
+    "k": "Abel–Ruffini 定理",
+    "d": "The general equation of degree n (n ≥ 5) has no solution by radicals. The reason is that its Galois group is Sₙ, and Sₙ is not solvable for n ≥ 5.",
+    "t": "Galois criterion: an equation is solvable by radicals ⇔ its Galois group is solvable. Note that the general equation having no universal formula does not mean that every quintic is unsolvable — x⁵ − 2 = 0 is obviously solvable."
+  },
+  {
+    "k": "平面代数曲线 · 亏格",
+    "d": "A plane algebraic curve defined by an irreducible polynomial F(x, y) = 0 of degree d ≥ 5. Genus and singularities are related by the formula g = (d−1)(d−2)/2 − Σ δ_P.",
+    "t": "Higher degree allows more singularities, so the genus does not increase monotonically with the degree — this is the central phenomenon of resolution of singularities and of Riemann–Roch theory."
+  },
+  {
+    "k": "四次曲线 · 椭圆函数原型",
+    "d": "The lemniscate of Bernoulli is the locus of points whose distances to two fixed points have a constant product: (x²+y²)² = 2a²(x² − y²), or r² = 2a²cos 2θ in polar coordinates. It is the graph of the inverse function of the elliptic integral ∫dx/√(1−x⁴).",
+    "t": "It is the critical member of the Cassini oval family at a = c: for a slightly larger than c there are two separate ovals, for a slightly smaller than c a single oval with a narrow waist. The family undergoes a topological change at the critical point."
+  },
+  {
+    "k": "高次代数曲线",
+    "d": "A plane curve defined by an irreducible polynomial of degree six. Degree six is the degree matching the genus formula g = (d−1)(d−2)/2 = 10 for plane curves (smooth case).",
+    "t": "A smooth sextic curve has genus 10; the upper bound on the number of allowed singularities comes from the constraint that the genus be non-negative."
+  },
+  {
+    "k": "函数项级数 · 解析性",
+    "d": "A series of functions of the form Σ aₙ(x − x₀)ⁿ. A radius of convergence R exists (Cauchy–Hadamard: 1/R = limsup |aₙ|^{1/n}); the series converges absolutely for |x−x₀| < R and uniformly on every compact subset.",
+    "t": "Inside the circle of convergence the series may be differentiated and integrated term by term, and its sum is analytic; conversely every analytic function is locally a power series (Taylor expansion) — this is the watershed between complex and real analysis."
+  },
+  {
+    "k": "形式幂级数的复合逆",
+    "d": "Let f(x) = a₁x + a₂x² + ⋯ (a₁ ≠ 0). Then there is a unique formal power series g with f(g(x)) = x. The coefficients of g are given by the Lagrange inversion formula.",
+    "t": "Lagrange inversion: [xⁿ] g(x) = (1/n)[x^{n−1}] (x/f(x))ⁿ. It is a standard tool for combinatorial enumeration and asymptotic expansion."
+  },
+  {
+    "k": "1 维代数簇",
+    "d": "The 1-dimensional algebraic variety defined by a polynomial in two variables F(x, y) = 0 (or by a homogeneous F(X,Y,Z) = 0 in the projective plane). If F is irreducible the curve is irreducible; if the gradient vanishes nowhere the curve is smooth.",
+    "t": "Smooth projective algebraic curves and compact Riemann surfaces form the same category; the genus is the only birational invariant, so the birational classification of curves is given entirely by the genus."
+  },
+  {
+    "k": "2 维代数簇 · 双有理分类",
+    "d": "The 2-dimensional algebraic variety defined by a polynomial in three variables. Birational classification is given by the Kodaira dimension κ and the geometric genus p_g: κ = −∞ (rational, ruled), κ = 0 (K3, abelian, Enriques), κ = 1 (elliptic surfaces), κ = 2 (general type).",
+    "t": "Enriques–Kodaira classification: complex algebraic surfaces fall into ten classes according to Kodaira dimension; this is the prototype of higher-dimensional birational classification (the Mori program)."
+  },
+  {
+    "k": "Calabi–Yau 二维情形",
+    "d": "A simply connected compact complex surface with H⁰(X, Ω²) spanned by a nonzero holomorphic 2-form (that is, irregularity q = 0 and geometric genus p_g = 1). All K3 surfaces are diffeomorphic to one another, and diffeomorphic to a quartic surface in P³.",
+    "t": "The Hodge numbers are fixed as (h⁰⁰, h¹⁰, h¹¹, h²⁰, h²²) = (1, 0, 20, 0, 1); as a Calabi–Yau manifold it is a central object in string compactification."
+  },
+  {
+    "k": "局部环空间",
+    "d": "A scheme is a locally ringed space locally isomorphic to an affine scheme Spec R, where R is a commutative ring and Spec R is its set of prime ideals equipped with the Zariski topology and the structure sheaf. It replaces the solution set of equations by the prime spectrum of a ring, thereby unifying algebraic geometry and number theory in one language.",
+    "t": "Spec gives a contravariant equivalence: the category of affine schemes ≃ (the category of commutative rings)^op. A scheme is determined by its functor of points Hom(−, X) (Yoneda lemma)."
+  },
+  {
+    "k": "C0 × M4",
+    "d": "Spec R is the set of all prime ideals of R, equipped with the Zariski topology defined by the closed sets V(I) = {𝔭 : 𝔭 ⊇ I} and with the structure sheaf O. The residue field at a point 𝔭 is k(𝔭) = Frac(R/𝔭); the generic point corresponds to the zero ideal and records an entire subvariety, while a closed point records only a single point.",
+    "t": "Spec gives a contravariant equivalence between the category of rings and the category of affine schemes: a ring homomorphism R → S corresponds to a morphism Spec S → Spec R, so the direction of arrows is reversed here; this is the foundation of scheme theory."
+  },
+  {
+    "k": "几何范畴的替换",
+    "d": "Replacing the condition locally isomorphic to Rⁿ by the condition locally isomorphic to Spec R moves one from the naive category of manifolds into the category of schemes. The cost is the intuition of points (points become prime ideals); the gain is that geometry can be done over an arbitrary ring, including arithmetic geometry over Z.",
+    "t": "This replacement turns integer solutions into sections of schemes over Z, and Fermat's last theorem thereby becomes a statement about schemes."
+  },
+  {
+    "k": "27 条直线",
+    "d": "A smooth algebraic surface in P³ defined by an irreducible homogeneous polynomial of degree three. A smooth cubic surface contains exactly 27 lines (Cayley–Salmon theorem).",
+    "t": "The configuration of the 27 lines is one of the starting points of 19th-century algebraic geometry; a smooth cubic surface is rational and birationally equivalent to the blow-up of P² at six points."
+  },
+  {
+    "k": "高次代数曲面",
+    "d": "The zero set in P³ of an irreducible homogeneous polynomial of degree d ≥ 4; it is a 2-dimensional projective algebraic variety. The degree determines its Hilbert polynomial and arithmetic genus.",
+    "t": "For d ≥ 5 a smooth surface is of general type; the quartic surface (d = 4) is special — it is exactly the model of a K3 surface."
+  },
+  {
+    "k": "多重线性映射 · 三指标",
+    "d": "A tensor of order three is a multilinear map T: V*×V*×V → K, written T^{ij}_k in coordinates, with three indices. Its order is defined by the number of indices, not by the dimension of the array.",
+    "t": "The Levi-Civita symbol ε_{ijk} is a tensor of order three (a tensor density); it writes the cross product and the determinant as one and the same thing: (a×b)_i = ε_{ijk}a_jb_k."
+  },
+  {
+    "k": "多重线性映射",
+    "d": "A tensor of order four is a multilinear map T: V*×V*×V×V → K, written T^{ij}_{kl} in coordinates, with four indices. It is not a four-dimensional array — only objects that transform by the covariant/contravariant rules under a change of basis are tensors.",
+    "t": "The Riemann curvature tensor R^{i}_{jkl} is a tensor of order four; for n = 4 its number of independent components is 20, obtained from 256 components by the Bianchi identities."
+  },
+  {
+    "k": "泛函分析",
+    "d": "A functional is a map from a vector space to the scalar field; an operator is a linear map between vector spaces. The set B(X) of bounded operators on a normed space X forms a Banach algebra under the operator norm.",
+    "t": "The four fundamental theorems: Hahn–Banach (extension), open mapping, closed graph, uniform boundedness (Banach–Steinhaus). All of them depend on completeness and all fail in a general metric space."
+  },
+  {
+    "k": "2 维紧致流形",
+    "d": "S² = {(x, y, z) ∈ R³ : x² + y² + z² = 1}, a 2-dimensional compact smooth manifold without boundary, with Euler characteristic χ = 2, simply connected.",
+    "t": "Gauss–Bonnet: ∮_S K dA = 2πχ(S²) = 4π. Total curvature is a topological invariant, independent of how the surface is bent."
+  },
+  {
+    "k": "亏格 1 曲面",
+    "d": "T² = R²/Z², a compact surface without boundary of genus 1, with χ = 0 and fundamental group Z². Equipped with a complex structure it is an elliptic curve.",
+    "t": "The complex structure of the torus is given by the modulus τ taking values in the upper half-plane, and the moduli space is H/SL(2, Z) — the most classical moduli space and the starting point of the theory of modular forms."
+  },
+  {
+    "k": "不可定向曲面",
+    "d": "M = [0,1]×[0,1] / (0, y) ~ (1, 1−y). It is a non-orientable 2-dimensional manifold with boundary, and its boundary is a single circle, not two edges.",
+    "t": "Orientable ⇔ the first Stiefel–Whitney class w₁ = 0. The Möbius band is the smallest example with w₁ ≠ 0; its twist is exactly the transition function taking the nontrivial value in Z₂."
+  },
+  {
+    "k": "紧致二次曲面",
+    "d": "The closed surface defined by x²/a² + y²/b² + z²/c² = 1 (a, b, c > 0). It is the only compact quadric surface without boundary in R³.",
+    "t": "Its volume is 4πabc/3. When a, b, c are pairwise distinct, its isometry group is the finite group Z₂×Z₂×Z₂ — continuous symmetry occurs only in the sphere case (a=b=c)."
+  },
+  {
+    "k": "C0 × M2",
+    "d": "The cuspidal cubic is the plane algebraic curve y² = x³, also the image of the map t ↦ (t², t³). At the origin both partial derivatives vanish simultaneously and the tangent cone degenerates to a double line; it is the standard model of a cusp singularity. The normalization map ℙ¹ → C is a continuous bijection, so its geometric genus is 0.",
+    "t": "The δ-invariant is δ = 1, and the genus formula g = (d−1)(d−2)/2 − Σδ gives g = 0: the singularity lowers the genus of the cubic from 1 to 0."
+  },
+  {
+    "k": "奇点",
+    "d": "The curve y² = x³ has two branches that become tangent and merge at the origin, forming a cusp. There ∂F/∂x = ∂F/∂y = 0 and the gradient vanishes.",
+    "t": "At a cusp the tangent is unique but not smooth: the parametrization t ↦ (t², t³) is a bijection and continuous, but its inverse is not continuous — this is the analytic meaning of a singularity."
+  },
+  {
+    "k": "分形 · 复动力系统",
+    "d": "M = {c ∈ C : the iteration z ↦ z² + c starting from z₀ = 0 stays bounded}. M is compact and connected, and its boundary is not a curve: Shishikura proved that the boundary has Hausdorff dimension 2.",
+    "t": "c ∈ M ⇔ the corresponding Julia set J_c is connected. This correspondence ties parameter space to dynamical system and is the central fact of complex dynamics."
+  },
+  {
+    "k": "群 E(2)：保距",
+    "d": "The transformation group is the isometry group E(2) = R² ⋊ O(2) generated by translations and orthogonal transformations. Euclidean geometry studies the invariants under the action of E(2).",
+    "t": "Isometries preserve distance, angle and area; conversely, a map preserving distance must be an isometry (Mazur–Ulam theorem). The invariants determine the classification completely."
+  },
+  {
+    "k": "群 Sim(2)：保角 + 长度比",
+    "d": "The similarity group Sim(2) = R² ⋊ (R₊ × O(2)), generated by translations, rotations and uniform scaling. The invariants are angles and ratios of lengths.",
+    "t": "A similarity multiplies every length by the same factor k, so absolute length loses meaning while ratios survive — this is the group-theoretic explanation of why similar triangles determine shape only."
+  },
+  {
+    "k": "群 A(2)：保平行",
+    "d": "The affine group A(2) = R² ⋊ GL(2, R), generated by translations and invertible linear transformations. The invariants are collinearity, parallelism and ratios of lengths along a single line.",
+    "t": "In affine geometry any triangle is equivalent to any other triangle, and any ellipse to a circle — enlarging the group coarsens the classification. Areas scale by |det|."
+  },
+  {
+    "k": "群 PGL(3)：保关联",
+    "d": "The projective plane RP² = (R³ \\ {0}) / R*, with transformation group PGL(3, R). Projective geometry studies the properties that preserve the incidence relation of a point lying on a line.",
+    "t": "All non-degenerate conics are equivalent to one another under projective transformations; parallel lines meet at a point at infinity, so being parallel is no longer a projective invariant. The cross ratio is the fundamental invariant."
+  },
+  {
+    "k": "保角变换",
+    "d": "A conformal transformation is one that preserves angles (that is, preserves the metric up to a positive function factor). On R² the conformal transformations are exactly the holomorphic or antiholomorphic functions; for n ≥ 3, Liouville's theorem leaves only Möbius transformations.",
+    "t": "A dimension dichotomy: for n = 2 the conformal group is infinite-dimensional, for n ≥ 3 it is finite-dimensional. Two-dimensional conformal field theory is possible precisely because of this infinite-dimensional symmetry."
+  },
+  {
+    "k": "闭非退化 2-形式",
+    "d": "A symplectic manifold is a smooth manifold (M, ω) equipped with a closed, non-degenerate 2-form ω; its dimension must be even. A symplectomorphism is a diffeomorphism preserving ω.",
+    "t": "Darboux's theorem: locally every symplectic manifold is equivalent to (R²ⁿ, Σ dqᵢ ∧ dpᵢ). Symplectic geometry has no local invariants — a sharp contrast with Riemannian geometry, where curvature is a local invariant."
+  },
+  {
+    "k": "完全非可积超平面场",
+    "d": "A contact manifold is an odd-dimensional manifold equipped with a hyperplane field ξ = ker α satisfying α ∧ (dα)ⁿ ≠ 0 (completely non-integrable). A contact transformation is a diffeomorphism preserving ξ.",
+    "t": "The contact Darboux theorem: locally every contact structure is equivalent to the standard form dz − Σ yᵢdxᵢ = 0. As in symplectic geometry, there are no local invariants."
+  },
+  {
+    "k": "微分同胚不变量",
+    "d": "The discipline studying invariants of smooth manifolds under diffeomorphism. Its core tools are transversality, Morse theory and cobordism.",
+    "t": "Milnor's exotic 7-spheres (1956) show that there exist manifolds that are homeomorphic but not diffeomorphic — topologically the same, smoothly different; this is the point where differential topology becomes independent of topology. The h-cobordism theorem (Smale) then gives the higher-dimensional classification."
+  },
+  {
+    "k": "代数簇 · 概型",
+    "d": "The geometry of algebraic varieties and schemes studied by the methods of commutative algebra. The basic correspondence is Hilbert's Nullstellensatz: algebraic varieties over k ↔ reduced finitely generated k-algebras.",
+    "t": "Three pillars: Nullstellensatz (the dictionary between algebra and geometry), Bézout (degree and intersection counting), Riemann–Roch (genus and divisors)."
+  },
+  {
+    "k": "一阶微分算子",
+    "d": "For a scalar field φ: Rⁿ → R, the gradient is the vector field ∇φ = (∂φ/∂x₁, …, ∂φ/∂xₙ). Its direction is that of fastest increase of φ, and its modulus equals the directional derivative in that direction.",
+    "t": "∇φ is everywhere perpendicular to the level surface φ = const. This is the geometric basis of Lagrange multipliers: at a constrained extremum the gradient of the objective must be parallel to the gradient of the constraint."
+  },
+  {
+    "k": "通量密度",
+    "d": "The divergence of a vector field F is ∇·F = Σ ∂Fᵢ/∂xᵢ, equal to the volume density of flux: ∇·F = lim_{V→0} (1/V) ∮_{∂V} F·n dS.",
+    "t": "Gauss divergence theorem: ∭_V ∇·F dV = ∬_{∂V} F·n dS. ∇·F = 0 means no sources and no sinks, equivalent to incompressibility."
+  },
+  {
+    "k": "环量密度",
+    "d": "The curl of a three-dimensional vector field F is the vector field ∇×F whose i-th component is ε_{ijk} ∂_j F_k. Its direction is the local axis of rotation and its modulus is twice the areal density of circulation.",
+    "t": "Stokes' theorem: ∬_S (∇×F)·n dS = ∮_{∂S} F·dr. ∇×F = 0 ⇔ locally a gradient field (conservative field)."
+  },
+  {
+    "k": "二阶对称张量",
+    "d": "The Cauchy stress tensor σ is a symmetric tensor of order two; σ(n) = σ·n gives the surface force on the section with normal n. The principal stresses are the eigenvalues of σ and the principal directions its eigenvectors.",
+    "t": "The three invariants I₁ = tr σ, I₂, I₃ = det σ are independent of the coordinate system. Mohr's circle is the graphical method for a two-dimensional stress state: centre (σ₁+σ₂)/2, radius (σ₁−σ₂)/2, and σ₁+σ₂ is identically the trace — this is what invariance under rotation of axes means."
+  },
+  {
+    "k": "广义特征值问题",
+    "d": "The equation of motion of a two-degree-of-freedom linear system is Mq̈ + Kq = 0, and its solution is given by the generalized eigenvalue problem Kφ = ω²Mφ: the ωᵢ are the natural frequencies and the φᵢ the modes (eigenvectors).",
+    "t": "When M and K are symmetric positive definite, the ωᵢ² are real and the φᵢ are orthogonal with respect to M — modal decomposition is decoupling by eigenbasis coordinates. When the two modal frequencies are close, their superposition produces beats with envelope frequency |ω₁ − ω₂|/2."
+  },
+  {
+    "k": "Hamilton 系统",
+    "d": "Phase space is the space of positions and momenta (q, p) ∈ R^{2n}. The Hamilton equations q̇ = ∂H/∂p, ṗ = −∂H/∂q define a vector field on it, and the orbits are integral curves.",
+    "t": "Liouville's theorem: Hamiltonian flow preserves phase volume, so orbits can neither converge nor diverge — this is the dynamical version of incompressibility and the foundation of statistical mechanics."
+  },
+  {
+    "k": "一次近似 · 括号",
+    "d": "A Lie algebra g is a vector space equipped with a Lie bracket [·,·] (antisymmetric and satisfying the Jacobi identity). The Lie algebra of a Lie group G is g = T_eG; the exponential map exp: g → G sends generators back to group elements.",
+    "t": "Baker–Campbell–Hausdorff formula: exp X · exp Y = exp(X + Y + ½[X,Y] + ⋯). The non-commutativity of the group is encoded entirely by the bracket (that is, by the correction of first order)."
+  },
+  {
+    "k": "局部平凡化 · 上同调",
+    "d": "A fibre bundle is a map π: E → B that is locally trivial (π⁻¹(U) ≅ U × F) and whose transition functions take values in the structure group G. The twist is described by the G-valued Čech cohomology class of the transition functions.",
+    "t": "The Möbius band is a nontrivial bundle with base S¹, fibre an interval and structure group Z₂; its nontriviality is exactly w₁ ≠ 0, and it is the topological reason why one full twist returns to the starting point only after two turns."
+  },
+  {
+    "k": "有理数的两种表示",
+    "d": "The fraction a/b (a, b ∈ Z, b ≠ 0) and a decimal are two notations for the same rational number. Criterion: if the denominator of the fraction in lowest terms has only the prime factors 2 and 5, it can be written as a finite decimal; otherwise it must be an infinite repeating decimal.",
+    "t": "Rational ⇔ finite decimal or infinite repeating decimal. This criterion exposes the necessity of extending the number system: the gap occupied by the infinite non-repeating decimals is exactly where the irrational numbers sit."
+  },
+  {
+    "k": "长度与测度",
+    "d": "The perimeter is the length of the boundary curve, and the area is the Lebesgue measure of the enclosed region (in the elementary case, the additive extension of rectangle area). The two have different dimensions, and there is no general relation between them.",
+    "t": "Isoperimetric inequality: for fixed perimeter the circle has the largest area, L² ≥ 4πS, with equality only for the circle. This shows that the only universal constraint between perimeter and area is an inequality, not an equation."
+  },
+  {
+    "k": "代数式 · 变量",
+    "d": "Abstracting concrete numbers into variables yields algebraic expressions. The laws of operation (commutative, associative, distributive) are the legitimate basis for identical transformations; a letter does not stand for an unknown but for an arbitrary number.",
+    "t": "Once letters stand for numbers, algorithm and result separate: ax + b is a program, and only substituting a, b, x gives a number. This is the dividing line between algebra and arithmetic."
+  },
+  {
+    "k": "函数关系的萌芽",
+    "d": "A direct proportion is y = kx (k ≠ 0): the ratio of the two quantities is constant. Geometrically its graph is a line through the origin, and k is the slope.",
+    "t": "Direct proportion is the special case of a linear function with zero intercept; once an intercept is allowed, y = kx + b no longer preserves ratios and preserves only difference quotients — this is the difference between linear and proportional."
+  },
+  {
+    "k": "R² 的坐标化",
+    "d": "The rectangular coordinate system in the plane sets up a one-to-one correspondence between R² and points: point ↔ ordered pair (x, y). Ordered is the key — (1, 2) and (2, 1) are different points.",
+    "t": "Coordinates translate geometry into equations; this is the entire premise of analytic geometry. Descartes' core contribution is not drawing figures but this translation rule."
+  },
+  {
+    "k": "集中趋势的三种度量",
+    "d": "The mean is x̄ = Σxᵢ/n; the median is the middle value after sorting (for an even number of values, the average of the two middle ones); the mode is the value occurring most often. The three are defined differently and answer different questions.",
+    "t": "Σ(xᵢ − x̄) = 0: the deviations sum to zero, a property unique to the mean, satisfied by neither the median nor the mode. The mean is sensitive to outliers (it is not a robust statistic), while the median is robust."
+  },
+  {
+    "k": "完备化",
+    "d": "An irrational number is a real number that cannot be written as a/b, equivalently one whose decimal expansion is infinite and non-repeating. The classical proof of the irrationality of √2 is by contradiction: if √2 = p/q in lowest terms, then p² = 2q², which forces p and q both even, contradicting lowest terms.",
+    "t": "The reals = rationals + irrationals, and the irrationals are uncountable (Cantor's diagonal argument) while the rationals are countable. In terms of quantity, almost all real numbers are irrational."
+  },
+  {
+    "k": "二次方程",
+    "d": "ax² + bx + c = 0 (a ≠ 0). There are three routes to the solution — factoring, completing the square, the quadratic formula — and they are algebraically equivalent: completing the square turns the general form into (x + b/2a)² = (b²−4ac)/4a², and the quadratic formula is its solution.",
+    "t": "The discriminant Δ = b² − 4ac decides the number of real roots; Vieta's formulas x₁ + x₂ = −b/a, x₁x₂ = c/a connect the solutions directly with the coefficients and are the tool for all later symmetric polynomial problems."
+  },
+  {
+    "k": "欧氏度量的核心恒等式",
+    "d": "In the Euclidean plane, the two legs a, b and the hypotenuse c of a right triangle satisfy a² + b² = c². This is equivalent to the inner product space property: two vectors are perpendicular ⇔ their inner product is zero.",
+    "t": "The converse holds: a² + b² = c² ⇒ right angle. The Pythagorean theorem occupies the core position in Euclidean geometry because it defines distance — in hyperbolic or spherical geometry the same relation becomes an expression involving cosh or cos."
+  },
+  {
+    "k": "多项式函数",
+    "d": "The first-degree function y = kx + b (graph a line, k the slope, b the intercept); the second-degree function y = ax² + bx + c (a ≠ 0, graph a parabola, axis of symmetry x = −b/2a, vertex form y = a(x + b/2a)² + (4ac−b²)/4a).",
+    "t": "The three forms of a quadratic function (general, vertex, intercept) each expose different information: the general form shows the coefficients, the vertex form the extremum, the intercept form the zeros. One object, three coordinate systems."
+  },
+  {
+    "k": "线性系统 2×2",
+    "d": "Two linear equations taken together. Geometrically it is the intersection point of two lines. Elimination and substitution are essentially the same: both perform invertible row operations.",
+    "t": "The number of solutions is decided by the rank of the coefficient matrix and the rank of the augmented matrix: equal ranks equal to the number of unknowns gives a unique solution, equal but smaller gives infinitely many, unequal gives none. This criterion is exactly the same for n unknowns."
+  },
+  {
+    "k": "频率学派与公理化",
+    "d": "Frequency is the ratio of the number of occurrences of an event in an experiment to the total number of trials, and it varies with the experiment; probability is a measure P defined on a σ-algebra of events satisfying P(Ω) = 1 and countable additivity. Frequency converges to probability by the law of large numbers.",
+    "t": "Law of large numbers (Bernoulli): as n → ∞ the frequency converges in probability to p. This theorem is the only basis for saying that probability can be measured."
+  },
+  {
+    "k": "离散函数 · 递推",
+    "d": "A sequence is a function a: N* → R defined on the positive integers, written {aₙ}. Arithmetic: aₙ₊₁ − aₙ = d; geometric: aₙ₊₁/aₙ = q.",
+    "t": "Sₙ is a quadratic function of n with zero constant term ⇔ {aₙ} is arithmetic; aₙ = Sₙ − Sₙ₋₁ is the basic bridge between a sequence and its sum. The general solution of the first-order linear recurrence aₙ₊₁ = paₙ + q is determined by the fixed point q/(1−p)."
+  },
+  {
+    "k": "周期函数 · 圆的参数化",
+    "d": "On the unit circle, the terminal side of the angle θ meets the circle at (cos θ, sin θ). Hence sin²θ + cos²θ = 1; in general form y = A sin(ωx + φ) + k, with amplitude |A|, angular frequency ω, period 2π/|ω| and initial phase φ.",
+    "t": "The addition formula sin(α ± β) = sin α cos β ± cos α sin β is the source of all trigonometric identities: setting β = α gives the double-angle formula, dividing gives the tan form, adding and subtracting gives sum-to-product."
+  },
+  {
+    "k": "二次曲线 · 离心率分类",
+    "d": "The set of points in the plane determined by the general quadratic equation Ax² + Bxy + Cy² + Dx + Ey + F = 0. According to the sign of B² − 4AC the conic is of elliptic (<0), parabolic (=0) or hyperbolic (>0) type; when non-degenerate these are respectively an ellipse, a parabola and a hyperbola. The unified description is: the ratio of the distance to the focus to the distance to the directrix equals e, with e<1 ellipse, e=1 parabola, e>1 hyperbola.",
+    "t": "In the projective plane all non-degenerate conics are equivalent to one another — they are the same object seen in different affine slices. This is the exact meaning of the statement that circles, ellipses, parabolas and hyperbolas belong to one family."
+  },
+  {
+    "k": "代数闭域 · 平面旋转",
+    "d": "C = {a + bi : a, b ∈ R}, i² = −1. Geometrically a complex number is a plane vector, and multiplication is multiply the moduli and add the arguments — multiplying by i is a counterclockwise rotation through 90°.",
+    "t": "Fundamental theorem of algebra: every polynomial of degree n over C has exactly n roots (counted with multiplicity), so C is algebraically closed while R is not. The price is that no total order compatible with the field structure can be defined on C."
+  },
+  {
+    "k": "线性变换 · 体积因子",
+    "d": "A matrix is the coordinate representation of a linear transformation with respect to a basis; the determinant is its signed volume scaling factor: |det A| equals the volume of the image of the unit cube, and the sign says whether orientation is reversed.",
+    "t": "det(AB) = det A · det B shows that the determinant is a homomorphism from multiplication to multiplication; invertible ⇔ det ≠ 0. The 2×2 determinant ad − bc is exactly the area of a parallelogram."
+  },
+  {
+    "k": "离散随机变量",
+    "d": "The distribution table of a discrete random variable X is pₖ = P(X = xₖ), satisfying pₖ ≥ 0 and Σpₖ = 1. The expectation is E[X] = Σ xₖpₖ and the variance Var X = E[(X − EX)²] = E[X²] − (EX)².",
+    "t": "Linearity of expectation E[X + Y] = EX + EY holds unconditionally (independence is not needed), whereas Var(X + Y) = Var X + Var Y requires uncorrelatedness. This distinction is the most frequently misused point in probability theory."
+  },
+  {
+    "k": "完备序域",
+    "d": "R is an ordered field satisfying the completeness axiom: every nonempty subset bounded above has a least upper bound. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ is a layer-by-layer extension, and each extension gives up one property — ℚ → ℝ gives up countability, ℝ → ℂ gives up order.",
+    "t": "Equivalent characterizations of completeness: the least upper bound principle, the monotone bounded theorem, nested closed intervals, Bolzano–Weierstrass, convergence of Cauchy sequences — all are equivalent. R is the unique complete ordered field (up to isomorphism)."
+  },
+  {
+    "k": "线性代数基本定理",
+    "d": "The solution set of Ax = b is particular solution plus homogeneous solution space: x = x₀ + ker A. The dimension of ker A equals n − rank A (rank–nullity theorem).",
+    "t": "Rank–Nullity: dim ker A + rank A = n. Consistency criterion: rank A = rank [A|b]. Together these two statements describe the structure of the solution set completely, with no further case distinction."
+  },
+  {
+    "k": "R³ 的解析几何",
+    "d": "The study by coordinates of points, lines, planes and surfaces in R³: a plane is given by a linear equation, a line by the intersection of two planes (or in parametric form), a surface by an implicit equation F(x,y,z) = 0.",
+    "t": "Normal vectors and direction vectors are the entry point of every computation: point-plane distance, line-plane angle, plane-plane angle all reduce to vector projection and angle. Quadric surfaces are then classified by quadratic forms."
+  },
+  {
+    "k": "数学分析主干",
+    "d": "Limit: the ε-δ definition, lim_{x→a} f(x) = L means that for every ε>0 there is δ>0 such that 0<|x−a|<δ implies |f(x)−L|<ε. Derivative: f′(a) = lim_{h→0} (f(a+h)−f(a))/h. Definite integral: the limit of Riemann sums. Series: the limit of the sequence of partial sums.",
+    "t": "Fundamental theorem of calculus: if f is continuous, then F(x) = ∫ₐˣ f is differentiable and F′ = f — differentiation and integration are inverse operations. This single statement merges the tangent problem and the area problem into one theorem."
+  },
+  {
+    "k": "向量空间与线性映射",
+    "d": "A vector space is a set equipped with addition and scalar multiplication satisfying eight axioms; a linear map preserves these two operations. Once a basis is chosen, a linear map corresponds to a matrix, and a change of basis corresponds to similarity.",
+    "t": "Spectral theorem: a real symmetric matrix can be orthogonally diagonalized, A = QΛQᵀ, and all its eigenvalues are real. The Jordan normal form gives the complete classification in the non-diagonalizable case. SVD factors an arbitrary matrix as rotation–scaling–rotation."
+  },
+  {
+    "k": "测度论概率",
+    "d": "A probability space is a triple (Ω, F, P), where F is a σ-algebra and P is a measure satisfying countable additivity with P(Ω) = 1. A random variable is a measurable function. Statistics goes the other way, from sample back to the population distribution, by means of estimators and test statistics.",
+    "t": "Central limit theorem: for independent identically distributed variables with finite variance, (S̄ₙ − μ)/(σ/√n) converges in distribution to N(0,1). This theorem is the answer to why the normal distribution is everywhere, and the basis of all interval estimation and hypothesis testing."
+  },
+  {
+    "k": "d = 1",
+    "d": "A polynomial of degree one: f(x) = ax + b (a ≠ 0). The zero is unique, the graph is a line, and the derivative is the constant a.",
+    "t": "Degree one is the starting point of solvability: every linear equation has a unique solution, and the solution can be written with the four operations."
+  },
+  {
+    "k": "d = 2",
+    "d": "A polynomial of degree two: f(x) = ax² + bx + c (a ≠ 0). There are at most two zeros, the graph is a parabola, and the derivative is a function of degree one.",
+    "t": "Degree two is where the notion of discriminant is born: the number of solutions is decided by the sign of Δ, and this pattern continues in higher degree as the discriminant being a polynomial in the coefficients."
+  }
+]

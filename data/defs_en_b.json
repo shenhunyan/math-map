@@ -1,0 +1,413 @@
+[
+  {
+    "k": "三次",
+    "d": "A cubic polynomial f(x) = ax³ + bx² + cx + d (a ≠ 0). It has at least one real root (an odd-degree polynomial must change sign), and the two ends of its graph tend to opposite infinities.",
+    "t": "The cubic is the boundary at which complex numbers become unavoidable: casus irreducibilis shows that in the case of three real roots the solution by radicals must still contain imaginary numbers."
+  },
+  {
+    "k": "五次",
+    "d": "The general equation of the fifth degree. Its Galois group is S₅, and S₅ is not solvable, so no general solution by radicals exists.",
+    "t": "Abel–Ruffini: the general equation of degree n ≥ 5 has no solution by radicals. Individual quintics may still be solvable, and the criterion is the solvability of their Galois group."
+  },
+  {
+    "k": "1 元 1 次",
+    "d": "One unknown, one first-degree equation: ax = b. The solution set is a single point, the empty set, or the whole space, according to whether a is zero.",
+    "t": "These three cases correspond exactly to the comparison of the rank of the coefficient matrix with the rank of the augmented matrix; this is the smallest model for the classification of linear systems."
+  },
+  {
+    "k": "2 元 1 次",
+    "d": "Two unknowns, one first-degree equation: Ax + By = C. The solution set is a line in the plane — one equation cannot single out a point, only a 1-dimensional set.",
+    "t": "The dimension of the solution set = the number of unknowns − the number of independent equations. This rule holds for every n and every degree (the dimension of an algebraic variety)."
+  },
+  {
+    "k": "3 元 1 次",
+    "d": "Three unknowns, one first-degree equation: Ax + By + Cz = D. The solution set is a plane in R³, 2-dimensional.",
+    "t": "From 1 unknown to n unknowns, the solution set of a first-degree equation rises from a point to an (n−1)-dimensional hyperplane — adding one unknown raises the dimension of the solution set by exactly one."
+  },
+  {
+    "k": "4 元 1 次",
+    "d": "Four unknowns, one first-degree equation. The solution set is a 3-dimensional hyperplane in R⁴; it cannot be drawn directly and can only be projected.",
+    "t": "Beyond dimension 3 the solution set no longer has an intuitive picture, yet it is still described completely by linear algebra — this is precisely the value of the coordinate method."
+  },
+  {
+    "k": "离心率",
+    "d": "The eccentricity e of a conic section is the ratio of the distance to the focus to the distance to the directrix. In one and the same equation only e is changed: e = 0 a circle, 0 < e < 1 an ellipse, e = 1 a parabola, e > 1 a hyperbola.",
+    "t": "e is the only shape parameter of the family of conic sections (the other parameter is merely scale). One number varying continuously strings four different curves into a single orbit."
+  },
+  {
+    "k": "对称互换",
+    "d": "Interchanging x and y, that is, reflecting in the line y = x. This transformation of the graph corresponds to finding the inverse function — if (a, b) lies on the original graph, then (b, a) lies on the graph of the inverse function.",
+    "t": "A function is invertible ⇔ it is strictly monotone (on an interval). After the interchange the domain and the range are interchanged as well, and this is where mistakes with inverse functions most often occur."
+  },
+  {
+    "k": "复数求逆",
+    "d": "1/z = z̄/|z|² (z ≠ 0). Geometrically, taking the reciprocal means taking the reciprocal of the modulus and the negative of the argument — it maps the inside of a circle to the outside, and is an inversion transformation.",
+    "t": "z ↦ 1/z is a special case of a Möbius transformation; it maps generalized circles (circles and lines) again to generalized circles. It is the basic building block of conformal mappings in complex analysis."
+  },
+  {
+    "k": "ℚ → ℝ",
+    "d": "Two standard routes from ℚ to ℝ: the Dedekind cut (cutting ℚ into a left and a right half) and completion by Cauchy sequences (adjoining all limit points). The two routes give isomorphic fields.",
+    "t": "The price is uncountability: ℚ is countable, ℝ is not. At the same time something appears in ℝ that is absent from ℚ — the irrational numbers, and they are the overwhelming majority."
+  },
+  {
+    "k": "ℝ → ℂ",
+    "d": "ℂ = ℝ[i]/(i² + 1), that is, adjoining to ℝ an element satisfying i² = −1. It is the algebraic closure of ℝ: every polynomial factors completely over ℂ.",
+    "t": "The price is the loss of order: no total order on ℂ is compatible with the field operations (otherwise −1 < 0 would contradict i² = −1). The gain is the fundamental theorem of algebra."
+  },
+  {
+    "k": "五层数系",
+    "d": "ℕ → ℤ → ℚ → ℝ → ℂ; each layer solves one thing the layer below cannot do: subtraction, division, limits, root extraction. Each extension gives up one property.",
+    "t": "ℕ has no additive inverse → ℤ; ℤ has no division → ℚ; ℚ is not complete → ℝ; ℝ is not algebraically closed → ℂ. To extend beyond ℂ (to the quaternions) the price is the loss of commutativity of multiplication."
+  },
+  {
+    "k": "x²−1 → x²+1",
+    "d": "Changing the constant term from −1 to +1: x² − 1 = 0 has two real roots ±1, while x² + 1 = 0 has none. The discriminant Δ = −4ac changes from positive to negative.",
+    "t": "The disappearance of the real roots does not mean there is no solution — the solutions have moved to the complex plane and become ±i. This step is where complex numbers are forced onto the scene."
+  },
+  {
+    "k": "b 变号",
+    "d": "Changing the sign of the coefficient b of the first-degree term: ax² + bx + c and ax² − bx + c. The sum of the two roots changes from −b/a to b/a, that is, the two roots exchange signs (the product is unchanged).",
+    "t": "b → −b corresponds to reflecting the graph in the y-axis. One sign change in a coefficient appears in the solutions as a single overall symmetry — this is the direct reading of Vieta's formulas."
+  },
+  {
+    "k": "sin 与 cos",
+    "d": "cos θ = sin(θ + π/2): the difference between the two is only a phase shift, not two different functions. On the graph, cos is sin shifted left by a quarter period.",
+    "t": "Every sinusoidal function can be written uniformly as A sin(ωx + φ); the statement that sin and cos are two curves is therefore an illusion produced by the choice of coordinates."
+  },
+  {
+    "k": "交叉项变号",
+    "d": "In Ax² + Bxy + Cy², changing the sign of B is equivalent to replacing x by −x (or y by −y). This reverses the sign of the cross term of the quadratic form and thereby changes the direction of the principal axes.",
+    "t": "Whether a cross term is present is a question of how well the coordinates are chosen, not a property of the curve itself: every quadratic form can be freed of its cross term by a rotation (principal axis theorem)."
+  },
+  {
+    "k": "ODE 解曲线",
+    "d": "The solution of the first-order equation y′ = f(x, y) is an integral curve: each point is assigned a slope and the solution follows it. <b>Picard–Lindelöf theorem</b>: if f satisfies a Lipschitz condition in y, then for a given initial value (x₀,y₀) the solution exists and is unique on some interval.",
+    "t": "Uniqueness is only local: y′ = y² starting from y(0)=1 blows up at x=1 — the solution reaches infinity in finite time."
+  },
+  {
+    "k": "PDE 热 · 波 · 拉普拉斯",
+    "d": "Second-order linear PDEs fall into three classes according to the symbol of the principal part: parabolic (u_t = u_xx, heat equation), hyperbolic (u_tt = u_xx, wave equation), elliptic (Δu = 0, Laplace). The classification rests on the quadratic form of the principal symbol: degenerate, indefinite, definite.",
+    "t": "The three classes have entirely different properties: the heat equation smooths instantly (irreversible), the wave equation propagates along characteristics (reversible), and the Laplace equation has no time, its solution being determined uniquely by the boundary."
+  },
+  {
+    "k": "Maxwell · Navier–Stokes",
+    "d": "Maxwell: ∇·E = ρ/ε₀, ∇·B = 0, ∇×E = −∂B/∂t, ∇×B = μ₀J + μ₀ε₀∂E/∂t. Navier–Stokes: ∂u/∂t + (u·∇)u = −∇p/ρ + νΔu, ∇·u = 0.",
+    "t": "Maxwell is linear and solvable; Navier–Stokes is nonlinear, and the existence and smoothness of solutions in three dimensions remain a Millennium Problem."
+  },
+  {
+    "k": "变分 · 路径积分",
+    "d": "The calculus of variations seeks the extrema of a functional S[y] = ∫L(x, y, y′)dx; the necessary condition δS = 0 gives the Euler–Lagrange equation ∂L/∂y − d/dx(∂L/∂y′) = 0. The path integral sums e^{iS/ħ} over all paths.",
+    "t": "The Euler–Lagrange equation is the chain rule in its variational form; as ħ → 0 the phase oscillates violently, the contributions cancel one another, and only the classical path survives — this is the correspondence principle."
+  },
+  {
+    "k": "ax + b",
+    "d": "A first-degree polynomial. It is the basic object of the arithmetic layer: written with the four operations alone, with no radicals and no transcendental functions."
+  },
+  {
+    "k": "有理函数 P/Q",
+    "d": "The quotient P(x)/Q(x) of two polynomials. At the zeros of Q the denominator vanishes, and the curve breaks or develops a vertical asymptote.",
+    "t": "The integral of a rational function can always be expressed in elementary functions (partial fraction decomposition); this is the fundamental difference between it and irrational functions."
+  },
+  {
+    "k": "连分式嵌套",
+    "d": "An expression of the form a₀ + b₁/(a₁ + b₂/(a₂ + ⋯)). Each level is nested inside the one above; D = 2 refers to exactly this kind of two-level nesting."
+  },
+  {
+    "k": "无理数的连分式",
+    "d": "Every real number has a unique simple continued fraction expansion; it is finite for rationals and infinite for irrationals. The convergents 1/1, 3/2, 7/5, 17/12 of √2 = [1; 2, 2, 2, …] approach alternately and never arrive.",
+    "t": "The continued fraction of a quadratic irrational is necessarily periodic, and conversely (Lagrange) — this is the first example of periodicity in number theory."
+  },
+  {
+    "k": "√x",
+    "d": "The square root, that is, the 1/2 power of x. It cannot be written with finitely many applications of the four operations, so it goes beyond L0 into L1 (the algebraic layer)."
+  },
+  {
+    "k": "√(x²+1)",
+    "d": "A quadratic expression inside a radical. Its graph is the upper branch of the hyperbola y² − x² = 1.",
+    "t": "This function is the integrand in ∫dx/√(x²+1) = arsinh x — algebraic functions and elementary transcendental functions join up here."
+  },
+  {
+    "k": "迭代根式 √(1+√x)",
+    "d": "A radical inside a radical, nesting depth D = 2. The iterated √(1+√(1+⋯)) converges to the golden ratio φ = (1+√5)/2.",
+    "t": "The infinite iterated radical is the fixed point of the equation x = √(1+x), and that equation is precisely x² − x − 1 = 0."
+  },
+  {
+    "k": "代数数的收敛",
+    "d": "An algebraic number is a root of some polynomial with integer coefficients. Newton iteration x ← (x + 2/x)/2 squares the error at each step and reaches the double precision limit in a few steps.",
+    "t": "Algebraic numbers are countable, transcendental numbers are not — so almost all numbers are roots of no equation."
+  },
+  {
+    "k": "eˣ · sin x · ln x",
+    "d": "Three basic elementary transcendental functions. They cannot be expressed by the four operations + radicals, and they are the starting point of the L2 layer. Their domains differ: eˣ on the whole axis, sin on the whole axis, ln only for x > 0.",
+    "t": "The three are linked by Euler's formula e^{ix} = cos x + i sin x — the exponential and the trigonometric functions are originally two projections of one and the same function on the complex plane."
+  },
+  {
+    "k": "e^{sin x}",
+    "d": "An exponential over a trigonometric function: e^{sin x} keeps the period 2π, but its values are confined to [1/e, e]."
+  },
+  {
+    "k": "ln(cos(eˣ))",
+    "d": "A trigonometric function over an exponential: the frequency of cos(eˣ) grows exponentially with x, and the oscillations become denser to the right, so that no finite resolution can draw it.",
+    "t": "This is the smallest example of a composite in which the frequency changes itself — and also the form most prone to error in numerical integration."
+  },
+  {
+    "k": "泰勒 · 傅里叶级数",
+    "d": "Taylor series approximate by polynomials (locally), Fourier series by trigonometric functions (globally, for periodic functions). Both are limiting forms of infinite nesting.",
+    "t": "Taylor demands analyticity, Fourier only integrability — so Fourier series apply to far more functions, but their convergence is more delicate (Gibbs phenomenon)."
+  },
+  {
+    "k": "Ai(x)　Airy",
+    "d": "The Airy function is a solution of y″ = x y, introduced by George Airy in his study of rainbow optics. It decays exponentially for x > 0 and oscillates for x < 0.",
+    "t": "It is the standard model of the turning point problem: on one and the same curve, oscillation on one side and decay on the other, with a smooth transition in between. The WKB approximation of quantum mechanics fails here."
+  },
+  {
+    "k": "ζ(s)　Riemann",
+    "d": "The Riemann ζ function: ζ(s) = Σ n^{−s} (Re s > 1), extended by analytic continuation to the whole complex plane, with a single pole at s = 1.",
+    "t": "The Euler product ζ(s) = ∏(1−p^{−s})^{−1} encodes the primes in a single complex function — this is the starting point of analytic number theory. The Riemann hypothesis states that all nontrivial zeros lie on Re s = 1/2."
+  },
+  {
+    "k": "模形式的基本域",
+    "d": "A modular form is a holomorphic function on the upper half-plane satisfying f((aτ+b)/(cτ+d)) = (cτ+d)^k f(τ). It is determined completely by its values on the fundamental domain {|Re τ| ≤ ½, |τ| ≥ 1} of SL(2,Z).",
+    "t": "The fundamental domain is a single brick: the whole upper half-plane is tiled by it under modular transformations. Studying modular forms therefore requires studying only this small piece — an extreme case of the local determining the global."
+  },
+  {
+    "k": "₂F₁ 超几何",
+    "d": "The hypergeometric function ₂F₁(a,b;c;z) = Σ (a)ₙ(b)ₙ/(c)ₙ · zⁿ/n! is the generating function of a large class of special functions. For a=b=1, c=2 it degenerates to −ln(1−z)/z.",
+    "t": "Almost all elementary and special functions are special cases of the hypergeometric function — it is the unifying framework of the special function layer."
+  },
+  {
+    "k": "Dirac δ",
+    "d": "δ is not a function but a distribution (generalized function): it satisfies ∫δ(x)φ(x)dx = φ(0). It is usually approximated by a family of peaks of constant area 1 whose width tends to 0.",
+    "t": "The derivative of δ is a dipole and the integral of δ is a step — the calculus of distributions gives a rigorous definition to such physical objects as point charges and instantaneous impulses."
+  },
+  {
+    "k": "变分导数 δF/δy",
+    "d": "The variational derivative of a functional F[y] is defined as the derivative of F[y+εδy] with respect to ε at ε=0. It is the derivative obtained after treating the whole curve as a single variable.",
+    "t": "δF/δy = 0 is the Euler–Lagrange equation — everything in the calculus of variations comes from this one equation."
+  },
+  {
+    "k": "Navier–Stokes 弱解",
+    "d": "A weak solution is required to satisfy the equation only in the integral sense, not to be differentiable pointwise: for every test function φ, ∫(u·∇φ)u + ν∫∇u·∇φ = ∫fφ.",
+    "t": "Existence of weak solutions (Leray 1934) is settled, but whether solutions in three dimensions are smooth and unique is still open — one of the Millennium Problems."
+  },
+  {
+    "k": "路径积分",
+    "d": "The path integral writes the propagator as an integral over all paths, ∫e^{iS[y]/ħ}𝒟y. It is not a Lebesgue integral but a formal limit.",
+    "t": "As ħ → 0 the phase oscillates violently and the non-extremal paths cancel one another, leaving only the classical path — this is the origin of the principle of least action."
+  },
+  {
+    "k": "Hilbert 空间",
+    "d": "A Hilbert space is a complete inner product space: every Cauchy sequence converges. In the separable case there is a countable orthonormal basis {eₙ}, every element expands uniquely as v = Σ⟨v,eₙ⟩eₙ, and Parseval's identity ‖v‖² = Σ|⟨v,eₙ⟩|² holds.",
+    "t": "All infinite-dimensional separable Hilbert spaces are isometrically isomorphic to one another; the closed unit ball is compact if and only if the space is finite-dimensional (Riesz's theorem), so in the infinite-dimensional case compactness must be replaced by weak compactness."
+  },
+  {
+    "k": "Sobolev 流形",
+    "d": "The Sobolev space W^{k,p}(Ω) consists of all functions whose weak derivatives up to order k lie in Lᵖ(Ω), with the norm ‖u‖_{k,p} = (Σ_{|α|≤k}‖D^α u‖_p^p)^{1/p}. It is complete, and a space of maps modelled on it is an infinite-dimensional manifold.",
+    "t": "Sobolev embedding theorem: if k > n/p, then W^{k,p}(Ω) embeds continuously in C⁰(Ω); the larger k − n/p, the smoother the target space, and this is the basis for the regularization of weak solutions."
+  },
+  {
+    "k": "算术曲面",
+    "d": "An arithmetic surface is an integral scheme X → Spec ℤ, proper and flat, of relative dimension 1. Its generic fibre is a smooth curve over ℚ, the fibre at a prime p is a curve over 𝔽_p, and the integral points of X correspond exactly to the sections of this fibration.",
+    "t": "If X → Spec ℤ has a section, its image gives infinitely many integral points; conversely, the existence of integral points can be read as the existence of a section over some open set — this is the basic translation that geometrizes Diophantine problems."
+  },
+  {
+    "k": "双曲紧流形",
+    "d": "A hyperbolic manifold is a complete Riemannian manifold of constant sectional curvature −1, equivalently the quotient Γ\\ℍⁿ of hyperbolic space ℍⁿ by a discrete torsion-free subgroup Γ of isometries. In the Poincaré disk model of a compact hyperbolic surface the geodesics are exactly the circular arcs orthogonal to the boundary circle.",
+    "t": "Mostow rigidity: a complete finite-volume hyperbolic manifold of dimension n ≥ 3 is determined uniquely by its fundamental group — homotopy equivalence implies isometry — so its moduli space is discrete."
+  },
+  {
+    "k": "PDE 的整体吸引子",
+    "d": "Let {S(t)}_{t≥0} be a dissipative semigroup on a Banach space X. Its global attractor 𝒜 is a compact invariant set such that dist(S(t)B, 𝒜) → 0 for every bounded set B; equivalently, 𝒜 is the closure of the union of the values at t = 0 of all bounded complete orbits.",
+    "t": "If the semigroup has a bounded absorbing set and is asymptotically compact, then the global attractor exists and is invariant; for equations such as the two-dimensional Navier–Stokes both the Hausdorff and the fractal dimension of 𝒜 are finite."
+  },
+  {
+    "k": "椭圆纤维化曲面",
+    "d": "An elliptic surface is a compact complex surface X together with a surjective morphism π: X → B (B a smooth curve) such that the generic fibre is an elliptic curve and only finitely many fibres are degenerate. The degenerate fibres over the discriminant locus are classified by Kodaira into types I_n, II, III, IV, I_n*, etc., each class having a definite local equation.",
+    "t": "The Kodaira formula K_X = π*(K_B + Δ) writes the canonical class of the surface as the sum of the contribution of the base curve and that of the degenerate fibres; this is the entry point to the Enriques–Kodaira classification."
+  },
+  {
+    "k": "路径纤维化 ΩM",
+    "d": "Let M be a based topological space, PM the space of all paths γ: [0,1] → M, and ΩM the space of loops with γ(0) = γ(1) = x₀. The evaluation map PM → M, γ ↦ γ(1), is a fibration with fibre ΩM, and PM is contractible.",
+    "t": "The long exact homotopy sequence of the fibration gives π_n(ΩM) ≅ π_{n+1}(M); for n = 0 this gives π₀(ΩM) ≅ π₁(M), that is, the fundamental group is the set of connected components of the loop space."
+  },
+  {
+    "k": "代数叠（Artin stack）",
+    "d": "An algebraic stack is a category fibred in groupoids X → (Sch/S)_{fppf} satisfying descent, whose diagonal is representable and for which there exists a smooth surjection U → X with U a scheme. Each of its points carries an automorphism group (stabilizer), so what it records is the whole moduli functor rather than a set of isomorphism classes.",
+    "t": "Artin's theorem: a moduli functor satisfying Schlessinger's deformation conditions is represented by an Artin stack; when the cover is taken étale the stack is called a Deligne–Mumford stack."
+  },
+  {
+    "k": "黎曼面模空间 M_g",
+    "d": "M_g is the space of equivalence classes of compact Riemann surfaces of genus g under biholomorphism; it is smooth as a Deligne–Mumford stack and a quasi-projective variety as a coarse moduli space. For g ≥ 2, dim_ℂ M_g = 3g − 3; for g = 1 it is 1, and for g = 0 it is a single point.",
+    "t": "Teichmüller space T_g is contractible and the modular subgroup Γ_g acts on it, with M_g = T_g/Γ_g; hence M_g is an orbifold and not a manifold."
+  },
+  {
+    "k": "椭圆曲线的 j-线",
+    "d": "For the lattice Λ_τ = ℤ + ℤτ, the j-invariant of E_τ = ℂ/Λ_τ is j(τ) = 1728·4a³/(4a³ + 27b²), with a, b coming from the Weierstrass equation. j is a modular function for SL(2,ℤ), and two curves are isomorphic if and only if their j are equal.",
+    "t": "j induces a biholomorphism ℍ/SL(2,ℤ) ≅ ℂ, with j(i) = 1728 and j(ρ) = 0, corresponding respectively to the two curves whose automorphism groups are ℤ/4 and ℤ/6."
+  },
+  {
+    "k": "Yang–Mills 瞬子",
+    "d": "Let P → ℝ⁴ be a principal bundle with structure group a compact Lie group G, A a connection and F_A its curvature. An instanton is a connection satisfying the self-duality equation F_A = *F_A with finite energy ∫|F_A|² < ∞; its topological charge is k = −(1/8π²)∫ tr(F_A ∧ F_A).",
+    "t": "The ADHM construction identifies the moduli space of SU(2) k-instantons with the solutions of a system of matrix equations modulo the action of U(k); this moduli space is smooth of dimension 8k − 3."
+  },
+  {
+    "k": "代数叠的模空间",
+    "d": "Every algebraic stack X has a coarse moduli space π: X → X_coarse, where X_coarse is a scheme, π induces a one-to-one correspondence of connected components, and every morphism from X to a scheme factors uniquely through π. Coarsening amounts to forgetting the automorphism group at each point.",
+    "t": "Coarsening is not an isomorphism invariant of stacks: a nontrivial μ_n-gerbe has the same coarse moduli space as its base scheme, so the coarse space cannot recover the stack, and two different stacks may share one coarse space."
+  },
+  {
+    "k": "二项式定理",
+    "d": "For x, y in a commutative ring and n a positive integer, (x+y)ⁿ = Σ_{k=0}^{n} C(n,k)·xᵏ·y^{n−k}, where C(n,k) = n!/(k!(n−k)!) is the number of k-element subsets of an n-element set. The coefficients form the n-th row of Pascal's triangle.",
+    "t": "Pascal's identity C(n,k) = C(n−1,k) + C(n−1,k−1) follows by comparing coefficients in (1+x)ⁿ = (1+x)(1+x)^{n−1}."
+  },
+  {
+    "k": "三项式定理",
+    "d": "For x, y, z in a commutative ring and n a positive integer, (x+y+z)ⁿ = Σ_{i+j+k=n} (n!/(i!j!k!))·xⁱ·yʲ·zᵏ, the sum running over all triples of non-negative integers with i + j + k = n. The coefficients form a three-dimensional Pascal pyramid.",
+    "t": "The coefficient n!/(i!j!k!) equals the number of ways of splitting n distinct elements into three groups of sizes i, j, k; setting x = y = z = 1 gives 3ⁿ as the sum of all coefficients."
+  },
+  {
+    "k": "多项式定理",
+    "d": "For x₁, …, x_m in a commutative ring and n a positive integer, (x₁+⋯+x_m)ⁿ = Σ (n!/(i₁!⋯i_m!))·x₁^{i₁}⋯x_m^{i_m}, the sum running over all tuples of non-negative integers with i₁ + ⋯ + i_m = n; the coefficients are the multinomial coefficients.",
+    "t": "Setting all x_j = 1 gives Σ n!/(i₁!⋯i_m!) = mⁿ; m = 2 and m = 3 give back the binomial and trinomial theorems, which are therefore special cases."
+  },
+  {
+    "k": "一次型",
+    "d": "A linear form is a linear map f(x) = Σ aᵢxᵢ = a·x whose coefficients a = (a₁, …, a_n) form a vector, that is, a covariant tensor of order one. The zero set {x : a·x = 0} is a hyperplane through the origin and a is its normal vector, so linear forms correspond one-to-one with hyperplanes.",
+    "t": "The level sets f = c of a linear form are a family of mutually parallel hyperplanes; on an affine space the graph of a linear function is a hyperplane whose gradient equals the constant vector a everywhere."
+  },
+  {
+    "k": "d 次型",
+    "d": "A form of degree d is F(x) = Σ t_{i₁⋯i_d}·x_{i₁}⋯x_{i_d}, its coefficients t being a symmetric tensor of order d. Over a field of characteristic 0 the polarization formula gives mutually inverse correspondences between forms of degree d and symmetric d-linear forms, so the two are two ways of writing the same object.",
+    "t": "When 0 < d < char k, the space of forms of degree d and the space of symmetric tensors of order d are isomorphic by polarization, both of dimension C(n+d−1, d); for d = 2 this is the correspondence between quadratic forms and symmetric matrices."
+  },
+  {
+    "k": "Rⁿ · 开球",
+    "d": "The open ball B(p, r) = {x : ‖x−p‖ < r} in Rⁿ is diffeomorphic to Rⁿ itself and is contractible to a point. It is the most trivial smooth manifold — the local model is exactly this.",
+    "t": "All open balls are diffeomorphic to one another, yet they differ from the sphere Sⁿ: Sⁿ is not contractible, and the difference lies in the boundary."
+  },
+  {
+    "k": "球面 S² / 环面 T²",
+    "d": "Sphere S²: χ = 2, simply connected; torus T² = R²/Z²: χ = 0, fundamental group Z². Both are compact boundaryless smooth surfaces, but their topology is entirely different.",
+    "t": "Classification of closed surfaces: every such surface is homeomorphic to the sphere of some genus g (orientable) or to the connected sum of k projective planes (non-orientable). The sphere is g=0 and the torus is g=1."
+  },
+  {
+    "k": "光滑椭圆曲线",
+    "d": "A smooth (nonsingular) elliptic curve is, as a real surface, a torus: E(C) ≅ C/Λ ≅ T². Its singularities have been resolved, which is why it sits in C1 rather than C2.",
+    "t": "As a real manifold it is always a torus, but as a complex manifold there are infinitely many of them — the modulus τ distinguishes them. This is one topology with different complex structures."
+  },
+  {
+    "k": "曼德勃罗集边界",
+    "d": "The boundary ∂M of M is a fractal: its Hausdorff dimension is 2 (Shishikura 1991), yet it is not any curve — it almost fills up the interior.",
+    "t": "The dimension of ∂M equals 2, and M itself is also 2-dimensional — the boundary is as large as the interior. This is the most extreme example of a fractal boundary."
+  },
+  {
+    "k": "莫比乌斯带 / Hopf 纤维化",
+    "d": "Möbius band: the nontrivial twist of an interval bundle over S¹; non-orientable, with boundary a single circle. Hopf fibration: S³ → S² with fibre S¹, the first nontrivial fibre bundle.",
+    "t": "Both are locally trivial but globally nontrivial: the twist of the Möbius band is w₁ ≠ 0, and the nontriviality of the Hopf fibration is measured by π₃(S²) = Z."
+  },
+  {
+    "k": "循环群 C₃",
+    "d": "C₃ = {e, r, r²}, r³ = e. It is the cyclic group of order 3 and the only group of order 3 (a group of prime order is necessarily cyclic).",
+    "t": "Lagrange's theorem: the order of a subgroup divides the order of the group. Since 3 is prime, C₃ has no proper subgroup."
+  },
+  {
+    "k": "循环群 C₄",
+    "d": "C₄ = {e, r, r², r³}, r⁴ = e. It has the proper subgroup {e, r²} ≅ C₂.",
+    "t": "C₄ and V₄ both have order 4 but are not isomorphic: C₄ has an element of order 4, whereas every non-identity element of V₄ has order 2. Same order, different isomorphism type — this is the first counterexample."
+  },
+  {
+    "k": "循环群 C₆",
+    "d": "C₆ = {e, r, …, r⁵}, r⁶ = e. It has proper subgroups C₂ and C₃, and C₆ ≅ C₂ × C₃.",
+    "t": "The group-theoretic form of the Chinese remainder theorem: C_m × C_n ≅ C_{mn} if and only if gcd(m,n)=1."
+  },
+  {
+    "k": "二面体群 D₃",
+    "d": "D₃ is the full symmetry group of the equilateral triangle: 3 rotations + 3 reflections, 6 elements in all. It is isomorphic to S₃ — every non-abelian group of order 6 is S₃.",
+    "t": "D₃ ≅ S₃ is the smallest non-abelian group. Its 3 reflections all have order 2, and the product of two reflections is a rotation — flipping twice equals rotating once."
+  },
+  {
+    "k": "二面体群 D₄",
+    "d": "D₄ is the full symmetry group of the square: 4 rotations + 4 reflections, 8 elements in all. It is at the same time a subgroup of the rotation group of the regular octahedron (S₄).",
+    "t": "D₄ and the quaternion group Q₈ are both non-abelian of order 8 but are not isomorphic: D₄ has 5 elements of order 2, Q₈ only 1."
+  },
+  {
+    "k": "二面体群 D₆",
+    "d": "D₆ is the full symmetry group of the regular hexagon: 6 rotations + 6 reflections, 12 elements in all. It is exactly the symmetry group of the snowflake.",
+    "t": "D₆ and A₄ both have order 12 but are not isomorphic: D₆ has a normal subgroup C₆ of order 2, A₄ has none."
+  },
+  {
+    "k": "Klein 四元群 V₄",
+    "d": "V₄ = {e, a, b, c}, every non-identity element has order 2, and V₄ ≅ C₂ × C₂. It is the symmetry group of the rectangle (width and height unequal, so a rotation by 90° is not a symmetry).",
+    "t": "V₄ is the smallest non-cyclic group. It is a normal subgroup of A₄ and is also part of a Sylow 2-subgroup of S₄."
+  },
+  {
+    "k": "正四面体群 A₄",
+    "d": "A₄ is the group of even permutations of 4 letters, and also the rotation group of the regular tetrahedron: 8 rotations by 120° (about a vertex and the opposite face) + 3 rotations by 180° (about the midpoints of opposite edges) + 1 identity.",
+    "t": "A₄ is the key to the smallest counterexample among non-abelian simple groups: it has the normal subgroup V₄ and so is not simple. The smallest non-abelian simple group is A₅ (of order 60)."
+  },
+  {
+    "k": "立方体旋转群 S₄",
+    "d": "The 24 rotations of the cube form a group isomorphic to S₄ — because a rotation is determined completely by how it permutes the four space diagonals. It is at the same time the rotation group of the regular octahedron.",
+    "t": "Why 24: the cube has 6 faces; choose one to face up (6 ways), then rotate about the vertical axis (4 ways), 6×4 = 24."
+  },
+  {
+    "k": "D₃ 的 Cayley 表",
+    "d": "The Cayley table lists once and for all what any two elements multiply to: the entry in row i and column j is gᵢgⱼ. Every row and every column contains each element exactly once — this is called a Latin square.",
+    "t": "The group table is symmetric ⇔ the group is abelian. The table of D₃ is not symmetric, and this is the direct evidence that it is non-abelian."
+  },
+  {
+    "k": "单位根乘群 μ₆",
+    "d": "μ₆ = {ζ⁰, ζ¹, …, ζ⁵}, ζ = e^{2πi/6}. Multiplication corresponds to addition of angles, so μ₆ ≅ C₆.",
+    "t": "The same C₆ has two descriptions: written multiplicatively it is the group of roots of unity, written geometrically it is rotations. The core of abstract group theory is exactly this — regardless of what the elements are, look only at the structure of the operation."
+  },
+  {
+    "k": "计数与测量",
+    "d": "Counting classifies finite sets up to equipotence and assigns them cardinalities; measurement assigns real numbers to the lengths of segments, to areas and to volumes. The two correspond respectively to the primitive lattice points d = 0 and d = 1, n = 1 and n = 2: the natural numbers and the rational numbers arise here, and commensurability is the earliest equivalence relation.",
+    "t": "Book V of Euclid's Elements treats measurement through commensurable and incommensurable magnitudes; only with the Dedekind cut in the 19th century was measurement made rigorous as the completeness of the real number system."
+  },
+  {
+    "k": "欧几里得几何",
+    "d": "Euclidean geometry is the geometry of the plane and of space developed from five postulates and five axioms, with straightedge and compass construction as its means of construction. Its objects are points, lines and planes; congruence is characterized by superposition, and the fifth postulate (the parallel postulate) separates it from non-Euclidean geometry.",
+    "t": "Proposition 47 of Book I of the Elements gives the Pythagorean theorem, and its proof uses only the first four postulates; the independence of the fifth postulate was established only in the 19th century, through the models of Lobachevsky and Bolyai."
+  },
+  {
+    "k": "笛卡尔坐标系",
+    "d": "A Cartesian coordinate system is the affine isomorphism obtained by choosing an origin and a basis in an affine space and sending a point P to the tuple of coordinates (x₁, …, xₙ). Under this correspondence a curve becomes the solution set of an equation F(x) = 0, geometric objects and algebraic equations translate into one another, and the contravariant correspondence between coordinate rings and point sets holds.",
+    "t": "Under this correspondence a line corresponds to a first-degree equation and a conic section to a second-degree equation; algebraic operations and geometric constructions are dual to each other, and the whole method of analytic geometry rests on this one isomorphism."
+  },
+  {
+    "k": "牛顿–莱布尼茨微积分",
+    "d": "Calculus takes the limit as its sole foundation: the derivative is defined as the limit of a difference quotient f′(x) = lim_{h→0}(f(x+h) − f(x))/h, and the definite integral as the limit of Riemann sums as the partition is refined, ∫_a^b f = lim Σ f(ξᵢ)Δxᵢ. The fundamental theorem of calculus links the two as mutually inverse operations.",
+    "t": "Fundamental theorem of calculus: if f is continuous on [a,b], then F(x) = ∫_a^x f is differentiable with F′ = f, hence ∫_a^b f = F(b) − F(a)."
+  },
+  {
+    "k": "伽罗瓦理论",
+    "d": "Galois theory takes as its object the automorphism group of a field extension: for a finite Galois extension L/K, Gal(L/K) is the group of L-automorphisms fixing K, and its order equals the degree [L:K] of the extension. Solvability of a polynomial by radicals is thereby translated into solvability of a group over its splitting field.",
+    "t": "Galois correspondence: intermediate fields E and subgroups H of Gal(L/K) correspond one-to-one in reverse order, and E/K is normal if and only if H is normal; f is solvable by radicals if and only if Gal(f) is solvable."
+  },
+  {
+    "k": "黎曼几何",
+    "d": "Riemannian geometry is the geometry obtained by giving a smooth manifold M a Riemannian metric g: g assigns to each point a positive definite inner product on the tangent space, varying smoothly with the point. From g alone are determined the Levi-Civita connection, the geodesics, the Riemann curvature tensor and the volume measure; curvature measures the deviation from Euclidean space.",
+    "t": "The Riemann curvature tensor vanishes identically at a point if and only if the metric is isometric to the Euclidean metric on a neighbourhood of that point; a complete space of constant sectional curvature K is of one of only three kinds — Euclidean, spherical, hyperbolic."
+  },
+  {
+    "k": "广义相对论",
+    "d": "General relativity models spacetime as a four-dimensional pseudo-Riemannian manifold (M, g), with g of Lorentzian signature (−, +, +, +). The distribution of matter is described by the energy-momentum tensor T; gravity is not a force but the curvature of the metric, and the field equation is Ric − ½Rg + Λg = 8πT.",
+    "t": "The spherically symmetric solution of the vacuum field equation R_{μν} = 0 is unique, namely the Schwarzschild solution (Birkhoff's theorem); r = 2M is a coordinate singularity, and the curvature invariants are finite there."
+  },
+  {
+    "k": "格罗滕迪克概型",
+    "d": "A scheme is a locally ringed space locally isomorphic to some Spec R; morphisms are morphisms of locally ringed spaces, and all of them together form the category Sch. It generalizes the points of a variety to prime ideals, so that nilpotent elements, equations over non-algebraically-closed fields and fibre products can all be discussed; geometric points are characterized by morphisms with values in an arbitrary field.",
+    "t": "In the category of schemes fibre products and base change always exist, and the geometric properties of morphisms (flat, smooth, proper) are preserved under base change, which makes it possible to treat a family of parameters uniformly."
+  },
+  {
+    "k": "芒德勃罗分形",
+    "d": "A fractal is a set whose Hausdorff dimension is strictly greater than its topological dimension; a typical source is a self-similar compact set satisfying K = ∪ f_i(K), with f_i a similarity of ratio r_i, whose dimension s is determined by Moran's equation Σ r_i^s = 1.",
+    "t": "If a self-similar set satisfies the open set condition, its Hausdorff dimension equals the similarity dimension s, and 0 < H^s(K) < ∞; the boundary of the Mandelbrot set has dimension 2."
+  },
+  {
+    "k": "弦论与几何",
+    "d": "String theory replaces the point by a two-dimensional worldsheet Σ embedded in ten-dimensional spacetime as the fundamental object; its action is the Polyakov action, and quantization requires the background metric to satisfy a first-order correction of the Einstein equation. To agree with four-dimensional observation, the extra six dimensions are compactified on a Calabi–Yau threefold.",
+    "t": "The Hodge numbers (h^{1,1}, h^{2,1}) of a Calabi–Yau threefold determine the low-energy particle spectrum; mirror symmetry asserts that two families with interchanged Hodge numbers give the same theory."
+  }
+]
