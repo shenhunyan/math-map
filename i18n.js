@@ -256,6 +256,7 @@
   applyClass(CUR);
 
   document.addEventListener('DOMContentLoaded', function () {
+    if (CUR === 'en') { try { localize(document.body); } catch (e) {} }
     /* 如果这份 HTML 不在 math-map/ 目录里（比如复制到别处单独打开），
        导航里的相对链接会指到不存在的文件，这里补上前缀。 */
     if (!/\/math-map\//.test(location.pathname)) {
@@ -292,7 +293,46 @@
   function localize(root) {
     var D = w.MM_STR || {};
     if (!D || !Object.keys(D).length) return 0;
+    /* 全角空格 / 多空格是主要的不匹配来源，查表前统一归一化 */
+    var NORM = null;
+    function norm(x) { return x.replace(/\u3000/g, ' ').replace(/\s+/g, ' ').trim(); }
+    function lookup(t) {
+      if (D[t]) return D[t];
+      if (!NORM) { NORM = {}; for (var q in D) { NORM[norm(q)] = D[q]; } }
+      var v = NORM[norm(t)];
+      return (v && v !== t) ? v : null;
+    }
     var hits = 0;
+    var touched = [];
+
+    /* 第一遍：整块元素完全匹配 → 换成纯文本。
+       带 <b> 等内联标签的段落只能这样处理，否则会把一句话拆成
+       前半英文后半中文。 */
+    var SEL = 'div,p,li,td,th,em,b,i,h1,h2,h3,h4,button,a,label,figcaption';
+    var els = root.querySelectorAll(SEL);
+    for (var i = 0; i < els.length; i++) {
+      var e = els[i];
+      if (inLangSpan(e)) continue;
+      var t = (e.textContent || '').trim();
+      var tr = t ? lookup(t) : null;
+      if (!tr) continue;
+      if (e.querySelector && e.querySelector('canvas')) continue;
+      e.textContent = tr;
+      touched.push(e);
+      hits++;
+    }
+
+    function insideTouched(node) {
+      var p = node.parentNode;
+      while (p && p !== root) {
+        for (var k = 0; k < touched.length; k++) if (touched[k] === p) return true;
+        p = p.parentNode;
+      }
+      return false;
+    }
+
+    /* 第二遍：剩下的文本节点，只在「父元素里只有这一个文本节点」时替换，
+       避免把一句话切一半。 */
     var it = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode: function (n) {
         var p = n.parentNode;
@@ -305,16 +345,22 @@
     });
     var n;
     while ((n = it.nextNode())) {
-      if (inLangSpan(n)) continue;
-      var raw = n.nodeValue, t = raw.trim();
-      if (D[t] && D[t] !== t) { n.nodeValue = raw.replace(t, D[t]); hits++; }
+      if (insideTouched(n) || inLangSpan(n)) continue;
+      if (n.parentNode && n.parentNode.childNodes && n.parentNode.childNodes.length > 1) continue;
+      var raw = n.nodeValue, t2 = raw.trim();
+      var tr2 = lookup(t2);
+      if (!tr2) continue;
+      n.nodeValue = raw.replace(t2, tr2);
+      hits++;
     }
-    var els = root.querySelectorAll('[title],[placeholder],[aria-label]');
-    for (var i = 0; i < els.length; i++) {
-      var e = els[i];
+
+    var attrs = root.querySelectorAll('[title],[placeholder],[aria-label]');
+    for (var j = 0; j < attrs.length; j++) {
+      var el = attrs[j];
       ['title', 'placeholder', 'aria-label'].forEach(function (a) {
-        var v = e.getAttribute(a);
-        if (v && D[v.trim()]) { e.setAttribute(a, D[v.trim()]); hits++; }
+        var v = el.getAttribute(a);
+        var tv = v ? lookup(v.trim()) : null;
+        if (tv) { el.setAttribute(a, tv); hits++; }
       });
     }
     return hits;
