@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" class="lang-zh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Math Map — a prerequisite graph of mathematics</title>
-<meta name="description" content="24 course cells, 124 knowledge points, 166 catalogue entries. Every cell has a textbook-level definition, a chapter citation, and a live visual.">
+<title>数学地图 — 数学先修关系图</title>
+<meta name="description" content="24 个课程格、124 个知识点、166 个目录条目。每一格都有教材级定义、章节出处，和一个可以拖动的图。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Math Map — a prerequisite graph of mathematics">
 <meta property="og:description" content="166 cells, four stages, six strands. Every cell carries a textbook-level definition, a chapter citation, and a visual you can drag.">
@@ -20,7 +20,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif;
     font-size:16px;line-height:1.75}
-  .wrap{max-width:860px;margin:0 auto;padding:56px 22px 80px}
+  .wrap{max-width:860px;margin:0 auto;padding:56px 22px 80px;position:relative}
 
   h1{font-size:34px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px}
   .tagline{font-size:17px;color:var(--muted);margin:0 0 6px}
@@ -64,81 +64,164 @@
   .lic{display:inline-block;font-size:12px;padding:1px 8px;border-radius:3px;
     background:#f3efe6;color:#6a6155;margin-right:6px}
 
+  /* 语言切换 */
+  .langsw{position:absolute;top:24px;right:22px;display:flex;
+    border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#fff}
+  .langsw button{font-family:inherit;font-size:12.5px;line-height:1;padding:6px 11px;
+    border:0;background:transparent;color:var(--muted);cursor:pointer}
+  .langsw button.on{background:var(--ink);color:#fff}
+
+  .zh,.en{display:none}
+  html.lang-zh .zh{display:inline}
+  html.lang-en .en{display:inline}
+  html.lang-en .card .cn{display:none}
+
   @media (max-width:680px){
     .wrap{padding:34px 16px 60px}
     h1{font-size:27px}
     .grid{grid-template-columns:1fr}
     .lede{font-size:15.5px}
+    .langsw{position:static;margin:0 0 18px;justify-content:flex-end;margin-left:auto;width:max-content}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <div class="langsw">
+    <button type="button" data-lang-btn="zh">中文</button>
+    <button type="button" data-lang-btn="en">EN</button>
+  </div>
+
   <h1>Math Map</h1>
-  <p class="tagline">A prerequisite graph of mathematics — from counting to schemes.</p>
-  <p class="meta">24 COURSE CELLS · 124 KNOWLEDGE POINTS · 166 CATALOGUE ENTRIES</p>
+  <p class="tagline">
+    <span class="zh">一张按先修关系排出来的数学地图——从数数到概型。</span>
+    <span class="en">A prerequisite graph of mathematics — from counting to schemes.</span>
+  </p>
+  <p class="meta">
+    <span class="zh">24 个课程格 · 124 个知识点 · 166 个目录条目</span>
+    <span class="en">24 COURSE CELLS · 124 KNOWLEDGE POINTS · 166 CATALOGUE ENTRIES</span>
+  </p>
 
   <p class="lede">
-    Most math resources are organised as lists — by grade, by alphabet, by topic.
+    <span class="zh">现在的数学资源大多按年级、按字母、按主题排。这张图按<span class="hl">依赖关系</span>排：什么必须在什么之前，什么可以跳过。</span>
+    <span class="en">Most math resources are organised as lists — by grade, by alphabet, by topic.
     This one is organised by <span class="hl">dependency</span>: what must come before what,
-    and what can be skipped.
+    and what can be skipped.</span>
   </p>
 
   <a class="shot" href="math-map.html">
     <img src="assets/map.png" alt="The map: 166 cells across four stages and six strands, 146 of them with a live visual">
   </a>
-  <p class="shotcap">166 cells, four stages, six strands. 146 of them open into a visual you can drag.</p>
+  <p class="shotcap">
+    <span class="zh">166 格，四个学段，六条主线。其中 146 格点开是可以拖着动的图。</span>
+    <span class="en">166 cells, four stages, six strands. 146 of them open into a visual you can drag.</span>
+  </p>
 
-  <h2>Four modules</h2>
-  <p class="h2note">All single-file HTML. No build, no CDN, no tracking. Works offline.</p>
+  <h2><span class="zh">四个模块</span><span class="en">Four modules</span></h2>
+  <p class="h2note">
+    <span class="zh">全部是单文件 HTML。不构建、不联网、不追踪，离线能开。</span>
+    <span class="en">All single-file HTML. No build, no CDN, no tracking. Works offline.</span>
+  </p>
 
   <div class="grid">
     <a class="card" href="math-map.html">
-      <h3>Math Map</h3>
-      <p class="cn">数学地图</p>
-      <p>The whole territory in one view. Eleven ways to slice it: course order, structure (degree × variables), operators, geometry, group theory, physics, number systems, history. 146 of the 166 open into a visual you can drag.</p>
-      <span class="num">24 cells · 124 points · 166 entries</span>
+      <h3><span class="zh">数学地图</span><span class="en">Math Map</span></h3>
+      <p class="cn">Math Map</p>
+      <p>
+        <span class="zh">一屏看完整个版图。十一种切法：课程序、结构序、算子序、几何序、群论序、物理序、数系、历史。166 格里 146 格点开是能动的图。</span>
+        <span class="en">The whole territory in one view. Eleven ways to slice it: course order, structure (degree × variables), operators, geometry, group theory, physics, number systems, history. 146 of the 166 open into a visual you can drag.</span>
+      </p>
+      <span class="num"><span class="zh">24 格 · 124 知识点 · 166 条目</span><span class="en">24 cells · 124 points · 166 entries</span></span>
     </a>
 
     <a class="card" href="variations.html">
-      <h3>Variations</h3>
-      <p class="cn">变式全集</p>
-      <p>Every algebraic transformation, closed under composition. Thirteen equivalence operators applied to 192 seed forms — plus 66 operator chains and 51 named error patterns for diagnosis.</p>
-      <span class="num">1814 concrete variants</span>
+      <h3><span class="zh">变式全集</span><span class="en">Variations</span></h3>
+      <p class="cn">Variations</p>
+      <p>
+        <span class="zh">一个式子的所有等价变形，对复合封闭。13 个等价算子作用在 192 个母式上，外加 66 条算子链和 51 种命名错法，供诊断用。</span>
+        <span class="en">Every algebraic transformation, closed under composition. Thirteen equivalence operators applied to 192 seed forms — plus 66 operator chains and 51 named error patterns for diagnosis.</span>
+      </p>
+      <span class="num"><span class="zh">1814 个具体形态</span><span class="en">1814 concrete variants</span></span>
     </a>
 
     <a class="card" href="fitting-lab.html">
-      <h3>Fitting Lab</h3>
-      <p class="cn">拟合实验室</p>
-      <p>Draw a curve by hand. Get back every mathematical language that can describe it — conic, polar, Bézier, NURBS, Fourier, Chebyshev, spline, RBF, symbolic regression — ranked by parsimony, not just fit.</p>
-      <span class="num">35 families · ranked by error × parsimony</span>
+      <h3><span class="zh">拟合实验室</span><span class="en">Fitting Lab</span></h3>
+      <p class="cn">Fitting Lab</p>
+      <p>
+        <span class="zh">手画一条曲线，反解出所有能描述它的数学语言——圆锥曲线、极坐标、贝塞尔、NURBS、傅里叶、切比雪夫、样条、RBF、符号回归——按简约度排，不只看拟合。</span>
+        <span class="en">Draw a curve by hand. Get back every mathematical language that can describe it — conic, polar, Bézier, NURBS, Fourier, Chebyshev, spline, RBF, symbolic regression — ranked by parsimony, not just fit.</span>
+      </p>
+      <span class="num"><span class="zh">35 个表达族 · 按 误差 × 简约度 排序</span><span class="en">35 families · ranked by error × parsimony</span></span>
     </a>
 
     <a class="card" href="diagnose.html">
-      <h3>Diagnose</h3>
-      <p class="cn">诊断</p>
-      <p>Twelve questions to locate which cell you are actually stuck in. If you can do B and B requires A, then you can do A — two inference rules collapse 2<sup>24</sup> possibilities into a handful of questions.</p>
-      <span class="num">124 items · ~12 questions</span>
+      <h3><span class="zh">诊断</span><span class="en">Diagnose</span></h3>
+      <p class="cn">Diagnose</p>
+      <p>
+        <span class="zh">十二道题，定位你到底卡在哪一格。会 B 而 B 依赖 A，就一定会 A——两条推断规则把 2²⁴ 种可能压成十几道题。</span>
+        <span class="en">Twelve questions to locate which cell you are actually stuck in. If you can do B and B requires A, then you can do A — two inference rules collapse 2<sup>24</sup> possibilities into a handful of questions.</span>
+      </p>
+      <span class="num"><span class="zh">124 题 · 约 12 问</span><span class="en">124 items · ~12 questions</span></span>
     </a>
   </div>
 
-  <p class="langnote">The four tools are written in Chinese. An English edition of the 24 core cells is in progress: same structure, same edges, same definitions, translated against Stewart, Strang, Axler, Rudin and Durrett rather than against a translated glossary.</p>
+  <p class="langnote">
+    <span class="zh">四个工具页目前都是中文。英文版正在做，先做 24 个核心课程格：结构、连边、定义都不动，只换语言，术语以 Stewart、Strang、Axler、Rudin、Durrett 为准，不按中文字面直译。</span>
+    <span class="en">The four tools are written in Chinese. An English edition of the 24 core cells is in progress: same structure, same edges, same definitions, translated against Stewart, Strang, Axler, Rudin and Durrett rather than against a translated glossary.</span>
+  </p>
 
   <div class="why">
-    <h3>How the structure was built</h3>
-    <p><em>The structure is argued, not scraped.</em> Every prerequisite edge was decided by asking "can a student learn B without A?" — then checked by an independent reviewer. Three cells turned out to be parallel rather than sequential; one edge was reversed after review. That judgement is the actual content here.</p>
-    <p><em>It refuses to draw what cannot be drawn.</em> Number theory is deliberately absent as a matrix. Class groups and étale cohomology have no picture. Forcing them into a grid of "degree × dimension" would be dishonest, so the map says so instead of padding cells.</p>
+    <h3><span class="zh">这个结构是怎么来的</span><span class="en">How the structure was built</span></h3>
+    <p>
+      <span class="zh"><em>结构是论证出来的，不是爬来的。</em>每一条先修连边都先问一句「学生能不能不懂 A 就学会 B」，再由另一个人复核。复核后发现三格其实是并列而非先后，还有一条边的方向被改了过来。这些判断本身就是内容。</span>
+      <span class="en"><em>The structure is argued, not scraped.</em> Every prerequisite edge was decided by asking "can a student learn B without A?" — then checked by an independent reviewer. Three cells turned out to be parallel rather than sequential; one edge was reversed after review. That judgement is the actual content here.</span>
+    </p>
+    <p>
+      <span class="zh"><em>画不出来的，就不画。</em>数论在这张表里是故意缺席的。类群和 étale 上同调没有图形。硬塞进「次数 × 维数」的格子是不诚实的，所以图里直接说明，而不是拿空格充数。</span>
+      <span class="en"><em>It refuses to draw what cannot be drawn.</em> Number theory is deliberately absent as a matrix. Class groups and étale cohomology have no picture. Forcing them into a grid of "degree × dimension" would be dishonest, so the map says so instead of padding cells.</span>
+    </p>
   </div>
 
   <footer>
     <span class="lic">Code: MIT</span><span class="lic">Content: CC BY-SA 4.0</span><br>
-    by shenhunyan（神魂魇）<br>
-    Source and issues: <a href="https://github.com/shenhunyan/math-map">github.com/shenhunyan/math-map</a><br>
-    Citable: <a href="https://doi.org/10.5281/zenodo.24246636">DOI 10.5281/zenodo.24246636</a><br>
-    Upper-division and graduate mathematics is the biggest gap. Contributions welcome — see CONTRIBUTING.md.
+    <span class="zh">作者 shenhunyan（神魂魇）</span><span class="en">by shenhunyan（神魂魇）</span><br>
+    <span class="zh">源码与问题：</span><span class="en">Source and issues: </span><a href="https://github.com/shenhunyan/math-map">github.com/shenhunyan/math-map</a><br>
+    <span class="zh">引用：</span><span class="en">Citable: </span><a href="https://doi.org/10.5281/zenodo.24246636">DOI 10.5281/zenodo.24246636</a><br>
+    <span class="zh">本科高年级与研究生阶段是最大的缺口。欢迎补——见 CONTRIBUTING.md。</span>
+    <span class="en">Upper-division and graduate mathematics is the biggest gap. Contributions welcome — see CONTRIBUTING.md.</span>
   </footer>
 
 </div>
+<script>
+(function(){
+  var KEY = 'math-map-lang';
+  var TITLE = { zh:'数学地图 — 数学先修关系图', en:'Math Map — a prerequisite graph of mathematics' };
+  var btns = document.querySelectorAll('[data-lang-btn]');
+
+  function apply(lang){
+    var root = document.documentElement;
+    root.className = 'lang-' + lang;
+    root.lang = (lang === 'zh') ? 'zh-CN' : 'en';
+    document.title = TITLE[lang] || TITLE.en;
+    for (var i = 0; i < btns.length; i++){
+      btns[i].className = (btns[i].getAttribute('data-lang-btn') === lang) ? 'on' : '';
+    }
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+  }
+
+  var fromUrl = null;
+  try { fromUrl = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply((fromUrl === 'en' || fromUrl === 'zh') ? fromUrl : (saved || 'zh'));
+
+  for (var i = 0; i < btns.length; i++){
+    btns[i].addEventListener('click', function(){
+      apply(this.getAttribute('data-lang-btn'));
+    });
+  }
+})();
+</script>
 </body>
 </html>

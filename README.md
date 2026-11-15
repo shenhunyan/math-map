@@ -58,8 +58,9 @@ Number theory is deliberately absent as a matrix. Class groups, Galois groups, �
 
 ## Roadmap
 
-- **v1.6** — English edition of the 24 core cells, with a language switch that remembers your choice
-- **v1.7** — upper-division and graduate cells: differential geometry, algebraic topology, commutative algebra, representation theory, measure theory
+- **v1.6** — a language switch on the landing page, Chinese by default; screenshots; a corrected DOI inside the archive
+- **v1.7** — English edition of the 24 core cells across the four tools
+- **v1.8** — upper-division and graduate cells: differential geometry, algebraic topology, commutative algebra, representation theory, measure theory
 - **Later** — an export path from the fitting lab to DXF and SVG, so a traced curve can go straight into CAD
 
 ## Contributing
