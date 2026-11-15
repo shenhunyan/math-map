@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Math Map — a prerequisite graph of mathematics</title>
 <meta name="description" content="24 course cells, 124 knowledge points, 166 catalogue entries. Every cell has a textbook-level definition, a chapter citation, and a live visual.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Math Map — a prerequisite graph of mathematics">
+<meta property="og:description" content="166 cells, four stages, six strands. Every cell carries a textbook-level definition, a chapter citation, and a visual you can drag.">
+<meta property="og:image" content="https://shenhunyan.github.io/math-map/assets/og.png">
+<meta property="og:url" content="https://shenhunyan.github.io/math-map/">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#faf9f6; --ink:#1c1b19; --muted:#6a6155; --line:#e4e0d6;
@@ -38,6 +44,7 @@
   .card p{font-size:14px;line-height:1.7;color:var(--muted);margin:0 0 12px}
   .card .num{font-size:12.5px;color:var(--accent);letter-spacing:.02em}
 
+  .langnote{font-size:13.5px;line-height:1.8;color:#a89c84;margin:20px 0 0;max-width:640px}
   .shot{display:block;margin:30px 0 0}
   .shot img{width:100%;max-width:640px;height:auto;display:block;
     border:1px solid var(--line);border-radius:10px;background:#fff}
@@ -79,9 +86,9 @@
   </p>
 
   <a class="shot" href="math-map.html">
-    <img src="assets/map.png" alt="The map: 166 cells across four stages and six strands, each carrying a live visual">
+    <img src="assets/map.png" alt="The map: 166 cells across four stages and six strands, 146 of them with a live visual">
   </a>
-  <p class="shotcap">166 cells, four stages, six strands. Every cell opens into a visual you can drag.</p>
+  <p class="shotcap">166 cells, four stages, six strands. 146 of them open into a visual you can drag.</p>
 
   <h2>Four modules</h2>
   <p class="h2note">All single-file HTML. No build, no CDN, no tracking. Works offline.</p>
@@ -90,7 +97,7 @@
     <a class="card" href="math-map.html">
       <h3>Math Map</h3>
       <p class="cn">数学地图</p>
-      <p>The whole territory in one view. Eleven ways to slice it: course order, structure (degree × variables), operators, geometry, group theory, physics, number systems, history. Every cell opens into a visual you can drag.</p>
+      <p>The whole territory in one view. Eleven ways to slice it: course order, structure (degree × variables), operators, geometry, group theory, physics, number systems, history. 146 of the 166 open into a visual you can drag.</p>
       <span class="num">24 cells · 124 points · 166 entries</span>
     </a>
 
@@ -115,6 +122,8 @@
       <span class="num">124 items · ~12 questions</span>
     </a>
   </div>
+
+  <p class="langnote">The four tools are written in Chinese. An English edition of the 24 core cells is in progress: same structure, same edges, same definitions, translated against Stewart, Strang, Axler, Rudin and Durrett rather than against a translated glossary.</p>
 
   <div class="why">
     <h3>How the structure was built</h3>

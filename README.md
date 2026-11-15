@@ -5,7 +5,7 @@
 by shenhunyan（神魂魇）
 
 **A prerequisite graph of mathematics — 24 course cells, 124 knowledge points, 166 catalogue entries.**
-Each cell carries a textbook-level definition, a citation to the exact chapter, and a live visual you can drag.
+Each cell carries a textbook-level definition and a citation to the exact chapter; 146 of the 166 open into a visual you can drag.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24246636.svg)](https://doi.org/10.5281/zenodo.24246636)
 
@@ -44,6 +44,8 @@ When a student fails at conic sections, the problem is almost never conic sectio
 
 Everything is a **single HTML file, zero dependencies, works offline**. No build step, no CDN, no tracking, no server.
 
+**Language.** The site is in Chinese: definitions, notes, interface. The README and the code are English. An English edition of the 24 core cells is the next release — translated against Stewart, Strang, Axler, Rudin and Durrett, not against a translated glossary, because half the terms in a Chinese maths curriculum do not survive a literal translation.
+
 ![Fitting Lab — one curve in, every family of equations that can describe it out, ranked by error × parsimony](assets/fitting.png)
 
 ## How the structure was built
@@ -53,6 +55,12 @@ Every prerequisite edge was decided by asking "can a student learn B without A?"
 
 **2. It refuses to draw what can't be drawn.**
 Number theory is deliberately absent as a matrix. Class groups, Galois groups, étale cohomology — these have no picture. Forcing them into a grid of "degree × dimension" would be dishonest. The map says so explicitly rather than padding cells.
+
+## Roadmap
+
+- **v1.6** — English edition of the 24 core cells, with a language switch that remembers your choice
+- **v1.7** — upper-division and graduate cells: differential geometry, algebraic topology, commutative algebra, representation theory, measure theory
+- **Later** — an export path from the fitting lab to DXF and SVG, so a traced curve can go straight into CAD
 
 ## Contributing
 
