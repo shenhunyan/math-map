@@ -5,6 +5,8 @@
 **A prerequisite graph of mathematics — 24 course cells, 124 knowledge points, 166 catalogue entries.**
 Each cell carries a textbook-level definition, a citation to the exact chapter, and a live visual you can drag.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24238704.svg)](https://doi.org/10.5281/zenodo.24238704)
+
 [**Open it →**](https://shenhunyan.github.io/math-map/) · [中文说明](#中文)
 
 </div>
@@ -57,16 +59,24 @@ For anything else: open an issue. Corrections to prerequisite edges are especial
 
 ## Citation
 
-If you use this in teaching, research, or a syllabus, please cite it. A DOI will be minted via Zenodo on first release.
+If you use this in teaching, research, or a syllabus, please cite the DOI.
 
 ```bibtex
 @misc{mathmap2026,
-  title  = {Math Map: A prerequisite graph of K--16 mathematics},
-  author = {shenhunyan},
-  year   = {2026},
-  url    = {https://github.com/shenhunyan/math-map}
+  title     = {Math Map: A prerequisite graph of K--16 mathematics},
+  author    = {shenhunyan},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {v1.5},
+  doi       = {10.5281/zenodo.24238705},
+  url       = {https://doi.org/10.5281/zenodo.24238705}
 }
 ```
+
+Two DOIs, as Zenodo does it:
+
+- **`10.5281/zenodo.24238704`** — the concept DOI, always resolves to the newest version. Use this on a CV or a syllabus.
+- **`10.5281/zenodo.24238705`** — the version DOI, frozen to v1.5. Use this when you need to cite exactly what you read.
 
 ## License
 
