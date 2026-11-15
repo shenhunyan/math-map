@@ -81,16 +81,13 @@ If you use this in teaching, research, or a syllabus, please cite the DOI.
   author    = {shenhunyan (神魂魇)},
   year      = {2026},
   publisher = {Zenodo},
-  version   = {v1.5.1},
-  doi       = {10.5281/zenodo.24246637},
-  url       = {https://doi.org/10.5281/zenodo.24246637}
+  version   = {v1.6},
+  doi       = {10.5281/zenodo.24246636},
+  url       = {https://doi.org/10.5281/zenodo.24246636}
 }
 ```
 
-Two DOIs, as Zenodo does it:
-
-- **`10.5281/zenodo.24246636`** — the concept DOI, always resolves to the newest version. Use this on a CV or a syllabus.
-- **`10.5281/zenodo.24246637`** — the version DOI, frozen to v1.5.1. Use this when you need to cite exactly what you read.
+One DOI, not two. Zenodo mints a second DOI per version, but the concept DOI below always resolves to the newest one, so it never goes stale — the version DOI would, and a README that pins one goes stale with it. If you need to cite an exact version, the current version DOI is on the record page.
 
 ## License
 
