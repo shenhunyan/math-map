@@ -315,6 +315,50 @@ function lstsq(B, y) {
   }
   return out;
 }
+
+/* 正规方程会把条件数平方。二次 (5 个系数) 还能凑合，
+   三次 9 个系数就会崩——解出来全是 1e-6 量级的假零。
+   这里补一个 Householder QR，直接解超定方程组。 */
+function lstsqQR(B, y) {
+  var m = B.length, n = B[0].length, i, j, k;
+  var R = B.map(function (r) { return r.slice(); });
+  var qty = y.slice();
+  for (k = 0; k < n; k++) {
+    var norm = 0;
+    for (i = k; i < m; i++) norm += R[i][k] * R[i][k];
+    norm = Math.sqrt(norm);
+    if (norm < 1e-14) return null;
+    var alpha = R[k][k] > 0 ? -norm : norm;
+    var v = new Array(m).fill(0);
+    for (i = k; i < m; i++) v[i] = R[i][k];
+    v[k] -= alpha;
+    var vn = 0;
+    for (i = k; i < m; i++) vn += v[i] * v[i];
+    if (vn < 1e-20) continue;
+    for (j = k; j < n; j++) {
+      var s2 = 0;
+      for (i = k; i < m; i++) s2 += v[i] * R[i][j];
+      s2 = 2 * s2 / vn;
+      for (i = k; i < m; i++) R[i][j] -= s2 * v[i];
+    }
+    var s3 = 0;
+    for (i = k; i < m; i++) s3 += v[i] * qty[i];
+    s3 = 2 * s3 / vn;
+    for (i = k; i < m; i++) qty[i] -= s3 * v[i];
+  }
+  var out = new Array(n).fill(0);
+  for (i = n - 1; i >= 0; i--) {
+    var acc = qty[i];
+    for (j = i + 1; j < n; j++) acc -= R[i][j] * out[j];
+    /* 数据恰好落在一条三次曲线上时矩阵秩亏（这一列由其余列线性组合得到），
+       此时该系数取 0 仍是一个有效解，不必判失败 */
+    if (Math.abs(R[i][i]) < 1e-14) { out[i] = 0; continue; }
+    out[i] = acc / R[i][i];
+  }
+  for (i = 0; i < n; i++) if (!isFinite(out[i])) return null;
+  return out;
+}
+
 function binom(n, k) {
   var r = 1, i;
   for (i = 0; i < k; i++) r = r * (n - i) / (i + 1);
@@ -945,6 +989,44 @@ function fitConic() {
     expr: 'Ax² + Bxy + Cy² + Dx + Ey + 1 = 0\nA=' + A.toFixed(3) + ' B=' + Bb.toFixed(3) +
       ' C=' + C.toFixed(3) + ' D=' + D.toFixed(3) + ' E=' + E.toFixed(3) +
       '\n判别式 B²−4AC = ' + disc.toFixed(3) + ' → ' + type };
+}
+
+/* 一般三次曲线：9 个系数，同样含交叉项 x²y、xy²，所以旋转与切变都在里面。
+   和圆锥一样，一次线性最小二乘解完，不需要迭代。 */
+function fitCubic() {
+  if (PTS.length < 12) return null;
+  var i0, cx = 0, cy = 0;
+  for (i0 = 0; i0 < PTS.length; i0++) { cx += PTS[i0].x; cy += PTS[i0].y; }
+  cx /= PTS.length; cy /= PTS.length;
+  var sc = 0;
+  for (i0 = 0; i0 < PTS.length; i0++)
+    sc = Math.max(sc, Math.abs(PTS[i0].x - cx), Math.abs(PTS[i0].y - cy));
+  if (sc < 1e-9) return null;
+
+  var Bm = PTS.map(function (p) {
+    var u = (p.x - cx) / sc, v = (p.y - cy) / sc;
+    return [u*u*u, u*u*v, u*v*v, v*v*v, u*u, u*v, v*v, u, v];
+  });
+  var yv = PTS.map(function () { return -1; });
+  var c = lstsqQR(Bm, yv);
+  if (!c) return null;
+
+  function Fv(p) {
+    var u = (p.x - cx) / sc, v = (p.y - cy) / sc;
+    return c[0]*u*u*u + c[1]*u*u*v + c[2]*u*v*v + c[3]*v*v*v +
+           c[4]*u*u + c[5]*u*v + c[6]*v*v + c[7]*u + c[8]*v + 1;
+  }
+  function grad(p) {
+    var u = (p.x - cx) / sc, v = (p.y - cy) / sc;
+    var fu = 3*c[0]*u*u + 2*c[1]*u*v + c[2]*v*v + 2*c[4]*u + c[5]*v + c[7];
+    var fv = c[1]*u*u + 2*c[2]*u*v + 3*c[3]*v*v + c[5]*u + 2*c[6]*v + c[8];
+    return { x: fu / sc, y: fv / sc };
+  }
+  return { name: '一般三次曲线', k: 9, implicit: true, F: Fv, grad: grad,
+    expr: 'u = (x−' + cx.toFixed(2) + ')/' + sc.toFixed(2) + '，v 同理\n' +
+      'c₁u³ + c₂u²v + c₃uv² + c₄v³ + c₅u² + c₆uv + c₇v² + c₈u + c₉v + 1 = 0\n' +
+      '系数：' + c.map(function (x) { return x.toFixed(3); }).join(', ') +
+      '\n交叉项 u²v、uv² 非零即说明图形被转过或切过' };
 }
 
 
@@ -1786,6 +1868,7 @@ function runFit() {
 
   var cc = fitConic();
   add('隐式', cc);
+  add('隐式', fitCubic());
   add('样条', fitNURBSanalytic(cc), 'nurbs');
   add('参数式', fitPoly(OPT.poly), 'poly');
   add('参数式', fitPoly(3));
