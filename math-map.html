@@ -135,6 +135,9 @@
   /* 表 6 时间轴 */
   .tl{margin:16px 0 6px}
   .tlr{display:grid;grid-template-columns:96px 22px 1fr;gap:0;align-items:start}
+  .tly b{display:block;font-size:12px;color:#4a453a;font-weight:600;letter-spacing:0}
+  .tly span{display:block;font-size:9px;color:#c4bdac;line-height:1.3;margin-top:2px}
+  .tlt em{font-style:normal;font-size:10.5px;color:#a89c84;margin-left:8px;letter-spacing:.02em}
   .tly{font-size:11px;color:#a89c84;text-align:right;padding:9px 10px 0 0;line-height:1.4}
   .tld{position:relative;display:flex;justify-content:center;padding-top:14px}
   .tld::before{content:'';position:absolute;top:0;bottom:-14px;left:50%;width:1px;
@@ -335,9 +338,9 @@
     <button class="tab" data-view="phy">物理视角 · 有几何载体的那些数学</button>
     <button class="tab" data-view="mx">全表对照 · 六张表逐格核对</button>
     <button class="tab" data-view="num">数系 · 扩张与代价</button>
-    <button class="tab" data-view="t5">表 5 · 代数结构</button>
-    <button class="tab" data-view="t2">表 2 · 运算层级 × 嵌套</button>
-    <button class="tab" data-view="t6">表 6 · 历史</button>
+    <button class="tab" data-view="t5">表 5 · 代数结构（可点开）</button>
+    <button class="tab" data-view="t2">表 2 · 运算层级 × 嵌套（可点开）</button>
+    <button class="tab" data-view="t6">表 6 · 历史时间轴</button>
   </div>
 
   <div id="cur"></div>
@@ -4763,25 +4766,25 @@ buildNum();
 /* ---------- 表 2 的网格数据 ---------- */
 const T2 = [
   { row: 'L0　算术', cells: [
-    { n: 'ax + b', d: 'tL00' }, { n: '有理函数 P/Q', d: 'tL01' },
-    { n: '连分式嵌套', d: 'tL02' }, { n: '三层连分式', d: 'tL0a' },
-    { n: '无理数的连分式', d: 'tL03' } ] },
+    { n: 'ax + b', d: 'tL00', q: 'f(x) = ax + b' }, { n: '有理函数 P/Q', d: 'tL01', q: 'f(x) = P(x) / Q(x)' },
+    { n: '连分式嵌套', d: 'tL02', q: '1 / (1 + 1/(1 + x))' }, { n: '三层连分式', d: 'tL0a', q: '1 / (1 + 1/(1 + 1/(1 + x)))' },
+    { n: '无理数的连分式', d: 'tL03', q: '[1; 1, 1, 1, …]' } ] },
   { row: 'L1　代数', cells: [
-    { n: '√x', d: 'tL10' }, { n: '√(x²+1)', d: 'tL11' },
-    { n: '迭代根式 √(1+√x)', d: 'tL12' }, { n: '√(1+√(1+√x))', d: 'tL1a' },
-    { n: '代数数的收敛', d: 'tL13' } ] },
+    { n: '√x', d: 'tL10', q: '√x' }, { n: '√(x²+1)', d: 'tL11', q: '√(x² + 1)' },
+    { n: '迭代根式 √(1+√x)', d: 'tL12', q: '√(1 + √x)' }, { n: '√(1+√(1+√x))', d: 'tL1a', q: '√(1 + √(1 + √x))' },
+    { n: '代数数的收敛', d: 'tL13', q: 'x ← (x + 2/x) / 2' } ] },
   { row: 'L2　初等超越', cells: [
-    { n: 'eˣ · sin x · ln x', d: 'tL20' }, { n: 'e^{sin x}', d: 'tL21' },
-    { n: 'ln(cos(eˣ))', d: 'tL22' }, { n: 'ln(1+e^{sin x})', d: 'tL2a' },
-    { n: '泰勒 · 傅里叶级数', d: 'tL23' } ] },
+    { n: 'eˣ · sin x · ln x', d: 'tL20', q: 'eˣ · sin x · ln x' }, { n: 'e^{sin x}', d: 'tL21', q: 'e^{sin x}' },
+    { n: 'ln(cos(eˣ))', d: 'tL22', q: 'ln(cos eˣ)' }, { n: 'ln(1+e^{sin x})', d: 'tL2a', q: 'ln(1 + e^{sin x})' },
+    { n: '泰勒 · 傅里叶级数', d: 'tL23', q: 'Σ aₙxⁿ　/　Σ (aₙcos nx + bₙsin nx)' } ] },
   { row: 'L3　特殊函数', cells: [
-    { n: 'Ai(x)　Airy', d: 'tL30' }, { n: 'ζ(s)　Riemann', d: 'tL31' },
-    { n: '模形式的基本域', d: 'tL32' }, { n: 'Ai(sin x)', d: 'tL3a' },
-    { n: '₂F₁ 超几何', d: 'tL33' } ] },
+    { n: 'Ai(x)　Airy', d: 'tL30', q: 'Ai(x),　y″ = x y' }, { n: 'ζ(s)　Riemann', d: 'tL31', q: 'ζ(s) = Σ n^{−s}' },
+    { n: '模形式的基本域', d: 'tL32', q: 'f((aτ+b)/(cτ+d)) = (cτ+d)^k f(τ)' }, { n: 'Ai(sin x)', d: 'tL3a', q: 'Ai(sin x)' },
+    { n: '₂F₁ 超几何', d: 'tL33', q: '₂F₁ = Σ (a)ₙ(b)ₙ/(c)ₙ · xⁿ/n!' } ] },
   { row: 'L4　隐式 / 泛函', cells: [
-    { n: 'Dirac δ', d: 'tL40' }, { n: '变分导数 δF/δy', d: 'tL41' },
-    { n: 'Navier–Stokes 弱解', d: 'tL42' }, { n: '三阶变分 δ³S', d: 'tL4a' },
-    { n: '路径积分', d: 'tL43' } ] }
+    { n: 'Dirac δ', d: 'tL40', q: 'δ(x) = 0 (x ≠ 0),　∫δ dx = 1' }, { n: '变分导数 δF/δy', d: 'tL41', q: 'δF/δy = ∂F/∂y − d/dx ∂F/∂y′' },
+    { n: 'Navier–Stokes 弱解', d: 'tL42', q: 'u_t + (u·∇)u = −∇p/ρ + νΔu' }, { n: '三阶变分 δ³S', d: 'tL4a', q: 'δ³S' },
+    { n: '路径积分', d: 'tL43', q: '∫ e^{iS[φ]/ħ} Dφ' } ] }
 ];
 
 function buildT2() {
@@ -4810,12 +4813,12 @@ function buildT2() {
     wrap.appendChild(rl);
     r.cells.forEach(function (c) {
       /* 同一层级里的其余例子放进弹层做切换条：表格不加宽，信息量在弹层里翻倍 */
-      const sibs = [{ n: c.n, d: c.d }].concat(
-        r.cells.filter(function (x) { return x !== c; }).map(function (x) { return { n: x.n, d: x.d }; })
+      const sibs = [{ n: c.n, d: c.d, eq: c.q }].concat(
+        r.cells.filter(function (x) { return x !== c; }).map(function (x) { return { n: x.n, d: x.d, eq: x.q }; })
       );
       wrap.appendChild(makeCell({
         title: c.n, draw: c.d, showMore: true,
-        cell: { t: c.n, eq: '', note: '', items: [], variants: sibs },
+        cell: { t: c.n, eq: c.q || '', note: '', items: [], variants: sibs },
         coord: '表 2　·　' + r.row.replace(/　/g, ' ')
       }));
     });
@@ -5068,17 +5071,36 @@ buildT5();
 /* ================= 表 6 · 历史：谁在什么时候点亮了哪一格 =================
    结构给秩序，历史给动机。布尔巴基失败就败在只有前者。 */
 const T6 = [
-  { y: '远古', t: '计数与测量', c: 'd = 0,1　n = 1,2', s: '数与形还没分开，一切都在具体的量里' },
-  { y: '古希腊', t: '欧几里得几何 · 圆锥曲线', c: 'd = 2　n = 2', s: '第一次把「证明」当成知识的形态——阿波罗尼奥斯写完了圆锥曲线' },
-  { y: '17 世纪', t: '笛卡尔坐标系', c: '贯通整个 n 轴', s: '代数与几何联姻：图与式可以互译，这是整张地图的地基' },
-  { y: '17 世纪', t: '牛顿–莱布尼茨微积分', c: '微分 / 无穷次区', s: '把「变化」本身变成对象，不再是静止的量' },
-  { y: '19 世纪', t: '伽罗瓦理论', c: 'd ≥ 5　n = 1', s: '方程能不能解，变成一个群的对称性问题' },
-  { y: '19 世纪', t: '黎曼几何', c: 'd = 2　n 任意', s: '度量可以逐点不同——空间本身成了变量' },
-  { y: '20 世纪初', t: '广义相对论', c: 'd = 2　n = 4（伪黎曼）', s: '物理第一次直接用到二次型：时空的度规就是它' },
-  { y: '20 世纪中', t: '格罗滕迪克概型', c: 'n ≥ 4, d ≥ 3　M4 列', s: '「点」被换成「素理想」，几何从此可以做在任意环上' },
-  { y: '20 世纪末', t: '芒德勃罗分形', c: 'C2 行', s: '维数可以不是整数——这条常识被打掉了' },
-  { y: '当代', t: '弦论 · 量子场论与几何', c: 'M2×C4　M3×C4', s: '模空间成了物理的舞台，几何与物理互为工具' }
-];
+  { yr: -300, y: '古希腊', who: '欧几里得', t: '《几何原本》', c: 'd = 2　n = 2', s: '第一次把「证明」当成知识的形态，而不是经验口诀' },
+  { yr: -250, y: '古希腊', who: '阿波罗尼奥斯', t: '圆锥曲线', c: 'd = 2　n = 2', s: '用一个平面去切圆锥，把椭圆、抛物线、双曲线一次收齐' },
+  { yr: 825,  y: '伊斯兰黄金时代', who: '花拉子米', t: '代数（al-jabr）', c: 'd = 1,2　n = 1', s: '「移项」和「合并」第一次成为可以写下来的动作' },
+  { yr: 1202, y: '中世纪', who: '斐波那契', t: '《计算之书》', c: 'd = 1　n = 1', s: '印度-阿拉伯数字进入欧洲，数列第一次以递推的形式出现' },
+  { yr: 1545, y: '文艺复兴', who: '卡尔达诺', t: '三次与四次方程', c: 'd = 3,4　n = 1', s: '根式解走到四次为止；再往上，五百年没人能推' },
+  { yr: 1637, y: '17 世纪', who: '笛卡尔', t: '坐标系', c: '贯通整个 n 轴', s: '代数与几何联姻：图与式可以互译，这是整张地图的地基' },
+  { yr: 1637, y: '17 世纪', who: '费马', t: '费马大定理（页边注）', c: 'n ≥ 2　d ≥ 3', s: '一句页边注，逼出了此后三百多年的代数数论' },
+  { yr: 1665, y: '17 世纪', who: '牛顿', t: '流数术（微积分）', c: '微分　n = 1', s: '把「变化」本身变成对象，不再是静止的量' },
+  { yr: 1684, y: '17 世纪', who: '莱布尼茨', t: '微分与积分符号', c: '微分　n = 1', s: 'dy/dx 和 ∫ 这套记号沿用到今天，比结论活得更久' },
+  { yr: 1735, y: '18 世纪', who: '欧拉', t: 'ζ 函数与巴塞尔问题', c: 'd = ∞　n = 1', s: '∑1/n² = π²/6：整数倒数的平方和，答案里出现了圆' },
+  { yr: 1799, y: '18 世纪', who: '高斯', t: '代数基本定理', c: 'd = 任意　n = 1', s: 'n 次方程恰有 n 个复根——复数从此不是「想象的数」' },
+  { yr: 1807, y: '19 世纪', who: '傅里叶', t: '热传导与三角级数', c: 'd = ω　n = 1', s: '任何函数都能拆成正弦的叠加，可收敛性当时说不清' },
+  { yr: 1822, y: '19 世纪', who: '纳维', t: '流体方程', c: 'L4　隐式', s: '第一次用偏微分方程描述「连续介质」，至今没有一般解' },
+  { yr: 1824, y: '19 世纪', who: '阿贝尔', t: '五次方程不可解', c: 'd = 5　n = 1', s: '不是「还没找到」，而是「不存在」——证明第一次否定了可能性' },
+  { yr: 1832, y: '19 世纪', who: '伽罗瓦', t: '群与方程的可解性', c: '群论序', s: '方程能不能解，变成一个群的对称性问题' },
+  { yr: 1844, y: '19 世纪', who: '格拉斯曼', t: '外代数', c: 'd = 2　M4 列', s: '把「有向面积」本身当成一个数来运算' },
+  { yr: 1854, y: '19 世纪', who: '黎曼', t: '黎曼几何', c: 'd = 2　n 任意', s: '度量可以逐点不同——空间本身成了变量' },
+  { yr: 1859, y: '19 世纪', who: '黎曼', t: 'ζ 猜想', c: 'd = ∞　n = 1', s: '素数的分布被压在一条临界线上，至今无人证明' },
+  { yr: 1872, y: '19 世纪', who: '克莱因', t: '埃尔朗根纲领', c: '表 4', s: '几何 = 变换群 + 不变量：一次把九种几何排成序' },
+  { yr: 1872, y: '19 世纪', who: '戴德金', t: '戴德金分割', c: '数系　ℚ → ℝ', s: '把「连续」定义成一个切分，实数的空隙被填上' },
+  { yr: 1874, y: '19 世纪', who: '康托', t: '可数与不可数', c: '数系　基数', s: '有理数能排队，实数不能——无穷第一次分出了大小' },
+  { yr: 1895, y: '19 世纪', who: '庞加莱', t: '拓扑（Analysis Situs）', c: 'C 轴', s: '连续变形下不变的量，成了新的研究对象' },
+  { yr: 1900, y: '20 世纪', who: '希尔伯特', t: '23 个问题', c: '全表', s: '把整个世纪的方向标出来，后来解决了大约一半' },
+  { yr: 1928, y: '20 世纪', who: '狄拉克', t: 'δ 函数', c: 'L4　隐式', s: '一个「不是函数」的函数，逼出了分布理论' },
+  { yr: 1933, y: '20 世纪', who: '柯尔莫哥洛夫', t: '概率公理化', c: '概率论', s: '把概率变成测度：随机从此可以严格地算' },
+  { yr: 1957, y: '20 世纪', who: '格罗滕迪克', t: '概型', c: 'n ≥ 4　d ≥ 3　M4 列', s: '「点」被换成「素理想」，几何从此可以做在任意环上' },
+  { yr: 1975, y: '20 世纪', who: '芒德勃罗', t: '分形', c: 'C2 行', s: '维数可以不是整数——这条常识被打掉了' },
+  { yr: 1994, y: '当代', who: '怀尔斯', t: '费马大定理', c: 'd ≥ 3　n ≥ 2', s: '三百五十八年后，用模形式和椭圆曲线把页边注证完' },
+  { yr: 2002, y: '当代', who: '佩雷尔曼', t: '庞加莱猜想', c: 'C 轴　M3', s: '用 Ricci 流把拓扑问题化成几何演化' }
+].sort(function (a, b) { return a.yr - b.yr; });
 
 function buildT6() {
   t6El.innerHTML = '';
@@ -5094,11 +5116,12 @@ function buildT6() {
   T6.forEach(function (e, i) {
     const row = document.createElement('div');
     row.className = 'tlr';
+    const yrTxt = e.yr < 0 ? ('−' + Math.abs(e.yr)) : String(e.yr);
     row.innerHTML =
-      '<div class="tly">' + e.y + '</div>' +
+      '<div class="tly"><b>' + yrTxt + '</b><span>' + e.y + '</span></div>' +
       '<div class="tld"><span></span></div>' +
       '<div class="tlc">' +
-        '<div class="tlt">' + e.t + '</div>' +
+        '<div class="tlt">' + e.t + '<em>' + e.who + '</em></div>' +
         '<div class="tlo">' + e.c + '</div>' +
         '<div class="tls">' + e.s + '</div>' +
       '</div>';
