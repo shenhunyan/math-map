@@ -7,7 +7,7 @@ by shenhunyan（神魂魇）
 **A prerequisite graph of mathematics — 24 course cells, 124 knowledge points, 166 catalogue entries.**
 Each cell carries a textbook-level definition, a citation to the exact chapter, and a live visual you can drag.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24238704.svg)](https://doi.org/10.5281/zenodo.24238704)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24246636.svg)](https://doi.org/10.5281/zenodo.24246636)
 
 [**Open it →**](https://shenhunyan.github.io/math-map/) · [中文说明](#中文)
 
@@ -68,16 +68,16 @@ If you use this in teaching, research, or a syllabus, please cite the DOI.
   author    = {shenhunyan (神魂魇)},
   year      = {2026},
   publisher = {Zenodo},
-  version   = {v1.5},
-  doi       = {10.5281/zenodo.24238705},
-  url       = {https://doi.org/10.5281/zenodo.24238705}
+  version   = {v1.5.1},
+  doi       = {10.5281/zenodo.24246637},
+  url       = {https://doi.org/10.5281/zenodo.24246637}
 }
 ```
 
 Two DOIs, as Zenodo does it:
 
-- **`10.5281/zenodo.24238704`** — the concept DOI, always resolves to the newest version. Use this on a CV or a syllabus.
-- **`10.5281/zenodo.24238705`** — the version DOI, frozen to v1.5. Use this when you need to cite exactly what you read.
+- **`10.5281/zenodo.24246636`** — the concept DOI, always resolves to the newest version. Use this on a CV or a syllabus.
+- **`10.5281/zenodo.24246637`** — the version DOI, frozen to v1.5.1. Use this when you need to cite exactly what you read.
 
 ## License
 
