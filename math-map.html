@@ -19,6 +19,8 @@
   h1{font-size:31px;letter-spacing:.06em;margin:0 0 8px;font-weight:600}
   .sub{color:var(--muted);font-size:13.5px;margin:0 0 22px;line-height:1.7}
   .sub b{color:var(--accent);font-weight:600}
+  .tabs::before{content:'视图';font-size:11px;color:#c4bdac;letter-spacing:.14em;
+    margin-right:4px;align-self:center;flex:0 0 auto}
 
   .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
   .tab{
@@ -313,8 +315,10 @@
 </style><!-- ==DIAG:END== -->
 </head>
 <body>
+<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none">Math Map</a><a href="math-map.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em">数学地图</a><a href="variations.html" style="color:#8a7f68;text-decoration:none">变式全集</a><a href="fitting-lab.html" style="color:#8a7f68;text-decoration:none">拟合实验室</a><a href="diagnose.html" style="color:#8a7f68;text-decoration:none">诊断</a></nav>
+
 <div class="page">
-  <h1>数学地图 <a href="index.html" style="font-size:12.5px;font-weight:400;color:#6a6155;text-decoration:none;margin-left:12px;vertical-align:middle;border-bottom:1px solid #e4e0d6;">&#8592; Math Map</a></h1>
+  <h1>数学地图</h1>
   <p class="sub">
     v1.6　·　<b>十一个视图 · 146 个格 · 六张表 166 格全部覆盖 · 每格附严格定义与教材出处</b>　·　右上角可搜索定位<br>
     课程序 / 结构序（次数×变元，含<b>微分行</b>）／算子序 / 几何序（C×M 完整 20 格）／群论序（9 种几何 + 11 个有限群）／物理序／全表对照（166 格，<b>已画的格子可点开</b>）／数系（ℕ⊂ℤ⊂ℚ⊂ℝ⊂ℂ⊂ℍ⊂𝕆⊂𝕊）／<b>表 5 代数结构</b>／<b>表 2 运算层级</b>／<b>表 6 历史</b><br>
@@ -4812,13 +4816,9 @@ function buildT2() {
       + 'padding:0 6px 0 0;align-self:center';
     wrap.appendChild(rl);
     r.cells.forEach(function (c) {
-      /* 同一层级里的其余例子放进弹层做切换条：表格不加宽，信息量在弹层里翻倍 */
-      const sibs = [{ n: c.n, d: c.d, eq: c.q }].concat(
-        r.cells.filter(function (x) { return x !== c; }).map(function (x) { return { n: x.n, d: x.d, eq: x.q }; })
-      );
       wrap.appendChild(makeCell({
         title: c.n, draw: c.d, showMore: true,
-        cell: { t: c.n, eq: c.q || '', note: '', items: [], variants: sibs },
+        cell: { t: c.n, eq: c.q || '', note: '', items: [] },
         coord: '表 2　·　' + r.row.replace(/　/g, ' ')
       }));
     });
