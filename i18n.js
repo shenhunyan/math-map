@@ -78,6 +78,16 @@
   applyClass(CUR);
 
   document.addEventListener('DOMContentLoaded', function () {
+    /* 如果这份 HTML 不在 math-map/ 目录里（比如复制到别处单独打开），
+       导航里的相对链接会指到不存在的文件，这里补上前缀。 */
+    if (!/\/math-map\//.test(location.pathname)) {
+      var as = document.querySelectorAll('nav a[href$=".html"]');
+      for (var k = 0; k < as.length; k++) {
+        if (as[k].getAttribute('href').indexOf('math-map/') !== 0) {
+          as[k].setAttribute('href', 'math-map/' + as[k].getAttribute('href'));
+        }
+      }
+    }
     var ins = document.querySelectorAll('[data-ph-zh]');
     for (var i = 0; i < ins.length; i++) {
       ins[i].setAttribute('placeholder',
