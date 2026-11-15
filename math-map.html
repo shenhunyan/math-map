@@ -3744,6 +3744,16 @@ function buildStc() {
 }
 
 
+/* 切换语言后重绘动态内容（静态文案由 html.lang-* 控制，无需处理） */
+window.MM_ONLANG = function () {
+  try { buildCur(); } catch (e) {}
+  try { buildStc(); } catch (e) {}
+  /* 重建会生成新画布，旧的要摘掉，否则缩略图循环还在画已经不显示的 canvas */
+  for (let i = CARDS.length - 1; i >= 0; i--) {
+    if (!document.body.contains(CARDS[i].cv)) CARDS.splice(i, 1);
+  }
+};
+
 const VIEW_EL = {};
 function setView(v) {
   const map = [

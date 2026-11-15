@@ -70,8 +70,12 @@
   }
 
   var CUR = pick();
-  document.documentElement.className = 'lang-' + CUR;
-  document.documentElement.lang = (CUR === 'zh') ? 'zh-CN' : 'en';
+
+  function applyClass(l) {
+    document.documentElement.className = 'lang-' + l;
+    document.documentElement.lang = (l === 'zh') ? 'zh-CN' : 'en';
+  }
+  applyClass(CUR);
 
   document.addEventListener('DOMContentLoaded', function () {
     var ins = document.querySelectorAll('[data-ph-zh]');
@@ -84,9 +88,18 @@
   w.MM_LANG = function () { return CUR; };
   w.MM_NAME = function (id, zh) { return (CUR === 'en' && NAMES[id]) ? NAMES[id] : zh; };
   w.MM_NOTE = function (id, zh) { return (CUR === 'en' && NOTES[id]) ? NOTES[id] : zh; };
+  /* 原地切换，不跳转：预览服务器不接受带查询串的地址（会 403），
+     而且刷新会丢掉滚动位置和已展开的视图。 */
   w.MM_SWITCH = function (l) {
+    if (l !== 'zh' && l !== 'en') return;
+    CUR = l;
     try { localStorage.setItem(KEY, l); } catch (e) {}
-    var u = location.pathname + (l === 'en' ? '?lang=en' : '?lang=zh');
-    location.href = u;
+    applyClass(l);
+    var ins = document.querySelectorAll('[data-ph-zh]');
+    for (var i = 0; i < ins.length; i++) {
+      ins[i].setAttribute('placeholder',
+        (l === 'en') ? (ins[i].getAttribute('data-ph-en') || '') : (ins[i].getAttribute('data-ph-zh') || ''));
+    }
+    if (typeof w.MM_ONLANG === 'function') w.MM_ONLANG(l);
   };
 })(window);
