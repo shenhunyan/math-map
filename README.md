@@ -2,6 +2,8 @@
 
 # Math Map
 
+by shenhunyan（神魂魇）
+
 **A prerequisite graph of mathematics — 24 course cells, 124 knowledge points, 166 catalogue entries.**
 Each cell carries a textbook-level definition, a citation to the exact chapter, and a live visual you can drag.
 
@@ -13,11 +15,10 @@ Each cell carries a textbook-level definition, a citation to the exact chapter, 
 
 ---
 
-## The idea in one sentence
+## What it is
 
-Most math resources are **lists**. This one is a **graph**.
-
-A list tells you what exists. A graph tells you **what must come before what** — and that is the question a stuck student actually has.
+Most math resources are organised as lists — by grade, by alphabet, by topic.
+This one is organised by **dependency**: what must come before what, and what can be skipped.
 
 When a student fails at conic sections, the problem is almost never conic sections. It is usually completing-the-square, or the distance formula, or the very idea of a locus. No textbook index will tell you that. A dependency graph will.
 
@@ -41,7 +42,7 @@ When a student fails at conic sections, the problem is almost never conic sectio
 
 Everything is a **single HTML file, zero dependencies, works offline**. No build step, no CDN, no tracking, no server.
 
-## Two things that make this different from most "knowledge graph" projects
+## How the structure was built
 
 **1. The structure is argued, not scraped.**
 Every prerequisite edge was decided by asking "can a student learn B without A?" — and then checked by an independent reviewer. Three cells turned out to be *parallel* rather than sequential (conic sections: ellipse/hyperbola/parabola don't depend on each other), and one edge was reversed after review. That kind of judgement is the actual content here.
@@ -64,7 +65,7 @@ If you use this in teaching, research, or a syllabus, please cite the DOI.
 ```bibtex
 @misc{mathmap2026,
   title     = {Math Map: A prerequisite graph of K--16 mathematics},
-  author    = {shenhunyan},
+  author    = {shenhunyan (神魂魇)},
   year      = {2026},
   publisher = {Zenodo},
   version   = {v1.5},
@@ -97,7 +98,7 @@ The point of the split: you should be free to *build with* this, but not free to
 
 24 个课程格、124 个知识点、166 个目录条目，每一格都有教材级定义、章节出处，和一个可以拖着动的图。
 
-**为什么做这个**：现在的数学资源几乎都是「列表」——按年级排、按字母排、按主题排。但一个学生卡住的时候，他真正的问题不是「这一格是什么」，而是「我为什么学不动这一格」。答案通常不在这一格，而在某个前置。列表不会告诉你前置是什么，图会。
+**为什么做这个**：现在的数学资源大多按年级、字母或主题排列，不写前置关系。学生卡住时，问题常常不在当前这一格，而在前面某一格。这张图把前置关系画出来。
 
 **四个模块**：数学地图（全局结构）／变式全集（1814 个等价变形）／拟合实验室（一条曲线的 35 种写法）／诊断（12 题定位你卡在哪）。
 
