@@ -13,9 +13,10 @@
     --accent:#b3541e; --blue:#2b4f81; --card:#fff;
   }
   *{box-sizing:border-box}
-  .zh,.en{display:none}
-  html.lang-zh .zh{display:inline}
-  html.lang-en .en{display:inline}
+  .zh,.en{display:none !important}
+  html.lang-zh .zh{display:inline !important}
+  html.lang-en .en{display:inline !important}
+  html.lang-zh .nsec i.zh,html.lang-en .nsec i.en{display:block !important}
 
   html,body{margin:0;padding:0}
   body{
@@ -5243,9 +5244,10 @@ function buildT6() {
   t6El.innerHTML = '';
   const hd = document.createElement('div');
   hd.className = 'nsec';
-  hd.innerHTML = '表 6 · 历史：谁在什么时候点亮了哪一格' +
-    '<i>结构给秩序，历史给动机。这张表的用法是反过来读：<b>先看你想讲的那一格，再问它是谁、在什么问题上逼出来的。</b>' +
-    '布尔巴基把结构整理得极漂亮，却没人愿意读，就因为它只有秩序、没有动机。</i>';
+  hd.innerHTML = '<span class="zh">表 6 · 历史：谁在什么时候点亮了哪一格</span>' +
+    '<span class="en">Table 6 · who lit which cell, and when</span>' +
+    '<i class="zh">结构给秩序，历史给动机。这张表的用法是反过来读：<b>先看你想讲的那一格，再问它是谁、在什么问题上逼出来的。</b>布尔巴基把结构整理得极漂亮，却没人愿意读，就因为它只有秩序、没有动机。</i>' +
+    '<i class="en">Structure gives order, history gives motive. Read this table backwards: pick the cell you want to teach, then ask who was forced to invent it and by what. Bourbaki arranged the structure beautifully and nobody wanted to read it, because it had order and no motive.</i>';
   t6El.appendChild(hd);
 
   const line = document.createElement('div');
