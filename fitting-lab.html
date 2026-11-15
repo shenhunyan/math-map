@@ -83,13 +83,20 @@
     .main{grid-template-columns:1fr;gap:14px}
   }
 </style>
+
+<style>
+  .zh,.en{display:none}
+  html.lang-zh .zh{display:inline}
+  html.lang-en .en{display:inline}
+</style>
+<script src="i18n.js"></script>
 </head>
 <body>
-<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none">Math Map</a><a href="math-map.html" style="color:#8a7f68;text-decoration:none">数学地图</a><a href="variations.html" style="color:#8a7f68;text-decoration:none">变式全集</a><a href="fitting-lab.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em">拟合实验室</a><a href="diagnose.html" style="color:#8a7f68;text-decoration:none">诊断</a></nav>
+<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none"><span class="zh">Math Map</span><span class="en">Math Map</span></a><a href="math-map.html" style="color:#8a7f68;text-decoration:none"><span class="zh">数学地图</span><span class="en">Math Map</span></a><a href="variations.html" style="color:#8a7f68;text-decoration:none"><span class="zh">变式全集</span><span class="en">Variations</span></a><a href="fitting-lab.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em"><span class="zh">拟合实验室</span><span class="en">Fitting Lab</span></a><a href="diagnose.html" style="color:#8a7f68;text-decoration:none"><span class="zh">诊断</span><span class="en">Diagnose</span></a><span style="margin-left:auto;display:flex;gap:0;border:1px solid #e4e0d6;border-radius:6px;overflow:hidden;background:#fff"><button type="button" onclick="MM_SWITCH('zh')" style="font-family:inherit;font-size:12px;padding:5px 10px;border:0;background:transparent;color:#6a6155;cursor:pointer">中文</button><button type="button" onclick="MM_SWITCH('en')" style="font-family:inherit;font-size:12px;padding:5px 10px;border:0;background:transparent;color:#6a6155;cursor:pointer">EN</button></span></nav>
 
 <div class="page">
-  <h1>拟合实验室</h1>
-  <p class="sub">画一条曲线，看它能被几种数学语言描述。<b>点右边任意一行，就把那条曲线叠上来</b>，不同颜色叠着比。</p>
+  <h1><span class="zh">拟合实验室</span><span class="en">Fitting Lab</span></h1>
+  <p class="sub"><span class="zh"><span class="zh"><span class="zh">画一条曲线，看它能被几种数学语言描述。<b>点右边任意一行，就把那条曲线叠上来</b>，不同颜色叠着比。</span><span class="en">Draw a curve and see how many mathematical languages can describe it. <b>Click any row on the right to overlay that curve</b> — different colours, compared side by side.</span></span><span class="en">Three ways to draw: <b>free</b> (any shape), <b>single-valued</b> (x never turns back, so every family applies), <b>closed</b> (the ends join when you let go, which enables polar form and analytic NURBS).</span></span><span class="en">Ranked by error × parameters<sup>0.1</sup>: clearly lower error goes first, and when errors are close the simpler family wins. A family that is both simple and accurate means the prior was in the right place. <b>Click residuals</b> to see how far each drawn point sits from the fitted line.</span></p>
   <p class="sub">画法有三种：<b>自由</b>（任意形状）、<b>单值</b>（x 只进不退，所有族都能接）、<b>闭合</b>（松手自动接首尾，激活极坐标与解析 NURBS）。</p>
   <p class="sub">排序用「误差 × 参数<sup>0.1</sup>」：误差明显更小的排前面，误差接近时参数少的赢。参数少而误差小的族胜出，说明先验放对了地方。<b>点「残差」</b>可以看每个手绘点离拟合线到底差多少。</p>
 

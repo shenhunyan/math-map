@@ -127,14 +127,21 @@
     .big{font-size:19px}
   }
 </style>
+
+<style>
+  .zh,.en{display:none}
+  html.lang-zh .zh{display:inline}
+  html.lang-en .en{display:inline}
+</style>
+<script src="i18n.js"></script>
 </head>
 <body>
-<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none">Math Map</a><a href="math-map.html" style="color:#8a7f68;text-decoration:none">数学地图</a><a href="variations.html" style="color:#8a7f68;text-decoration:none">变式全集</a><a href="fitting-lab.html" style="color:#8a7f68;text-decoration:none">拟合实验室</a><a href="diagnose.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em">诊断</a></nav>
+<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none"><span class="zh">Math Map</span><span class="en">Math Map</span></a><a href="math-map.html" style="color:#8a7f68;text-decoration:none"><span class="zh">数学地图</span><span class="en">Math Map</span></a><a href="variations.html" style="color:#8a7f68;text-decoration:none"><span class="zh">变式全集</span><span class="en">Variations</span></a><a href="fitting-lab.html" style="color:#8a7f68;text-decoration:none"><span class="zh">拟合实验室</span><span class="en">Fitting Lab</span></a><a href="diagnose.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em"><span class="zh">诊断</span><span class="en">Diagnose</span></a><span style="margin-left:auto;display:flex;gap:0;border:1px solid #e4e0d6;border-radius:6px;overflow:hidden;background:#fff"><button type="button" onclick="MM_SWITCH('zh')" style="font-family:inherit;font-size:12px;padding:5px 10px;border:0;background:transparent;color:#6a6155;cursor:pointer">中文</button><button type="button" onclick="MM_SWITCH('en')" style="font-family:inherit;font-size:12px;padding:5px 10px;border:0;background:transparent;color:#6a6155;cursor:pointer">EN</button></span></nav>
 
 <div class="wrap">
   <header>
-    <h1>你在数学地图的哪一格</h1>
-    <p class="sub">24 个课程格 · 124 个知识点 · 约 12 题</p>
+    <h1><span class="zh">你在数学地图的哪一格</span><span class="en">Which cell of the map are you stuck in</span></h1>
+    <p class="sub"><span class="zh">24 个课程格 · 124 个知识点 · 约 12 题</span><span class="en">24 course cells · 124 knowledge points · about 12 questions</span></p>
   </header>
 
   <section id="scr-intro">
