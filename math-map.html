@@ -4,12 +4,17 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>数学地图 · v1.6</title>
+<script src="i18n.js"></script>
 <style>
   :root{
     --bg:#faf9f6; --ink:#1c1b19; --muted:#8a8578; --line:#e4e0d6;
     --accent:#b3541e; --blue:#2b4f81; --card:#fff;
   }
   *{box-sizing:border-box}
+  .zh,.en{display:none}
+  html.lang-zh .zh{display:inline}
+  html.lang-en .en{display:inline}
+
   html,body{margin:0;padding:0}
   body{
     background:var(--bg);color:var(--ink);
@@ -282,6 +287,9 @@
     table.mx td{font-size:8.5px;padding:3px 2px}
     .t2g{grid-template-columns:44px repeat(5,minmax(0,1fr));gap:5px}
   }
+  html.lang-en .tabs::before{content:'views'}
+  html.lang-en .ct{font-size:11px;line-height:1.35}
+  html.lang-en .rl{font-size:9.5px}
 </style>
 <style>
 #sbox{position:relative;margin-left:auto;display:flex;align-items:center;gap:8px;padding-bottom:6px}
@@ -315,36 +323,40 @@
 </style><!-- ==DIAG:END== -->
 </head>
 <body>
-<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none">Math Map</a><a href="math-map.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em">数学地图</a><a href="variations.html" style="color:#8a7f68;text-decoration:none">变式全集</a><a href="fitting-lab.html" style="color:#8a7f68;text-decoration:none">拟合实验室</a><a href="diagnose.html" style="color:#8a7f68;text-decoration:none">诊断</a></nav>
+<nav style="display:flex;align-items:center;gap:18px;padding:11px 18px;border-bottom:1px solid #e4e0d6;background:#faf9f6;font-size:12.5px;line-height:1;overflow-x:auto;white-space:nowrap;font-family:'Iowan Old Style','Palatino Linotype',Georgia,'Songti SC','Noto Serif CJK SC',serif;"><a href="index.html" style="color:#8a7f68;text-decoration:none"><span class="zh">Math Map</span><span class="en">Math Map</span></a><a href="math-map.html" style="color:#1c1b19;text-decoration:none;font-weight:600;letter-spacing:.02em"><span class="zh">数学地图</span><span class="en">Math Map</span></a><a href="variations.html" style="color:#8a7f68;text-decoration:none"><span class="zh">变式全集</span><span class="en">Variations</span></a><a href="fitting-lab.html" style="color:#8a7f68;text-decoration:none"><span class="zh">拟合实验室</span><span class="en">Fitting Lab</span></a><a href="diagnose.html" style="color:#8a7f68;text-decoration:none"><span class="zh">诊断</span><span class="en">Diagnose</span></a><span style="margin-left:auto;display:flex;gap:0;border:1px solid #e4e0d6;border-radius:6px;overflow:hidden;background:#fff"><button type="button" onclick="MM_SWITCH('zh')" style="font-family:inherit;font-size:12px;padding:5px 10px;border:0;background:transparent;color:#6a6155;cursor:pointer">中文</button><button type="button" onclick="MM_SWITCH('en')" style="font-family:inherit;font-size:12px;padding:5px 10px;border:0;background:transparent;color:#6a6155;cursor:pointer">EN</button></span></nav>
 
 <div class="page">
-  <h1>数学地图</h1>
-  <p class="sub">
+  <h1><span class="zh">数学地图</span><span class="en">Math Map</span></h1>
+  <p class="sub"><span class="zh">
     v1.6　·　<b>十一个视图 · 146 个格 · 六张表 166 格全部覆盖 · 每格附严格定义与教材出处</b>　·　右上角可搜索定位<br>
     课程序 / 结构序（次数×变元，含<b>微分行</b>）／算子序 / 几何序（C×M 完整 20 格）／群论序（9 种几何 + 11 个有限群）／物理序／全表对照（166 格，<b>已画的格子可点开</b>）／数系（ℕ⊂ℤ⊂ℚ⊂ℝ⊂ℂ⊂ℍ⊂𝕆⊂𝕊）／<b>表 5 代数结构</b>／<b>表 2 运算层级</b>／<b>表 6 历史</b><br>
     <b>点开任意一格即可动它</b>：拖滑块改参数（不拖就自动演示）· 拖动平移 · 滚轮缩放 · 三维格拖动旋转（Shift 拖动平移）· 双击复位<br>
     每格另附一张「等价变形账本」——同一对象换写法，不算换知识点<br>
     <span style="color:#a89c84;font-size:12.5px">学段对照：小学 ≈ Grades 1–6　初中 ≈ Grades 7–9　高中 ≈ Grades 10–12　本科 ≈ Undergraduate　·　窄屏下表格可左右滑动</span>
-  </p>
+  </span><span class="en">v1.6　·　<b>eleven views · 146 cells drawn · all 166 covered across six tables · every cell carries a definition and a citation</b>　·　search in the top right<br>
+    course order / structure (degree × variables) / operators / geometry (C×M) / groups / physics / all tables / number systems / table 5 / table 2 / table 6<br>
+    <b>click any cell to open it</b>: drag the sliders, pan, zoom, rotate a 3D cell by dragging (hold Shift to pan), double-click to reset<br>
+    stage guide: primary ≈ Grades 1–6, middle ≈ Grades 7–9, high ≈ Grades 10–12, undergraduate
+  </span></p>
 
 <!-- ==DIAG:START== -->
 <div class="diagbar">
-  <span>124 个知识点，12 题定位你卡在哪一格</span>
-  <a href="diagnose.html" target="_blank" rel="noopener">测一测 →</a>
+  <span class="zh">124 个知识点，12 题定位你卡在哪一格</span><span class="en">124 knowledge points · 12 questions to place you</span>
+  <a href="diagnose.html" target="_blank" rel="noopener"><span class="zh">测一测 →</span><span class="en">Take it →</span></a>
 </div>
 <!-- ==DIAG:END== -->
   <div class="tabs">
-    <button class="tab on" data-view="cur">课程地图 · 4 学段 × 6 分支</button>
-    <button class="tab" data-view="stc">结构地图 · 次数 × 变量数（7 × 5）</button>
-    <button class="tab" data-view="var">变异视图 · 按六个算子分类</button>
-    <button class="tab" data-view="geo">几何视角 · 局部模型 × 全局拓扑</button>
-    <button class="tab" data-view="grp">群论视角 · 变换群与不变量</button>
-    <button class="tab" data-view="phy">物理视角 · 有几何载体的那些数学</button>
-    <button class="tab" data-view="mx">全表对照 · 六张表逐格核对</button>
-    <button class="tab" data-view="num">数系 · 扩张与代价</button>
-    <button class="tab" data-view="t5">表 5 · 代数结构（可点开）</button>
-    <button class="tab" data-view="t2">表 2 · 运算层级 × 嵌套（可点开）</button>
-    <button class="tab" data-view="t6">表 6 · 历史时间轴</button>
+    <button class="tab on" data-view="cur"><span class="zh">课程地图 · 4 学段 × 6 分支</span><span class="en">Course map · 4 stages × 6 strands</span></button>
+    <button class="tab" data-view="stc"><span class="zh">结构地图 · 次数 × 变量数（7 × 5）</span><span class="en">Structure · degree × variables (7 × 5)</span></button>
+    <button class="tab" data-view="var"><span class="zh">变异视图 · 按六个算子分类</span><span class="en">Variations · by six operators</span></button>
+    <button class="tab" data-view="geo"><span class="zh">几何视角 · 局部模型 × 全局拓扑</span><span class="en">Geometry · local model × global topology</span></button>
+    <button class="tab" data-view="grp"><span class="zh">群论视角 · 变换群与不变量</span><span class="en">Groups · transformation groups and invariants</span></button>
+    <button class="tab" data-view="phy"><span class="zh">物理视角 · 有几何载体的那些数学</span><span class="en">Physics · the mathematics that carries a picture</span></button>
+    <button class="tab" data-view="mx"><span class="zh">全表对照 · 六张表逐格核对</span><span class="en">All tables · six tables, cell by cell</span></button>
+    <button class="tab" data-view="num"><span class="zh">数系 · 扩张与代价</span><span class="en">Number systems · extensions and their price</span></button>
+    <button class="tab" data-view="t5"><span class="zh">表 5 · 代数结构（可点开）</span><span class="en">Table 5 · algebraic structures (clickable)</span></button>
+    <button class="tab" data-view="t2"><span class="zh">表 2 · 运算层级 × 嵌套（可点开）</span><span class="en">Table 2 · operator level × nesting (clickable)</span></button>
+    <button class="tab" data-view="t6"><span class="zh">表 6 · 历史时间轴</span><span class="en">Table 6 · timeline</span></button>
   </div>
 
   <div id="cur"></div>
@@ -2349,7 +2361,11 @@ D.pFiber = function (ctx, w, h, t) {
 /* ================= 数据 ================= */
 
 const BR = ['数系与运算', '代数与方程', '几何与图形', '函数与分析', '线性与矩阵', '概率与统计'];
+const BR_EN = ['Number and operation', 'Algebra and equations', 'Geometry and shape', 'Functions and analysis', 'Linear algebra and matrices', 'Probability and statistics'];
+function brName(i) { return (typeof MM_LANG === 'function' && MM_LANG() === 'en') ? BR_EN[i] : BR[i]; }
 const ST = ['小学', '初中', '高中', '本科'];
+const ST_EN = { '小学': 'Primary', '初中': 'Middle school', '高中': 'High school', '本科': 'Undergraduate' };
+function stName(x) { return (typeof MM_LANG === 'function' && MM_LANG() === 'en') ? (ST_EN[x] || x) : x; }
 
 const CUR = {
   '小学': [
@@ -3476,14 +3492,16 @@ function openModal(cell, coord) {
     ? cell.variants
     : [{ n: '主视图', d: cell.draw, eq: cell.eq, live: cell.live }];
 
-  document.getElementById('mTitle').textContent = cell.t || cell.name;
+  document.getElementById('mTitle').textContent =
+    (typeof MM_NAME === 'function') ? MM_NAME(cell.id, cell.t || cell.name) : (cell.t || cell.name);
   document.getElementById('mCoord').textContent = coord;
   const ul = document.getElementById('mItems');
   ul.innerHTML = '';
   (cell.items || []).forEach(function (s) {
     const li = document.createElement('li'); li.textContent = s; ul.appendChild(li);
   });
-  document.getElementById('mNote').textContent = cell.note || '';
+  document.getElementById('mNote').textContent =
+    (typeof MM_NOTE === 'function') ? MM_NOTE(cell.id, cell.note || '') : (cell.note || '');
   fillDef(cell);
   renderPre(cell); /* ==DIAG:CALL== */ if (typeof renderDiagEntry === 'function') renderDiagEntry(cell); /* ==DIAG:CALL-END== */
 
@@ -3598,7 +3616,9 @@ function makeCell(opts) {
   el.appendChild(cv);
   const nm = document.createElement('div');
   nm.className = 'ct';
-  setMath(nm, opts.title); nm.style.fontSize = '12.5px'; nm.style.lineHeight = '1.5';
+  setMath(nm, opts.title);
+  const enMode = (typeof MM_LANG === 'function' && MM_LANG() === 'en');
+  nm.style.fontSize = enMode ? '11px' : '12.5px'; nm.style.lineHeight = enMode ? '1.35' : '1.5';
   el.appendChild(nm);
   if (opts.sub) {
     const sb = document.createElement('div');
@@ -3608,7 +3628,10 @@ function makeCell(opts) {
   if (opts.showMore) {
     const m = document.createElement('div');
     m.className = 'more';
-    m.textContent = opts.badge ? (opts.badge + ' · 点开 →') : '点开 →';
+    const enM = (typeof MM_LANG === 'function' && MM_LANG() === 'en');
+    m.textContent = opts.badge
+      ? (opts.badge + (enM ? ' forms · open →' : ' · 点开 →'))
+      : (enM ? 'open →' : '点开 →');
     el.appendChild(m);
   }
   const ctx = setup(cv, PW, PH);
@@ -3635,17 +3658,18 @@ function buildCur() {
   const corner = document.createElement('div');
   corner.className = 'hd'; corner.textContent = '学段 \\ 分支';
   curEl.appendChild(corner);
-  BR.forEach(function (b) {
-    const e = document.createElement('div'); e.className = 'hd'; e.textContent = b;
+  BR.forEach(function (b, bi) {
+    const e = document.createElement('div'); e.className = 'hd'; e.textContent = brName(bi);
     curEl.appendChild(e);
   });
   ST.forEach(function (stage) {
     const rl = document.createElement('div');
-    rl.className = 'rl'; rl.textContent = stage;
+    rl.className = 'rl'; rl.textContent = stName(stage);
     curEl.appendChild(rl);
     CUR[stage].forEach(function (cell, i) {
       curEl.appendChild(makeCell({
-        title: cell.t, sub: cell.items.slice(0, 3).join(' · '),
+        title: (typeof MM_NAME === 'function') ? MM_NAME(cell.id, cell.t) : cell.t,
+        sub: cell.items.slice(0, 3).join(' · '),
         draw: cell.draw || (cell.variants && cell.variants[0].d),
         cell: cell, coord: stage + '　·　' + BR[i], showMore: true,
         badge: cell.variants ? (cell.variants.length + ' 形态') : ''
@@ -5515,7 +5539,7 @@ function buildSearch() {
   if (!nav) return;
   const wrap = document.createElement('div');
   wrap.id = 'sbox';
-  wrap.innerHTML = '<input id="sQ" type="search" placeholder="搜：椭圆 / 积分 / 矩阵"><div id="sR"></div>';
+  wrap.innerHTML = '<input id="sQ" type="search" placeholder="搜：椭圆 / 积分 / 矩阵" data-ph-zh="搜：椭圆 / 积分 / 矩阵" data-ph-en="search: ellipse / integral / matrix"><div id="sR"></div>';
   nav.appendChild(wrap);
   const q = wrap.querySelector('#sQ'), r = wrap.querySelector('#sR');
   let idx = null;
