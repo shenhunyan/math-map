@@ -11,6 +11,8 @@ Each cell carries a textbook-level definition, a citation to the exact chapter, 
 
 [**Open it →**](https://shenhunyan.github.io/math-map/) · [中文说明](#中文)
 
+[![The map — 166 cells, four stages, six strands](assets/map.png)](https://shenhunyan.github.io/math-map/math-map.html)
+
 </div>
 
 ---
@@ -41,6 +43,8 @@ When a student fails at conic sections, the problem is almost never conic sectio
 | **[Diagnose](diagnose.html)** | 12 questions to locate which cell you're actually stuck in. Uses knowledge-space theory: if you can do B and B requires A, then you can do A. Two inference rules collapse 2²⁴ possibilities into a handful of questions. | 124 items · 12 questions |
 
 Everything is a **single HTML file, zero dependencies, works offline**. No build step, no CDN, no tracking, no server.
+
+![Fitting Lab — one curve in, every family of equations that can describe it out, ranked by error × parsimony](assets/fitting.png)
 
 ## How the structure was built
 
