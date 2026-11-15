@@ -30,7 +30,11 @@
 
   #cur,#stc{display:grid;gap:7px}
   #cur{grid-template-columns:62px repeat(6,minmax(0,1fr))}
-  #stc{grid-template-columns:126px repeat(4,minmax(0,1fr));display:none}
+  #stc{grid-template-columns:126px 58px repeat(4,minmax(0,1fr));display:none}
+  .conststrip{background:#f6f2e8;border:1px dashed #ddd5c2;border-radius:7px;
+    display:flex;align-items:flex-start;justify-content:center;padding:18px 0}
+  .conststrip span{writing-mode:vertical-rl;text-orientation:upright;
+    letter-spacing:.22em;font-size:12px;color:#8a7f68;line-height:1}
   .hd{font-size:11.5px;color:var(--muted);text-align:center;padding:4px 2px 9px;line-height:1.35}
   .rl{
     font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;
@@ -160,7 +164,9 @@
   .t3g .rl{font-size:10.5px;color:#a89c84;padding:2px 4px;line-height:1.4;
            display:flex;align-items:center;justify-content:flex-end;text-align:right}
   /* 表 2 网格 */
-  .t2g{display:grid;grid-template-columns:96px repeat(4,1fr);gap:9px;margin-top:14px}
+  .t2g{display:grid;grid-template-columns:96px repeat(5,1fr);gap:9px;margin-top:14px}
+  .t2g .rl{white-space:nowrap;font-size:11px;color:#a89c84;line-height:1.4;
+    display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
   .t2g .hd{font-size:11.5px;color:#6f6755;padding:3px 3px;line-height:1.45;align-self:end}
   .t2g .rl{font-size:10.5px;color:#a89c84;padding:2px 4px 2px 0;line-height:1.4;
            display:flex;align-items:center;justify-content:flex-end;text-align:right}
@@ -249,7 +255,7 @@
     .page{padding:28px 14px 50px}
     h1{font-size:24px}
     #cur{grid-template-columns:28px repeat(6,minmax(0,1fr));gap:5px}
-    #stc{grid-template-columns:66px repeat(4,minmax(0,1fr));gap:5px}
+    #stc{grid-template-columns:60px 34px repeat(4,minmax(0,1fr));gap:4px}
     .rl{font-size:10px}
     #stc .rl{font-size:9.5px}
     .hd{font-size:9px}
@@ -269,6 +275,7 @@
     table.mx{border-spacing:2px}
     table.mx th.rowh{width:30px;font-size:8px}
     table.mx td{font-size:8.5px;padding:3px 2px}
+    .t2g{grid-template-columns:44px repeat(5,minmax(0,1fr));gap:5px}
   }
 </style>
 <style>
@@ -2858,6 +2865,37 @@ function airy(x) {
 D.tL30 = fnC(function (x) { return airy(x); }, [-8, 6, -0.55, 0.65],
   'Ai(x)　Airy 函数', 'x>0 指数衰减，x<0 振荡 —— 一根曲线上有两种行为');
 
+/* D = 3：三层复合。夹在 D=2 与 D=ω 之间，用来说明「有限再深也是有限」 */
+D.tL0a = fnC(function (x) {
+  const a = 1 + x;
+  return 1 / (1 + 1 / (1 + 1 / (1 + a)));
+}, [0, 6, 0.35, 1.05], '三层连分式', '括号套三层，仍然只有四则运算：D = 3');
+
+D.tL1a = fnC(function (x) { return Math.sqrt(1 + Math.sqrt(1 + Math.sqrt(Math.max(x, 0)))); },
+  [-0.4, 8, 0.95, 2.1], '√(1+√(1+√x))', '根号套三层：收敛更快，但还是有限层');
+
+D.tL2a = fnC(function (x) { return Math.log(1 + Math.exp(Math.sin(x))); },
+  [-1, 8.5, 0.25, 1.6], 'ln(1+e^{sin x})', '指数套三角再套对数：三层，周期仍在');
+
+D.tL3a = fnC(function (x) { return airy(Math.sin(x)); },
+  [-9, 9, -0.62, 0.62], 'Ai(sin x)', '特殊函数套三角函数：三层，衰减与振荡混在一起');
+
+D.tL4a = function (ctx, w, h) {
+  const sizes = [[w * 0.62, h * 0.46], [w * 0.44, h * 0.32], [w * 0.26, h * 0.19]];
+  const names = ['δS', 'δ²S', 'δ³S'];
+  sizes.forEach(function (sz, i) {
+    const x = (w - sz[0]) / 2, y = (h - sz[1]) / 2 - 4;
+    ctx.strokeStyle = i === 0 ? '#d5cdbb' : (i === 1 ? '#b3ab96' : ACC);
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, sz[0], sz[1], 7);
+    else ctx.rect(x, y, sz[0], sz[1]);
+    ctx.stroke();
+    txt(ctx, names[i], x + 7, y + 15, i === 2 ? ACC : MU, 11);
+  });
+  txt(ctx, '每多一层变分，试探函数的空间再宽一次', 10, h - 9, MU, 10.5);
+};
+
 function zeta(s) {
   if (s <= 1.02) return NaN;
   let sum = 0;
@@ -3613,31 +3651,54 @@ function buildStc() {
   stcEl.innerHTML = '';
   const rows = ['0', '1', '2', '3', '4', '5', '∞', '微'];
   const cols = ['1', '2', '3', '4'];
+
   const corner = document.createElement('div');
   corner.className = 'hd'; corner.textContent = 'd \\ n';
+  corner.style.gridColumn = '1'; corner.style.gridRow = '1';
   stcEl.appendChild(corner);
-  cols.forEach(function (n) {
+
+  const zero = document.createElement('div');
+  zero.className = 'hd'; zero.textContent = 'n = 0';
+  zero.style.gridColumn = '2'; zero.style.gridRow = '1';
+  stcEl.appendChild(zero);
+
+  cols.forEach(function (n, j) {
     const e = document.createElement('div');
     e.className = 'hd'; e.textContent = 'n = ' + n;
+    e.style.gridColumn = String(j + 3); e.style.gridRow = '1';
     stcEl.appendChild(e);
   });
-  rows.forEach(function (d) {
+
+  /* n = 0 整列跨满：ℝ⁰ 只有一个点，不空；所有次数在这里塌成常数 */
+  const strip = document.createElement('div');
+  strip.className = 'conststrip';
+  strip.style.gridColumn = '2';
+  strip.style.gridRow = '2 / span ' + rows.length;
+  strip.title = 'n = 0：定义域是 ℝ⁰，只有一个点，不是空集。次数在这一列全部塌成常数。';
+  strip.innerHTML = '<span>常数 c</span>';
+  stcEl.appendChild(strip);
+
+  rows.forEach(function (d, i) {
     const rl = document.createElement('div');
     rl.className = 'rl';
+    rl.style.gridColumn = '1'; rl.style.gridRow = String(i + 2);
     rl.innerHTML = (d === '微')
       ? '<span><b>∂</b> 微分</span>'
       : (d === '∞' ? '<span><b>∞</b> 次</span>' : '<span><b>' + d + '</b> 次</span>');
     stcEl.appendChild(rl);
-    cols.forEach(function (n) {
+    cols.forEach(function (n, j) {
       const cell = STRUCT.find(function (x) { return x.d === d && x.n === n; });
       if (cell) {
-        stcEl.appendChild(makeCell({
+        const el = makeCell({
           title: cell.name, draw: cell.draw, cell: cell,
           coord: 'd = ' + d + '　·　n = ' + n, showMore: false
-        }));
+        });
+        el.style.gridColumn = String(j + 3); el.style.gridRow = String(i + 2);
+        stcEl.appendChild(el);
       } else {
         const e = document.createElement('div');
         e.className = 'cell blank';
+        e.style.gridColumn = String(j + 3); e.style.gridRow = String(i + 2);
         e.style.display = 'flex';
         e.style.alignItems = 'center';
         e.style.justifyContent = 'center';
@@ -3650,6 +3711,7 @@ function buildStc() {
     });
   });
 }
+
 
 const VIEW_EL = {};
 function setView(v) {
@@ -4409,14 +4471,14 @@ const MX = [
   {
     t: '表 2 · 运算层级 L × 嵌套深度 D',
     d: '五个层级是按「运算的种类」分的：算术 → 代数 → 初等超越 → 特殊函数 → 隐式与泛函。四列是嵌套深度。',
-    c: ['D = 0（基本函数）', 'D = 1（单层复合）', 'D = 2（双层复合）', 'D = ω（无穷嵌套）'],
+    c: ['D = 0（基本函数）', 'D = 1（单层复合）', 'D = 2（双层复合）', 'D = 3（三层复合）', 'D = ω（无穷嵌套）'],
     r: ['L0　算术', 'L1　代数', 'L2　初等超越', 'L3　特殊函数', 'L4　隐式 / 泛函'],
     g: [
-      ['d', 'ax + b', 'd', '有理函数 P/Q', 'd', '连分式嵌套', 'd', '无理数的连分式'],
-      ['d', '√x', 'd', '√(x² + 1)', 'd', '迭代根式 √(1 + √x)', 'd', '代数数的级数表示'],
-      ['d', 'eˣ · sin x · ln x', 'd', 'e^{sin x}', 'd', 'ln(cos(eˣ))', 'd', '泰勒级数 · 傅里叶级数'],
-      ['d', '℘(x) · Ai(x) · J_ν(x)', 'd', 'ζ(s) 的级数定义', 'd', '模形式 f(e^{2πiτ})', 'd', '超几何函数 · q-级数'],
-      ['d', 'Dirac δ', 'd', '变分导数 δF/δy', 'd', 'Navier–Stokes 弱解', 'd', '路径积分 · 概型上同调']
+      ['d', 'ax + b', 'd', '有理函数 P/Q', 'd', '连分式嵌套', 'd', '三层连分式', 'd', '无理数的连分式'],
+      ['d', '√x', 'd', '√(x² + 1)', 'd', '迭代根式 √(1 + √x)', 'd', '√(1+√(1+√x))', 'd', '代数数的级数表示'],
+      ['d', 'eˣ · sin x · ln x', 'd', 'e^{sin x}', 'd', 'ln(cos(eˣ))', 'd', 'ln(1 + e^{sin x})', 'd', '泰勒级数 · 傅里叶级数'],
+      ['d', '℘(x) · Ai(x) · J_ν(x)', 'd', 'ζ(s) 的级数定义', 'd', '模形式 f(e^{2πiτ})', 'd', 'Ai(sin x)', 'd', '超几何函数 · q-级数'],
+      ['d', 'Dirac δ', 'd', '变分导数 δF/δy', 'd', 'Navier–Stokes 弱解', 'd', '三阶变分 δ³S', 'd', '路径积分 · 概型上同调']
     ]
   },
   {
@@ -4702,19 +4764,24 @@ buildNum();
 const T2 = [
   { row: 'L0　算术', cells: [
     { n: 'ax + b', d: 'tL00' }, { n: '有理函数 P/Q', d: 'tL01' },
-    { n: '连分式嵌套', d: 'tL02' }, { n: '无理数的连分式', d: 'tL03' } ] },
+    { n: '连分式嵌套', d: 'tL02' }, { n: '三层连分式', d: 'tL0a' },
+    { n: '无理数的连分式', d: 'tL03' } ] },
   { row: 'L1　代数', cells: [
     { n: '√x', d: 'tL10' }, { n: '√(x²+1)', d: 'tL11' },
-    { n: '迭代根式 √(1+√x)', d: 'tL12' }, { n: '代数数的收敛', d: 'tL13' } ] },
+    { n: '迭代根式 √(1+√x)', d: 'tL12' }, { n: '√(1+√(1+√x))', d: 'tL1a' },
+    { n: '代数数的收敛', d: 'tL13' } ] },
   { row: 'L2　初等超越', cells: [
     { n: 'eˣ · sin x · ln x', d: 'tL20' }, { n: 'e^{sin x}', d: 'tL21' },
-    { n: 'ln(cos(eˣ))', d: 'tL22' }, { n: '泰勒 · 傅里叶级数', d: 'tL23' } ] },
+    { n: 'ln(cos(eˣ))', d: 'tL22' }, { n: 'ln(1+e^{sin x})', d: 'tL2a' },
+    { n: '泰勒 · 傅里叶级数', d: 'tL23' } ] },
   { row: 'L3　特殊函数', cells: [
     { n: 'Ai(x)　Airy', d: 'tL30' }, { n: 'ζ(s)　Riemann', d: 'tL31' },
-    { n: '模形式的基本域', d: 'tL32' }, { n: '₂F₁ 超几何', d: 'tL33' } ] },
+    { n: '模形式的基本域', d: 'tL32' }, { n: 'Ai(sin x)', d: 'tL3a' },
+    { n: '₂F₁ 超几何', d: 'tL33' } ] },
   { row: 'L4　隐式 / 泛函', cells: [
     { n: 'Dirac δ', d: 'tL40' }, { n: '变分导数 δF/δy', d: 'tL41' },
-    { n: 'Navier–Stokes 弱解', d: 'tL42' }, { n: '路径积分', d: 'tL43' } ] }
+    { n: 'Navier–Stokes 弱解', d: 'tL42' }, { n: '三阶变分 δ³S', d: 'tL4a' },
+    { n: '路径积分', d: 'tL43' } ] }
 ];
 
 function buildT2() {
@@ -4730,18 +4797,25 @@ function buildT2() {
   const corner = document.createElement('div');
   corner.className = 'hd'; corner.textContent = 'L \\ D';
   wrap.appendChild(corner);
-  ['D = 0　基本函数', 'D = 1　单层复合', 'D = 2　双层复合', 'D = ω　无穷嵌套'].forEach(function (c) {
+  ['D = 0　基本函数', 'D = 1　单层复合', 'D = 2　双层复合', 'D = 3　三层复合', 'D = ω　无穷嵌套（只有极限能给）'].forEach(function (c) {
     const e = document.createElement('div'); e.className = 'hd'; e.textContent = c;
     wrap.appendChild(e);
   });
   T2.forEach(function (r) {
     const rl = document.createElement('div');
     rl.className = 'rl'; rl.textContent = r.row;
+    rl.style.cssText = 'display:block;text-align:right;white-space:nowrap;'
+      + 'writing-mode:horizontal-tb;font-size:11px;line-height:1.5;color:#a89c84;'
+      + 'padding:0 6px 0 0;align-self:center';
     wrap.appendChild(rl);
     r.cells.forEach(function (c) {
+      /* 同一层级里的其余例子放进弹层做切换条：表格不加宽，信息量在弹层里翻倍 */
+      const sibs = [{ n: c.n, d: c.d }].concat(
+        r.cells.filter(function (x) { return x !== c; }).map(function (x) { return { n: x.n, d: x.d }; })
+      );
       wrap.appendChild(makeCell({
         title: c.n, draw: c.d, showMore: true,
-        cell: { t: c.n, eq: '', note: '', items: [] },
+        cell: { t: c.n, eq: '', note: '', items: [], variants: sibs },
         coord: '表 2　·　' + r.row.replace(/　/g, ' ')
       }));
     });
