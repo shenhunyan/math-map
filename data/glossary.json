@@ -1,0 +1,50 @@
+{
+  "_meta": {
+    "purpose": "中英术语对照。v1.7 英文版的所有译文只能从这里取，不允许另起译名。",
+    "policy": [
+      "直译优先：只要直译仍然讲得通，就用直译，不用习语化的英文。理由见 2026-11-15 的决定——对中文读者和英文读者都更直观。",
+      "只有直译会误导时，才改用英文教材的标准说法，并在 source 字段注明是哪本书。",
+      "同一个中文词只有一个译名。出现第二个译法时必须回到这张表里改，不能在译文里就地发明。",
+      "一元=one unknown（不是 one variable）；二元=two unknowns。中文的「元」指未知数，英文的 variable 是另一件事。"
+    ],
+    "sources": {
+      "Common Core": "美国 Common Core State Standards, 数学部分",
+      "Stewart": "Stewart, Calculus, 8e",
+      "Strang": "Strang, Introduction to Linear Algebra, 5e",
+      "Axler": "Axler, Linear Algebra Done Right, 3e",
+      "Rudin": "Rudin, Principles of Mathematical Analysis, 3e",
+      "Durrett": "Durrett, Probability: Theory and Examples, 5e"
+    },
+    "status": "draft — 24 个课程格已定，格内定义与 124 个知识点待译"
+  },
+
+  "cells": [
+    { "id": "s_frac",       "zh": "分数与小数",       "en": "Fractions and decimals" },
+    { "id": "s_letter",     "zh": "用字母表示数",     "en": "Using letters to represent numbers", "note": "直译。Common Core 6.EE.A.2 的原文就是 letters stand for numbers。" },
+    { "id": "s_area",       "zh": "周长与面积",       "en": "Perimeter and area" },
+    { "id": "s_prop",       "zh": "找规律与正比例",   "en": "Patterns and direct proportion" },
+    { "id": "s_coord",      "zh": "数对与坐标系",     "en": "Number pairs and coordinate systems", "note": "数对直译为 number pair，比 ordered pair 更贴近中文课堂用语。" },
+    { "id": "s_stat",       "zh": "统计三中心",       "en": "Mean, median and mode", "note": "不译成 measures of central tendency。三个具体量的名字更直接。" },
+
+    { "id": "j_real",       "zh": "无理数与实数",     "en": "Irrational numbers and real numbers" },
+    { "id": "j_quad",       "zh": "一元二次方程",     "en": "Quadratic equations in one unknown" },
+    { "id": "j_pyth",       "zh": "勾股定理",         "en": "The Pythagorean theorem", "note": "唯一保留习语的一处。Gougu theorem 在英文文献里极罕见，用了读者找不到对应。" },
+    { "id": "j_func",       "zh": "一次与二次函数",   "en": "First- and second-degree functions", "note": "直译。linear/quadratic 是标准说法，但 first/second-degree 能让中文读者一眼对上「一次」「二次」。" },
+    { "id": "j_sys",        "zh": "二元一次方程组",   "en": "Systems of linear equations in two unknowns" },
+    { "id": "j_prob",       "zh": "频率与概率",       "en": "Frequency and probability" },
+
+    { "id": "g_cplx",       "zh": "复数与复平面",     "en": "Complex numbers and the complex plane" },
+    { "id": "g_seq",        "zh": "数列",             "en": "Number sequences" },
+    { "id": "g_conic",      "zh": "圆锥曲线",         "en": "Conic sections" },
+    { "id": "g_trig",       "zh": "三角函数",         "en": "Trigonometric functions" },
+    { "id": "g_mat",        "zh": "矩阵与行列式初步", "en": "Matrices and determinants (introductory)" },
+    { "id": "g_dist",       "zh": "分布列与期望",     "en": "Distribution tables and expectation", "note": "分布列直译 distribution table；标准说法 probability mass function 反而绕。" },
+
+    { "id": "b_real",       "zh": "实数完备与数系结构", "en": "Completeness of the real numbers and the structure of number systems" },
+    { "id": "b_linsys",     "zh": "线性方程组解的结构", "en": "Structure of the solution set of linear systems" },
+    { "id": "b_vec3",       "zh": "空间解析几何",       "en": "Analytic geometry in space" },
+    { "id": "b_calc",       "zh": "极限·导数·积分·级数", "en": "Limits, derivatives, integrals and series", "source": "Stewart" },
+    { "id": "b_linalg",     "zh": "线性代数",           "en": "Linear algebra", "source": "Strang / Axler" },
+    { "id": "b_prob",       "zh": "概率论与数理统计",   "en": "Probability theory and mathematical statistics" }
+  ]
+}
