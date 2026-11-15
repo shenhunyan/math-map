@@ -60,6 +60,184 @@
     b_prob: 'Central limit theorem: whatever the original distribution, adding many independent copies approaches the normal. This is why statistics works at all.'
   };
 
+
+  var ITEMS = {
+    "s_frac": [
+      "Natural numbers, integers, fractions, decimals",
+      "Position on the number line",
+      "Adding fractions with the same denominator / with different denominators",
+      "Fractions and division",
+      "Percent, first pass"
+    ],
+    "s_letter": [
+      "Letters for unknowns",
+      "Properties of equalities",
+      "Simple equations",
+      "Using equations on word problems",
+      "Chickens and rabbits in one cage"
+    ],
+    "s_area": [
+      "Rectangles and squares",
+      "Triangles and parallelograms",
+      "Circumference and area of a circle",
+      "Composite figures",
+      "Unit conversion"
+    ],
+    "s_prop": [
+      "Patterns in number sequences",
+      "Direct and inverse proportion",
+      "Table → graph",
+      "First look at coordinates",
+      "Reading a relation off a graph"
+    ],
+    "s_coord": [
+      "Rows and columns",
+      "Number pairs",
+      "The Cartesian plane",
+      "Translating a point",
+      "Direction and distance"
+    ],
+    "s_stat": [
+      "Tables and bar charts",
+      "Mean, median and mode",
+      "When to use which",
+      "The effect of an outlier",
+      "Grouping and reading data"
+    ],
+    "j_real": [
+      "Rational and irrational numbers",
+      "Dense but not complete",
+      "Countable vs uncountable",
+      "Reals and the number line, one to one",
+      "Approximation and significant figures"
+    ],
+    "j_quad": [
+      "Factoring",
+      "Completing the square",
+      "The quadratic formula",
+      "Discriminant Δ = b²−4ac",
+      "Vieta's formulas"
+    ],
+    "j_pyth": [
+      "Congruent triangles",
+      "Similar triangles",
+      "Proof by rearranging areas",
+      "Pythagorean triples",
+      "Properties of circles"
+    ],
+    "j_func": [
+      "Linear functions",
+      "Inverse proportion",
+      "Quadratic functions",
+      "Opening, vertex, axis of symmetry",
+      "Solving equations and inequalities graphically"
+    ],
+    "j_sys": [
+      "Substitution",
+      "Elimination",
+      "The solution is where two lines meet",
+      "No solution and infinitely many",
+      "Word problems"
+    ],
+    "j_prob": [
+      "Random events",
+      "Estimating probability from frequency",
+      "Equally likely outcomes",
+      "Tree diagrams and tables",
+      "Probability of simple events"
+    ],
+    "g_cplx": [
+      "The imaginary unit i² = −1",
+      "What a complex number means geometrically",
+      "Arithmetic on complex numbers",
+      "Modulus and conjugate",
+      "Trigonometric form"
+    ],
+    "g_seq": [
+      "Arithmetic and geometric sequences",
+      "General term and sum",
+      "Levels of difference",
+      "Mathematical induction",
+      "Binomial theorem"
+    ],
+    "g_conic": [
+      "Ellipse",
+      "Hyperbola",
+      "Parabola",
+      "Eccentricity and directrix",
+      "Standard form and general form",
+      "Parametric equations"
+    ],
+    "g_trig": [
+      "Radians",
+      "Unit circle definition",
+      "Reduction formulas",
+      "Sum-to-product formulas",
+      "Transforming the sine curve"
+    ],
+    "g_mat": [
+      "2×2 determinants",
+      "Matrix addition and multiplication",
+      "Matrices as linear transformations",
+      "Inverse matrices",
+      "(optional in some textbooks)"
+    ],
+    "g_dist": [
+      "Discrete random variables",
+      "Distribution tables",
+      "Expectation and variance",
+      "Binomial distribution",
+      "First look at the normal"
+    ],
+    "b_real": [
+      "Completeness (least upper bound)",
+      "Dedekind cuts",
+      "Cauchy sequences",
+      "The complex field and algebraic closure",
+      "Cardinality and countability",
+      "Ordered fields and the loss of order"
+    ],
+    "b_linsys": [
+      "Gaussian elimination",
+      "Rank and existence of solutions",
+      "Fundamental system and general solution",
+      "Homogeneous and inhomogeneous",
+      "Dimension of the solution space"
+    ],
+    "b_vec3": [
+      "Coordinates in space",
+      "Equations of planes and lines",
+      "Dot, cross and scalar triple product",
+      "Surfaces and curves",
+      "Quadric surfaces"
+    ],
+    "b_calc": [
+      "Limits and continuity",
+      "Derivatives and differentials",
+      "Mean value theorems",
+      "Indefinite and definite integrals",
+      "Multivariable calculus and multiple integrals",
+      "Series and convergence tests",
+      "Ordinary differential equations"
+    ],
+    "b_linalg": [
+      "Vector spaces and subspaces",
+      "Linear dependence and bases",
+      "Linear maps and matrix representation",
+      "Eigenvalues and eigenvectors",
+      "Diagonalisation",
+      "Quadratic forms and definiteness"
+    ],
+    "b_prob": [
+      "Random variables and distribution functions",
+      "Expectation, variance, covariance",
+      "Law of large numbers and the central limit theorem",
+      "Parameter estimation",
+      "Hypothesis testing",
+      "Regression"
+    ]
+  };
+
   function pick() {
     var q = null;
     try { q = new URLSearchParams(location.search).get('lang'); } catch (e) {}
@@ -95,6 +273,9 @@
     }
   });
 
+  w.MM_ITEMS = function (id, zhArr) {
+    return (CUR === 'en' && ITEMS[id]) ? ITEMS[id] : zhArr;
+  };
   w.MM_LANG = function () { return CUR; };
   w.MM_NAME = function (id, zh) { return (CUR === 'en' && NAMES[id]) ? NAMES[id] : zh; };
   w.MM_NOTE = function (id, zh) { return (CUR === 'en' && NOTES[id]) ? NOTES[id] : zh; };
