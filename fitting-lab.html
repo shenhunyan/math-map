@@ -1022,31 +1022,40 @@ function fitConic() {
   for (i0 = 0; i0 < PTS.length; i0++)
     sc = Math.max(sc, Math.abs(PTS[i0].x-cx), Math.abs(PTS[i0].y-cy));
   if (sc < 1e-9) return null;
+
+  /* 齐次最小二乘：不钉常数项，直接找零空间方向。
+     旧写法钉成 1，曲线一经过归一化原点（弧线重心落在弧上）就会解出垃圾，
+     半圆弧那条路径实测得到 NaN。 */
   var B = PTS.map(function (p) {
     var u = (p.x-cx)/sc, v = (p.y-cy)/sc;
-    return [u*u, u*v, v*v, u, v];
+    return [u*u, u*v, v*v, u, v, 1];
   });
-  var y = PTS.map(function () { return -1; });
-  var c = lstsq(B, y);
-  if (!c) return null;
-  var A = c[0], Bb = c[1], C = c[2], D = c[3], E = c[4], F = -1;
+  var cf = nullVector(B);
+  if (!cf) return null;
+  var qn = Math.hypot(cf[0], cf[1], cf[2]);
+  if (!(qn > 1e-12)) return null;
+  for (i0 = 0; i0 < cf.length; i0++) cf[i0] /= qn;
+
+  var A = cf[0], Bb = cf[1], C = cf[2], D = cf[3], E = cf[4], F0 = cf[5];
   var disc = Bb*Bb - 4*A*C;
   var type = Math.abs(disc) < 1e-6 ? '抛物线' : (disc > 0 ? '双曲线' : '椭圆');
   if (Math.abs(A-C) < 1e-6 && Math.abs(Bb) < 1e-6) type = '圆';
+
   function Fv(p) {
     var u = (p.x-cx)/sc, v = (p.y-cy)/sc;
-    /* 拟合的是 Au²+…= −1，所以方程是 Au²+…+1 = 0。
-       写成 −1 会让所有点上 F 恒为 −2，残差直接翻倍。 */
-    return A*u*u + Bb*u*v + C*v*v + D*u + E*v + 1;
+    return A*u*u + Bb*u*v + C*v*v + D*u + E*v + F0;
   }
   function grad(p) {
     var u = (p.x-cx)/sc, v = (p.y-cy)/sc;
-    return Math.hypot(2*A*u + Bb*v + D, 2*C*v + Bb*u + E) / sc;
+    var gu = 2*A*u + Bb*v + D, gv = 2*C*v + Bb*u + E;
+    return { x: gu/sc, y: gv/sc };
   }
+
   return { name: '圆锥曲线（' + type + '）', k: 5, implicit: true, F: Fv, grad: grad,
-    coef: { A: A, B: Bb, C: C, D: D, E: E, cx: cx, cy: cy, sc: sc, type: type },
-    expr: 'Ax² + Bxy + Cy² + Dx + Ey + 1 = 0\nA=' + A.toFixed(3) + ' B=' + Bb.toFixed(3) +
+    coef: { A: A, B: Bb, C: C, D: D, E: E, F0: F0, cx: cx, cy: cy, sc: sc, type: type },
+    expr: 'Ax² + Bxy + Cy² + Dx + Ey + F = 0\nA=' + A.toFixed(3) + ' B=' + Bb.toFixed(3) +
       ' C=' + C.toFixed(3) + ' D=' + D.toFixed(3) + ' E=' + E.toFixed(3) +
+      ' F=' + F0.toFixed(3) +
       '\n判别式 B²−4AC = ' + disc.toFixed(3) + ' → ' + type };
 }
 
@@ -1108,7 +1117,7 @@ function conicArcNURBS(G) {
   var A = G.A, B = G.B, C = G.C, D = G.D, E = G.E;
   function Fdat(x, y) {
     var u = (x - G.cx) / G.sc, v = (y - G.cy) / G.sc;
-    return A*u*u + B*u*v + C*v*v + D*u + E*v + 1;
+    return A*u*u + B*u*v + C*v*v + D*u + E*v + (G.F0 !== undefined ? G.F0 : 1);
   }
   function tang(p) {
     var u = (p.x - G.cx) / G.sc, v = (p.y - G.cy) / G.sc;
