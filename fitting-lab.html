@@ -762,6 +762,54 @@ function fitCircleAffine() {
   };
 }
 
+
+/* 摆线 + 仿射 —— 斜切后实测残差 0.40，配对仍未收敛，暂不挂表。
+   三个族（贝塞尔/圆/摆线）都卡在同一步：点对点的对应关系。
+   原设计：形状只有一个拱（r 已并入矩阵），姿态位置全交给 A。
+   摆线不是代数曲线，二次/三次隐式都吃不到它——这一族才真正需要仿射。 */
+function fitCycloidAffine() {
+  var N = 160, dense = [], j;
+  for (j = 0; j <= 720; j++) {
+    var t = j / 720 * Math.PI * 2;
+    dense.push({ x: (t - Math.sin(t)), y: (1 - Math.cos(t)) });
+  }
+  var src = resampleEven(dense, N);
+  var dst = resampleEven(PTS, N);
+  if (src.length < 3 || dst.length < 3) return null;
+  var M = procrustesAffine(src, dst);
+  if (!M) return null;
+  for (var it = 0; it < 12; it++) {
+    var moved = src.map(function (p) { return applyAffine(M, p); });
+    var pS = [], pD = [];
+    for (var d2 = 0; d2 < dst.length; d2++) {
+      var best = 0, bd = Infinity;
+      for (var s2 = 0; s2 < moved.length; s2++) {
+        var dd = (moved[s2].x - dst[d2].x) * (moved[s2].x - dst[d2].x) +
+                 (moved[s2].y - dst[d2].y) * (moved[s2].y - dst[d2].y);
+        if (dd < bd) { bd = dd; best = s2; }
+      }
+      pS.push(src[best]); pD.push(dst[d2]);
+    }
+    var M2 = procrustesAffine(pS, pD);
+    if (!M2) break;
+    M = M2;
+  }
+  var det = M.a * M.d - M.b * M.c;
+  if (Math.abs(det) < 1e-9) return null;
+  return {
+    name: '摆线 + 仿射', k: 6,
+    eval: function (t) {
+      var u = t * Math.PI * 2;
+      return applyAffine(M, { x: u - Math.sin(u), y: 1 - Math.cos(u) });
+    },
+    expr: 'p(u) = A·(u − sin u, 1 − cos u) + b，u ∈ [0, 2π]\n' +
+      'A = [' + M.a.toFixed(3) + '  ' + M.b.toFixed(3) + ';  ' +
+      M.c.toFixed(3) + '  ' + M.d.toFixed(3) + ']　b = (' +
+      M.tx.toFixed(2) + ', ' + M.ty.toFixed(2) + ')\n' +
+      'det(A) = ' + det.toFixed(3) + '：负值表示镜像——摆线被翻过来'
+  };
+}
+
 function fitBezier(n) {
   var B = TT.map(function (t) {
     var r = [], i;
@@ -3148,5 +3196,39 @@ render();
 loadPreset('nautilus');
 tick();
 </script>
+
+<section id="algo" style="max-width:1080px;margin:34px auto 0;padding:0 18px 60px">
+  <details style="border:1px solid #e4e0d6;border-radius:10px;background:#fff;padding:0">
+    <summary style="cursor:pointer;padding:14px 18px;font-size:14px;color:#1c1b19;font-weight:600">
+      算法说明 · 误差是怎么算的，排序是怎么定的
+    </summary>
+    <div style="padding:2px 18px 18px;font-size:13.5px;line-height:1.85;color:#4a453a">
+      <p><b>一、误差不是竖直距离</b><br>
+      手绘线没有「哪个轴是自变量」这回事，所以不能用 <code>Σ(yᵢ − f(xᵢ))²</code>——那是回归，
+      转个角度就变。这里算的是<b>点到曲线的几何距离</b>，与旋转无关。</p>
+      <p><b>二、点到折线段，不是点到采样点</b><br>
+      把曲线采样成折线后，每个手绘点找的是<b>线段的最近点</b>，不是最近的那个采样点。
+      用后者会把误差虚高 10–16 倍：两个采样点之间的空隙会被算成偏差，
+      而且系统性惩罚采样稀的族。</p>
+      <p><b>三、隐式曲线用 F/|∇F|</b><br>
+      二次、三次曲线写成 <code>F(x,y)=0</code>，它本身不是距离——同一个 F 乘个常数就变。
+      一阶近似是 <code>|F| / |∇F|</code>，除以梯度模长才是真正的几何距离。</p>
+      <p><b>四、系数怎么解出来的（零空间）</b><br>
+      把每个点代进 <code>[u², uv, v², u, v, 1]</code> 得到一行，求
+      <code>‖B·c‖</code> 最小且 <code>‖c‖=1</code> 的方向——也就是 BᵀB 最小特征值对应的特征向量。
+      旧写法把常数项钉成 1，曲线一经过归一化原点（弧线的重心落在弧上）就会解出垃圾，
+      半圆弧因此直接得出 NaN。</p>
+      <p><b>五、排序：误差 × 参数数<sup>0.1</sup></b><br>
+      误差明显更小的排前面；误差接近时，参数少的赢。参数少而误差小的族胜出，
+      说明先验放对了地方。用 AIC 会让 112 个参数的折线靠小数第五位赢，
+      用 BIC 会让 2 个参数的玫瑰线用 3.9% 的误差赢过 2.0%。</p>
+      <p><b>六、一个已知的边界</b><br>
+      仿射矩阵（旋转 + 切变 + 缩放）对<b>参数自由</b>的族是多余的——贝塞尔、多项式、
+      一般二次曲线本身就能表示任意仿射像。它只对<b>形状锁死</b>的族（圆、摆线、Lissajous）有意义。
+      这条是试出来的，不是推出来的。</p>
+    </div>
+  </details>
+</section>
+
 </body>
 </html>
