@@ -377,6 +377,58 @@ function nullVector(B) {
   return v;
 }
 
+
+/* 最小二乘仿射：找 A(2×2) 与 b，使 Σ‖A·p + b − q‖² 最小。
+   闭式解——先各自减去质心，A = Cov(q,p)·Cov(p,p)⁻¹，b 由质心对齐给出。
+   两组点必须一一对应，所以调用方要先按弧长把两条曲线重采样到同样点数。 */
+function procrustesAffine(src, dst) {
+  var n = Math.min(src.length, dst.length);
+  if (n < 3) return null;
+  var i, px = 0, py = 0, qx = 0, qy = 0;
+  for (i = 0; i < n; i++) { px += src[i].x; py += src[i].y; qx += dst[i].x; qy += dst[i].y; }
+  px /= n; py /= n; qx /= n; qy /= n;
+  var sxx = 0, sxy = 0, syy = 0, txx = 0, txy = 0, tyx = 0, tyy = 0;
+  for (i = 0; i < n; i++) {
+    var u = src[i].x - px, v = src[i].y - py;
+    var w = dst[i].x - qx, z = dst[i].y - qy;
+    sxx += u*u; sxy += u*v; syy += v*v;
+    txx += w*u; txy += w*v; tyx += z*u; tyy += z*v;
+  }
+  var det = sxx*syy - sxy*sxy;
+  if (Math.abs(det) < 1e-12) return null;
+  /* A = T · S⁻¹，S = [[sxx,sxy],[sxy,syy]] */
+  var a11 = (txx*syy - txy*sxy) / det;
+  var a12 = (txy*sxx - txx*sxy) / det;
+  var a21 = (tyx*syy - tyy*sxy) / det;
+  var a22 = (tyy*sxx - tyx*sxy) / det;
+  return { a: a11, b: a12, c: a21, d: a22,
+           tx: qx - (a11*px + a12*py), ty: qy - (a21*px + a22*py) };
+}
+
+function applyAffine(M, p) {
+  return { x: M.a*p.x + M.b*p.y + M.tx, y: M.c*p.x + M.d*p.y + M.ty };
+}
+
+/* 按弧长把折线重采样成 n 个等距点——两条曲线点数不一致时先做这一步 */
+function resampleEven(pts, n) {
+  if (!pts || pts.length < 2) return [];
+  var i, acc = [0];
+  for (i = 1; i < pts.length; i++)
+    acc.push(acc[i-1] + Math.hypot(pts[i].x-pts[i-1].x, pts[i].y-pts[i-1].y));
+  var total = acc[acc.length-1];
+  if (!(total > 1e-9)) return pts.slice(0, n);
+  var out = [], k = 0;
+  for (var j = 0; j < n; j++) {
+    var target = total * j / (n - 1);
+    while (k < acc.length-2 && acc[k+1] < target) k++;
+    var seg = acc[k+1] - acc[k] || 1;
+    var r = (target - acc[k]) / seg;
+    out.push({ x: pts[k].x + (pts[k+1].x - pts[k].x) * r,
+               y: pts[k].y + (pts[k+1].y - pts[k].y) * r });
+  }
+  return out;
+}
+
 function lstsqQR(B, y) {
   var m = B.length, n = B[0].length, i, j, k;
   var R = B.map(function (r) { return r.slice(); });
