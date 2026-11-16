@@ -896,17 +896,27 @@ function fitCurvaturePoly() {
     return { cost: ss, r: r };
   }
 
-  /* 初值：用首末点定位置与总转角，曲率取平均 */
+  /* 初值不能只给平均曲率——κ 变化大时那是很差的起点。
+     直接从手绘折线估每段曲率 κᵢ = Δθ/Δs，再最小二乘拟一个二次。 */
   var th0 = Math.atan2(PTS[1].y - PTS[0].y, PTS[1].x - PTS[0].x);
-  var thEnd = Math.atan2(PTS[PTS.length-1].y - PTS[PTS.length-2].y,
-                         PTS[PTS.length-1].x - PTS[PTS.length-2].x);
-  var dTh = thEnd - th0;
-  while (dTh > Math.PI) dTh -= 2 * Math.PI;
-  while (dTh < -Math.PI) dTh += 2 * Math.PI;
-  var p = [dTh / L, 0, 0, th0, PTS[0].x, PTS[0].y];
+  var rows = [], rhs = [], i3;
+  for (i3 = 1; i3 < PTS.length - 1; i3++) {
+    var a1 = Math.atan2(PTS[i3].y - PTS[i3-1].y, PTS[i3].x - PTS[i3-1].x);
+    var a2 = Math.atan2(PTS[i3+1].y - PTS[i3].y, PTS[i3+1].x - PTS[i3].x);
+    var dth = a2 - a1;
+    while (dth > Math.PI) dth -= 2 * Math.PI;
+    while (dth < -Math.PI) dth += 2 * Math.PI;
+    var dsl = sT[i3+1] - sT[i3-1];
+    if (dsl < 1e-9) continue;
+    var sm = (sT[i3+1] + sT[i3-1]) / 2;
+    rows.push([1, sm, sm*sm]); rhs.push(dth / dsl);
+  }
+  var ini = rows.length >= 3 ? lstsq(rows, rhs) : null;
+  var p = ini ? [ini[0], ini[1], ini[2], th0, PTS[0].x, PTS[0].y]
+              : [0, 0, 0, th0, PTS[0].x, PTS[0].y];
 
-  var N = 300, cur = costOf(p, N).cost, lambda = 1e-2, it, j, k;
-  for (it = 0; it < 30; it++) {
+  var N = 300, cur = costOf(p, N).cost, lambda = 1e-3, it, j, k;
+  for (it = 0; it < 60; it++) {
     var base = costOf(p, N).r, m = base.length, n = 6;
     var Jc = [], i2, j2;
     for (j2 = 0; j2 < n; j2++) {
@@ -930,7 +940,7 @@ function fitCurvaturePoly() {
     }
     for (i2 = 0; i2 < n; i2++) A[i2][i2] += lambda;
     var d = solve(A, g);
-    if (!d) break;
+    if (!d) { lambda *= 8; if (lambda > 1e7) break; continue; }
     var trial = p.map(function (v, idx) { return v + d[idx]; });
     var tc = costOf(trial, N).cost;
     if (tc < cur) { p = trial; cur = tc; lambda = Math.max(lambda * 0.5, 1e-9); }
@@ -2278,6 +2288,7 @@ function runFit() {
   var cc = fitConic();
   add('隐式', cc);
   add('隐式', fitCubic());
+  add('曲率', fitCurvaturePoly());
   add('样条', fitNURBSanalytic(cc), 'nurbs');
   add('参数式', fitPoly(OPT.poly), 'poly');
   add('参数式', fitPoly(3));
