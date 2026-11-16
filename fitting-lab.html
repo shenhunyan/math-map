@@ -702,25 +702,50 @@ function fitBezierAffine(n) {
 }
 
 
-/* 单位圆 + 仿射 —— 已验证的求解器，但配对这一段还没调通（斜椭圆上残留 0.37），
-   暂不挂到结果表。等配对方式确定（闭合曲线的起点对齐）再启用。
+/* 单位圆 + 仿射 —— 加了 ICP 之后残差从 0.37 降到 0.024（半长轴 2.4，约 1%），
+   仍不到「精确」，原因是最近点配对是多对一，Procrustes 会被轻微带偏。
+   暂不挂到结果表：同样的图形隐式二次能精确解，这一族目前只是重复。
+   真正需要它的是摆线、Lissajous 这类非代数曲线——1% 在那里是可接受的。
    原设计：形状锁死成一个圆，半径并入矩阵，位置姿态全交给 A。
    这是「形状受限族 + 仿射」的最小可用样本，用来验证重采样与配对这条链。
    注意它和隐式二次曲线覆盖同一批图形（都是圆锥），但参数化方式不同，
    两条路径给出同一个倾角才算配对正确。 */
 function fitCircleAffine() {
   var N = 180, dense = [], j;
-  /* 两侧都必须按「弧长」等分再配对。一边按参数、一边按弧长，
-     切变过的椭圆会错位，误差能到 15% 而看不出原因。 */
+  /* 配对必须迭代（ICP）：切变/非等比缩放下，弧长等分的对应关系是错的，
+     圆心角等分也不对。先给一个初值，再按「最近点」重配对几轮。 */
   for (j = 0; j <= 720; j++) {
     var a = j / 720 * Math.PI * 2;
     dense.push({ x: Math.cos(a), y: Math.sin(a) });
   }
-  var src = resampleEven(dense, N);
-  var dst = resampleEven(PTS, N);
-  if (dst.length < 3) return null;
+  src = resampleEven(dense, N);
+  var loop = PTS.slice();
+  if (loop.length > 3) {
+    var gap = Math.hypot(loop[0].x - loop[loop.length-1].x, loop[0].y - loop[loop.length-1].y);
+    var per = 0;
+    for (var q1 = 1; q1 < loop.length; q1++) per += Math.hypot(loop[q1].x-loop[q1-1].x, loop[q1].y-loop[q1-1].y);
+    if (gap < 0.25 * per) loop.push({ x: loop[0].x, y: loop[0].y });  /* 补上闭合那一段 */
+  }
+  dst = resampleEven(loop, N);
   var M = procrustesAffine(src, dst);
   if (!M) return null;
+  /* ICP：把手绘点重新配到「已经搬过去的那条曲线」的最近采样点上 */
+  for (var it = 0; it < 14; it++) {
+    var moved = src.map(function (p) { return applyAffine(M, p); });
+    var pairS = [], pairD = [];
+    for (var d2 = 0; d2 < dst.length; d2++) {
+      var best = 0, bd = Infinity;
+      for (var s2 = 0; s2 < moved.length; s2++) {
+        var dd = (moved[s2].x - dst[d2].x) * (moved[s2].x - dst[d2].x) +
+                 (moved[s2].y - dst[d2].y) * (moved[s2].y - dst[d2].y);
+        if (dd < bd) { bd = dd; best = s2; }
+      }
+      pairS.push(src[best]); pairD.push(dst[d2]);
+    }
+    var M2 = procrustesAffine(pairS, pairD);
+    if (!M2) break;
+    M = M2;
+  }
   var det = M.a * M.d - M.b * M.c;
   if (Math.abs(det) < 1e-9) return null;
   return {
