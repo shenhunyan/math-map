@@ -701,6 +701,42 @@ function fitBezierAffine(n) {
   };
 }
 
+
+/* 单位圆 + 仿射 —— 已验证的求解器，但配对这一段还没调通（斜椭圆上残留 0.37），
+   暂不挂到结果表。等配对方式确定（闭合曲线的起点对齐）再启用。
+   原设计：形状锁死成一个圆，半径并入矩阵，位置姿态全交给 A。
+   这是「形状受限族 + 仿射」的最小可用样本，用来验证重采样与配对这条链。
+   注意它和隐式二次曲线覆盖同一批图形（都是圆锥），但参数化方式不同，
+   两条路径给出同一个倾角才算配对正确。 */
+function fitCircleAffine() {
+  var N = 180, dense = [], j;
+  /* 两侧都必须按「弧长」等分再配对。一边按参数、一边按弧长，
+     切变过的椭圆会错位，误差能到 15% 而看不出原因。 */
+  for (j = 0; j <= 720; j++) {
+    var a = j / 720 * Math.PI * 2;
+    dense.push({ x: Math.cos(a), y: Math.sin(a) });
+  }
+  var src = resampleEven(dense, N);
+  var dst = resampleEven(PTS, N);
+  if (dst.length < 3) return null;
+  var M = procrustesAffine(src, dst);
+  if (!M) return null;
+  var det = M.a * M.d - M.b * M.c;
+  if (Math.abs(det) < 1e-9) return null;
+  return {
+    name: '单位圆 + 仿射', k: 6,
+    eval: function (t) {
+      var th = t * Math.PI * 2;
+      return applyAffine(M, { x: Math.cos(th), y: Math.sin(th) });
+    },
+    expr: 'p(t) = A·(cos t, sin t) + b\n' +
+      'A = [' + M.a.toFixed(3) + '  ' + M.b.toFixed(3) + ';  ' +
+      M.c.toFixed(3) + '  ' + M.d.toFixed(3) + ']　b = (' +
+      M.tx.toFixed(2) + ', ' + M.ty.toFixed(2) + ')\n' +
+      'det(A) = ' + det.toFixed(3) + '，主轴的倾角与长度由 A 的奇异值给出'
+  };
+}
+
 function fitBezier(n) {
   var B = TT.map(function (t) {
     var r = [], i;
