@@ -665,6 +665,42 @@ function fitFourier(m) {
   };
 }
 
+
+/* 贝塞尔 + 仿射 —— 实测这个组合是错的，暂时不挂到表里。
+   原因：贝塞尔的控制点是自由的，它本身就能表示任意仿射像；
+   再套一层 A 只是在拟合已经拟合好的东西，反而引入重采样的错位。
+   仿射只对「形状受限」的族有意义（真椭圆、摆线、Lissajous）。
+   贝塞尔本身是参数式，A 能把整条曲线旋转、切变、缩放、平移过去。 */
+function fitBezierAffine(n) {
+  var base = fitBezier(n);
+  if (!base || !base.bezier) return null;
+  var ax = base.bezier.ax, ay = base.bezier.ay, nn = base.bezier.n;
+  function ev(t) {
+    var x = 0, y = 0;
+    for (var i = 0; i <= nn; i++) {
+      var b = binom(nn, i) * Math.pow(1 - t, nn - i) * Math.pow(t, i);
+      x += b * ax[i]; y += b * ay[i];
+    }
+    return { x: x, y: y };
+  }
+  var N = 180, src = [], j;
+  for (j = 0; j < N; j++) src.push(ev(j / (N - 1)));
+  var dst = resampleEven(PTS, N);
+  if (dst.length < 3) return null;
+  var M = procrustesAffine(src, dst);
+  if (!M) return null;
+  return {
+    name: '贝塞尔 ' + n + ' 阶 + 仿射', k: 2 * (n + 1) + 6,
+    eval: function (t) { return applyAffine(M, ev(t)); },
+    expr: 'B(t) 为 ' + n + ' 阶贝塞尔，外包一层仿射\n' +
+      'A = [' + M.a.toFixed(3) + '  ' + M.b.toFixed(3) + ';  ' +
+      M.c.toFixed(3) + '  ' + M.d.toFixed(3) + ']　平移 (' +
+      M.tx.toFixed(2) + ', ' + M.ty.toFixed(2) + ')\n' +
+      'det(A) = ' + (M.a * M.d - M.b * M.c).toFixed(3) +
+      '（>0 保向，<0 翻面）'
+  };
+}
+
 function fitBezier(n) {
   var B = TT.map(function (t) {
     var r = [], i;
