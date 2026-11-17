@@ -9,6 +9,8 @@ Each cell carries a textbook-level definition and a citation to the exact chapte
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24246636.svg)](https://doi.org/10.5281/zenodo.24246636)
 
+[![License: AGPL v3](https://img.shields.io/badge/code-AGPL--3.0--or-later-b3541e)](LICENSE) [![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-2b4f81)](LICENSES.md) [![Data: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-6a6155)](LICENSES.md)
+
 [**Open it →**](https://shenhunyan.github.io/math-map/) · [中文说明](#中文)
 
 [![The map — 166 cells, four stages, six strands](assets/map.png)](https://shenhunyan.github.io/math-map/math-map.html)
