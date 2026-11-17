@@ -857,8 +857,9 @@ function fitCycloidAffine() {
    未挂表，下一步先换成带线搜索的 LM 再启用。
    手绘点的弧长直接由累积弦长给出，所以「谁配谁」不需要搜索——
    这正是仿射那几条路一直过不去的那一关。 */
-function fitCurvaturePoly(deg) {
+function fitCurvaturePoly(deg, lam) {
   deg = deg || 2;
+  if (lam === undefined) lam = 0.5;
   if (PTS.length < 8) return null;
   var sT = cumLen(PTS), L = sT[sT.length - 1];
   if (!(L > 1e-6)) return null;
@@ -895,7 +896,7 @@ function fitCurvaturePoly(deg) {
   /* 残差 = 数据点偏差 + 曲率变化的惩罚。
      惩罚项用 8 个采样点的 κ′(s) 拼出来，等价于 ∫κ′²ds 的数值积分；
      Spiro 样条的核心就是这个量——曲率变得越少，曲线看起来越顺。 */
-  var LAM = 0.15;
+  var LAM = lam;
   function costOf(p, N) {
     var c = integ(p, N), ss = 0, r = [], i;
     for (i = 0; i < PTS.length; i++) {
