@@ -857,20 +857,26 @@ function fitCycloidAffine() {
    未挂表，下一步先换成带线搜索的 LM 再启用。
    手绘点的弧长直接由累积弦长给出，所以「谁配谁」不需要搜索——
    这正是仿射那几条路一直过不去的那一关。 */
-function fitCurvaturePoly() {
+function fitCurvaturePoly(deg) {
+  deg = deg || 2;
   if (PTS.length < 8) return null;
   var sT = cumLen(PTS), L = sT[sT.length - 1];
   if (!(L > 1e-6)) return null;
+  var NC = deg + 1;                       /* κ 的系数个数 */
+  var NP = NC + 3;                        /* 再加 θ₀、x₀、y₀ */
 
+  function kap(p, s) {
+    var v = 0, q = 1, i;
+    for (i = 0; i < NC; i++) { v += p[i] * q; q *= s; }
+    return v;
+  }
   function integ(p, N) {
-    var ds = L / N, th = p[3], x = p[4], y = p[5], out = [], ss = [0], sAcc = 0;
+    var ds = L / N, th = p[NC], x = p[NC+1], y = p[NC+2], out = [], ss = [0], sAcc = 0, i;
     out.push({ x: x, y: y });
-    for (var i = 0; i < N; i++) {
+    for (i = 0; i < N; i++) {
       var sMid = sAcc + ds / 2;
-      var kMid = p[0] + p[1] * sMid + p[2] * sMid * sMid;
-      var thMid = th + kMid * ds / 2;
-      var k2 = p[0] + p[1] * (sAcc + ds) + p[2] * (sAcc + ds) * (sAcc + ds);
-      th += k2 * ds;
+      var thMid = th + kap(p, sMid) * ds / 2;
+      th += kap(p, sAcc + ds) * ds;
       x += Math.cos(thMid) * ds; y += Math.sin(thMid) * ds;
       sAcc += ds; ss.push(sAcc);
       out.push({ x: x, y: y });
@@ -886,18 +892,28 @@ function fitCurvaturePoly() {
     return { x: c.pts[lo].x + (c.pts[hi].x - c.pts[lo].x) * r,
              y: c.pts[lo].y + (c.pts[hi].y - c.pts[lo].y) * r };
   }
+  /* 残差 = 数据点偏差 + 曲率变化的惩罚。
+     惩罚项用 8 个采样点的 κ′(s) 拼出来，等价于 ∫κ′²ds 的数值积分；
+     Spiro 样条的核心就是这个量——曲率变得越少，曲线看起来越顺。 */
+  var LAM = 0.15;
   function costOf(p, N) {
-    var c = integ(p, N), ss = 0, r = [];
-    for (var i = 0; i < PTS.length; i++) {
+    var c = integ(p, N), ss = 0, r = [], i;
+    for (i = 0; i < PTS.length; i++) {
       var q = atS(c, sT[i]);
       r.push(q.x - PTS[i].x, q.y - PTS[i].y);
       ss += (q.x - PTS[i].x) * (q.x - PTS[i].x) + (q.y - PTS[i].y) * (q.y - PTS[i].y);
     }
+    if (deg >= 1) {
+      var w = Math.sqrt(LAM * L / 8);
+      for (i = 1; i <= 8; i++) {
+        var sv = L * i / 9, dv = 0, q2 = 1, k;
+        for (k = 1; k < NC; k++) { dv += k * p[k] * q2; q2 *= sv; }
+        r.push(w * dv);
+      }
+    }
     return { cost: ss, r: r };
   }
 
-  /* 初值不能只给平均曲率——κ 变化大时那是很差的起点。
-     直接从手绘折线估每段曲率 κᵢ = Δθ/Δs，再最小二乘拟一个二次。 */
   var th0 = Math.atan2(PTS[1].y - PTS[0].y, PTS[1].x - PTS[0].x);
   var rows = [], rhs = [], i3;
   for (i3 = 1; i3 < PTS.length - 1; i3++) {
@@ -908,37 +924,39 @@ function fitCurvaturePoly() {
     while (dth < -Math.PI) dth += 2 * Math.PI;
     var dsl = sT[i3+1] - sT[i3-1];
     if (dsl < 1e-9) continue;
-    var sm = (sT[i3+1] + sT[i3-1]) / 2;
-    rows.push([1, sm, sm*sm]); rhs.push(dth / dsl);
+    var sm = (sT[i3+1] + sT[i3-1]) / 2, row = [], pw = 1, kk;
+    for (kk = 0; kk < NC; kk++) { row.push(pw); pw *= sm; }
+    rows.push(row); rhs.push(dth / dsl);
   }
-  var ini = rows.length >= 3 ? lstsq(rows, rhs) : null;
-  var p = ini ? [ini[0], ini[1], ini[2], th0, PTS[0].x, PTS[0].y]
-              : [0, 0, 0, th0, PTS[0].x, PTS[0].y];
+  var ini = rows.length >= NC ? lstsq(rows, rhs) : null;
+  var p = [];
+  for (i3 = 0; i3 < NC; i3++) p.push(ini ? ini[i3] : 0);
+  p.push(th0); p.push(PTS[0].x); p.push(PTS[0].y);
 
-  var N = 300, cur = costOf(p, N).cost, lambda = 1e-3, it, j, k;
+  var N = 300, cur = costOf(p, N).cost, lambda = 1e-3, it, j2, k2;
   for (it = 0; it < 60; it++) {
-    var base = costOf(p, N).r, m = base.length, n = 6;
-    var Jc = [], i2, j2;
-    for (j2 = 0; j2 < n; j2++) {
+    var base = costOf(p, N).r, m = base.length;
+    var Jc = [], i2;
+    for (j2 = 0; j2 < NP; j2++) {
       var h = 1e-6 * (Math.abs(p[j2]) + 1);
-      var q2 = p.slice(); q2[j2] += h;
-      var rq = costOf(q2, N).r, col = [];
+      var q3 = p.slice(); q3[j2] += h;
+      var rq = costOf(q3, N).r, col = [];
       for (i2 = 0; i2 < m; i2++) col.push((rq[i2] - base[i2]) / h);
       Jc.push(col);
     }
     var A = [], g = [];
-    for (i2 = 0; i2 < n; i2++) { A.push(new Array(n).fill(0)); g.push(0); }
-    for (i2 = 0; i2 < n; i2++) {
-      for (j2 = 0; j2 < n; j2++) {
+    for (i2 = 0; i2 < NP; i2++) { A.push(new Array(NP).fill(0)); g.push(0); }
+    for (i2 = 0; i2 < NP; i2++) {
+      for (j2 = 0; j2 < NP; j2++) {
         var s1 = 0;
-        for (k = 0; k < m; k++) s1 += Jc[i2][k] * Jc[j2][k];
+        for (k2 = 0; k2 < m; k2++) s1 += Jc[i2][k2] * Jc[j2][k2];
         A[i2][j2] = s1;
       }
       var s2 = 0;
-      for (k = 0; k < m; k++) s2 += Jc[i2][k] * base[k];
+      for (k2 = 0; k2 < m; k2++) s2 += Jc[i2][k2] * base[k2];
       g[i2] = -s2;
     }
-    for (i2 = 0; i2 < n; i2++) A[i2][i2] += lambda;
+    for (i2 = 0; i2 < NP; i2++) A[i2][i2] += lambda;
     var d = solve(A, g);
     if (!d) { lambda *= 8; if (lambda > 1e7) break; continue; }
     var trial = p.map(function (v, idx) { return v + d[idx]; });
@@ -949,13 +967,18 @@ function fitCurvaturePoly() {
 
   var finalC = integ(p, 600);
   var total = finalC.ss[finalC.ss.length - 1];
+  var terms = [], q4, pw2 = 1;
+  for (q4 = 0; q4 < NC; q4++) {
+    var co = p[q4];
+    var txt = (Math.abs(co) < 1e-9 ? '' : ((co >= 0 ? (q4 ? ' + ' : '') : ' − ') + Math.abs(co).toFixed(3) + (q4 === 0 ? '' : (q4 === 1 ? 's' : 's' + q4))));
+    if (txt) terms.push(txt);
+  }
   return {
-    name: 'κ(s) 二次', k: 6,
+    name: 'κ(s) ' + (deg === 1 ? '一次' : deg === 2 ? '二次' : '三次'), k: NP,
     eval: function (t) { return atS(finalC, t * total); },
-    expr: 'κ(s) = ' + p[0].toFixed(3) + (p[1] >= 0 ? ' + ' : ' − ') + Math.abs(p[1]).toFixed(3) + 's' +
-      (p[2] >= 0 ? ' + ' : ' − ') + Math.abs(p[2]).toFixed(3) + 's²\n' +
-      'θ₀ = ' + p[3].toFixed(3) + ' rad　起点 (' + p[4].toFixed(2) + ', ' + p[5].toFixed(2) + ')\n' +
-      '弧长 L = ' + total.toFixed(3) + '　曲线由 κ 两次积分得到，不需要额外的位置参数'
+    expr: 'κ(s) = ' + (terms.join('') || '0') + '\n' +
+      'θ₀ = ' + p[NC].toFixed(3) + ' rad　起点 (' + p[NC+1].toFixed(2) + ', ' + p[NC+2].toFixed(2) + ')\n' +
+      '弧长 L = ' + total.toFixed(3) + '　已含 ∫κ′² 惩罚，曲率变化越少得分越高'
   };
 }
 
@@ -2472,7 +2495,8 @@ function runFit() {
   add('隐式', fitCubic());
   add('参数式', fitParabolaAxis());
   add('参数式', fitCubicAxis());
-  add('曲率', fitCurvaturePoly());
+  add('曲率', fitCurvaturePoly(2));
+  add('曲率', fitCurvaturePoly(3));
   add('样条', fitNURBSanalytic(cc), 'nurbs');
   add('参数式', fitPoly(OPT.poly), 'poly');
   add('参数式', fitPoly(3));
