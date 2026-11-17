@@ -857,11 +857,45 @@ function fitCycloidAffine() {
    未挂表，下一步先换成带线搜索的 LM 再启用。
    手绘点的弧长直接由累积弦长给出，所以「谁配谁」不需要搜索——
    这正是仿射那几条路一直过不去的那一关。 */
+/* 手绘点带噪声时，折线长会系统性大于真实弧长：
+   相邻两点真距 d、噪声 ε，折长约 d + ε²/d。段越短偏得越多，
+   而 κ(s) 整个体系都建立在这条弧长上，偏差会顺着积分放大。
+   先平滑再用它量弧长，是最便宜的修正。 */
+function smoothPts(pts, win) {
+  var out = [], i, j;
+  for (i = 0; i < pts.length; i++) {
+    var sx = 0, sy = 0, c = 0;
+    for (j = -win; j <= win; j++) {
+      var t2 = i + j;
+      if (t2 >= 0 && t2 < pts.length) { sx += pts[t2].x; sy += pts[t2].y; c++; }
+    }
+    out.push({ x: sx / c, y: sy / c });
+  }
+  return out;
+}
+
 function fitCurvaturePoly(deg, lam) {
   deg = deg || 2;
-  if (lam === undefined) lam = 0.5;
+  if (lam === undefined) lam = 0.1;
   if (PTS.length < 8) return null;
-  var sT = cumLen(PTS), L = sT[sT.length - 1];
+  /* 弧长用隔点求和：弦长偏差约 ε²/d，弦长加倍偏差降到四分之一。
+     点本身不动，只在求 s 时降采样，避免平滑把形状也一起缩掉。 */
+  var sT, L;
+  if (PTS.length >= 40) {
+    var sparse = [], idx = [], q;
+    for (q = 0; q < PTS.length; q += 2) { sparse.push(PTS[q]); idx.push(q); }
+    var sS = cumLen(sparse);
+    sT = new Array(PTS.length);
+    for (q = 0; q < PTS.length; q++) {
+      var half = Math.floor(q / 2);
+      if (half >= sS.length - 1) { sT[q] = sS[sS.length-1]; continue; }
+      var r = (q - idx[half]) / (idx[half+1] - idx[half] || 1);
+      sT[q] = sS[half] + (sS[half+1] - sS[half]) * r;
+    }
+    L = sS[sS.length - 1];
+  } else {
+    sT = cumLen(PTS); L = sT[sT.length - 1];
+  }
   if (!(L > 1e-6)) return null;
   var NC = deg + 1;                       /* κ 的系数个数 */
   var NP = NC + 3;                        /* 再加 θ₀、x₀、y₀ */
