@@ -362,6 +362,43 @@
       hits++;
     }
 
+    /* 第三遍：整段匹配不到的，多半是「固定词 + 运行时变量」拼出来的，
+       例如「小学　·　数系与运算」「分母从 3 变到 10」。
+       只对短节点做「长词优先」的子串替换，长度上限 40 字，
+       避免把长句拆碎——那是比不翻更糟的结果。 */
+    var SHORT = null;
+    if (!SHORT) {
+      SHORT = [];
+      for (var kk in D) {
+        var klen = kk.length;
+        if (klen >= 2 && klen <= 6 && !/[。！？；，、]/.test(kk)) SHORT.push(kk);
+      }
+      SHORT.sort(function (a, b) { return b.length - a.length; });
+    }
+    var it3 = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p3 = n.parentNode;
+        if (!p3) return NodeFilter.FILTER_REJECT;
+        var tg = p3.nodeName;
+        if (tg === 'SCRIPT' || tg === 'STYLE' || tg === 'CANVAS') return NodeFilter.FILTER_REJECT;
+        var v3 = (n.nodeValue || '').trim();
+        if (!v3 || v3.length > 40) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n3;
+    while ((n3 = it3.nextNode())) {
+      if (insideTouched(n3) || inLangSpan(n3)) continue;
+      var v4 = n3.nodeValue, changed = false;
+      for (var si = 0; si < SHORT.length; si++) {
+        var key = SHORT[si];
+        if (v4.indexOf(key) >= 0) { v4 = v4.split(key).join(D[key]); changed = true; }
+      }
+      /* 只有整段彻底变干净才采用。留下半个汉字的（例如「二次型」→「Degree 2型」）
+         一律回退——那比不翻更难看，也更误导。 */
+      if (changed && !/[\u4e00-\u9fff]/.test(v4)) { n3.nodeValue = v4; hits++; }
+    }
+
     var attrs = root.querySelectorAll('[title],[placeholder],[aria-label]');
     for (var j = 0; j < attrs.length; j++) {
       var el = attrs[j];
