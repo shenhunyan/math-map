@@ -1026,6 +1026,16 @@ window.__QS = [{"no":"链-01","itemId":"s_frac#0","cell":"s_frac","item":"自然
     result: function () { return ENG ? ENG.report() : null; }
   };
 })();
+
+/* 弹窗、面板这类内容是点击之后才生成的，视图切换时的替换碰不到它们。
+   统一在点击之后补一次，幂等：已译的文本不会再匹配中文键。 */
+document.addEventListener('click', function () {
+  if (typeof MM_LANG !== 'function' || MM_LANG() !== 'en') return;
+  setTimeout(function () {
+    if (typeof MM_LOCALIZE === 'function') MM_LOCALIZE(document.body);
+  }, 80);
+}, true);
+
 </script>
 </body>
 </html>
