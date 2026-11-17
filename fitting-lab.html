@@ -1049,6 +1049,98 @@ function fitParabolaAxis() {
   };
 }
 
+
+/* 带符号曲率：三点叉积的符号决定弯向，用来找「κ 变号」的地方，也就是拐点 */
+function signedCurv(pts, i) {
+  var a = pts[i-1], b = pts[i], c = pts[i+1];
+  var cr = (b.x-a.x)*(c.y-b.y) - (b.y-a.y)*(c.x-b.x);
+  var l1 = Math.hypot(b.x-a.x, b.y-a.y), l2 = Math.hypot(c.x-b.x, c.y-b.y);
+  if (l1 < 1e-12 || l2 < 1e-12) return 0;
+  return cr / (l1 * l2);
+}
+
+/* 三次·定拐点：拐点是 κ 变号处（不是极值），用它的切线定初值，
+   再扫一遍角度，每个角度做一次四系数线性拟合，取残差最小。 */
+function fitCubicAxis() {
+  if (PTS.length < 12) return null;
+  var i, ksign = [], win = 3;
+  for (i = 0; i < PTS.length; i++) ksign.push(0);
+  for (i = 1; i < PTS.length-1; i++) {
+    var sum = 0, c2 = 0;
+    for (var j = -win; j <= win; j++) {
+      var t2 = i+j;
+      if (t2 > 0 && t2 < PTS.length-1) { sum += signedCurv(PTS, t2); c2++; }
+    }
+    ksign[i] = c2 ? sum/c2 : 0;
+  }
+  var infl = -1;
+  for (i = 4; i < PTS.length-4; i++) {
+    if (ksign[i] === 0) continue;
+    for (var m = 1; m <= 6 && i+m < PTS.length-4; m++) {
+      if (ksign[i+m] !== 0 && ksign[i+m]*ksign[i] < 0) { infl = i + (m>>1); break; }
+    }
+    if (infl > 0) break;
+  }
+  if (infl < 0) return null;
+
+  var p0 = PTS[Math.max(0, infl-3)], p2 = PTS[Math.min(PTS.length-1, infl+3)];
+  var th0 = Math.atan2(p2.y-p0.y, p2.x-p0.x);
+  var cx0 = PTS[infl].x, cy0 = PTS[infl].y;
+
+  function fitAt(th) {
+    var cd = Math.cos(-th), sd = Math.sin(-th), rows = [], ys = [], j2;
+    for (j2 = 0; j2 < PTS.length; j2++) {
+      var dx = PTS[j2].x - cx0, dy = PTS[j2].y - cy0;
+      var u = dx*cd - dy*sd, v = dx*sd + dy*cd;
+      rows.push([u*u*u, u*u, u, 1]); ys.push(v);
+    }
+    var c = lstsq(rows, ys);
+    if (!c) return null;
+    var ss = 0;
+    for (j2 = 0; j2 < rows.length; j2++) {
+      var r = rows[j2];
+      var e = c[0]*r[0] + c[1]*r[1] + c[2]*r[2] + c[3] - ys[j2];
+      ss += e*e;
+    }
+    return { c: c, rms: Math.sqrt(ss/rows.length) };
+  }
+
+  var best = null, bestTh = th0, off, f;
+  for (off = -40; off <= 40.001; off += 1) {
+    f = fitAt(th0 + off*Math.PI/180);
+    if (f && (!best || f.rms < best.rms)) { best = f; bestTh = th0 + off*Math.PI/180; }
+  }
+  if (!best) return null;
+  for (off = -1; off <= 1.0001; off += 0.1) {
+    f = fitAt(bestTh + off*Math.PI/180);
+    if (f && f.rms < best.rms) { best = f; bestTh = bestTh + off*Math.PI/180; }
+  }
+
+  var cd2 = Math.cos(-bestTh), sd2 = Math.sin(-bestTh);
+  var umin = Infinity, umax = -Infinity, q;
+  for (q = 0; q < PTS.length; q++) {
+    var dx2 = PTS[q].x - cx0, dy2 = PTS[q].y - cy0;
+    var uu = dx2*cd2 - dy2*sd2;
+    if (uu < umin) umin = uu; if (uu > umax) umax = uu;
+  }
+  var cf = Math.cos(bestTh), sf = Math.sin(bestTh), cc = best.c;
+
+  return {
+    name: '三次·定拐点', k: 6,
+    eval: function (t) {
+      var u = umin + (umax - umin)*t;
+      var v = cc[0]*u*u*u + cc[1]*u*u + cc[2]*u + cc[3];
+      return { x: cx0 + u*cf - v*sf, y: cy0 + u*sf + v*cf };
+    },
+    expr: '拐点 (' + cx0.toFixed(2) + ', ' + cy0.toFixed(2) + ')，参考轴倾角 ' +
+      (bestTh*180/Math.PI).toFixed(1) + '°\n' +
+      'v = ' + cc[0].toFixed(4) + 'u³ ' + (cc[1]>=0?'+ ':'− ') + Math.abs(cc[1]).toFixed(4) + 'u² ' +
+      (cc[2]>=0?'+ ':'− ') + Math.abs(cc[2]).toFixed(4) + 'u ' +
+      (cc[3]>=0?'+ ':'− ') + Math.abs(cc[3]).toFixed(4) + '\n' +
+      '拐点由 κ 变号处定位；角度在 ±40° 内扫描，每个角度解一次线性最小二乘'
+  };
+}
+
 function fitBezier(n) {
   var B = TT.map(function (t) {
     var r = [], i;
@@ -2379,6 +2471,7 @@ function runFit() {
   add('隐式', cc);
   add('隐式', fitCubic());
   add('参数式', fitParabolaAxis());
+  add('参数式', fitCubicAxis());
   add('曲率', fitCurvaturePoly());
   add('样条', fitNURBSanalytic(cc), 'nurbs');
   add('参数式', fitPoly(OPT.poly), 'poly');
