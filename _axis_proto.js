@@ -45,37 +45,54 @@ function fitParabolaByVertex(pts) {
   var tang = Math.atan2(p2.y - p0.y, p2.x - p0.x);
   var axis = tang + Math.PI / 2;          // 对称轴方向 = 法线方向
 
-  // 转到「轴竖直」的坐标系
-  var rot2 = [];
-  for (var j = 0; j < pts.length; j++) rot2.push(rot(pts[j].x - pts[best].x, pts[j].y - pts[best].y, -axis));
+  /* 轴初值来自曲率极值点，受噪声影响大约差几度。
+     这几度会让残差涨到 5%——所以在 ±6° 内扫一遍，取残差最小的角度。
+     一次拟合只要一次 2×2 求解，扫 25 个角度依然很便宜。 */
+  function fitAtAxis(ax) {
+    var r2 = [];
+    for (var j = 0; j < pts.length; j++)
+      r2.push(rot(pts[j].x - pts[best].x, pts[j].y - pts[best].y, -(ax - Math.PI / 2)));
+    var sxx = 0, sxy = 0, syy = 0, sy = 0, n = r2.length, q, sxy2 = 0;
+    for (q = 0; q < n; q++) {
+      var xx = r2[q].x * r2[q].x;
+      sxx += xx * xx; sxy += xx; syy += 1; sy += r2[q].y; sxy2 += xx * r2[q].y;
+    }
+    var det = sxx * syy - sxy * sxy;
+    if (Math.abs(det) < 1e-12) return null;
+    var a2 = (sxy2 * syy - sxy * sy) / det;
+    var c2 = (sy * sxx - sxy * sxy2) / det;
+    var ss = 0;
+    for (q = 0; q < n; q++) { var e = r2[q].y - (a2 * r2[q].x * r2[q].x + c2); ss += e * e; }
+    return { a: a2, c: c2, rms: Math.sqrt(ss / n) };
+  }
 
-  // y = a·x² + c  （顶点在原点，无一次项）
-  var sxx = 0, sxy = 0, syy = 0, sy = 0, n = rot2.length, q;
-  for (q = 0; q < n; q++) { var xx = rot2[q].x * rot2[q].x; sxx += xx * xx; sxy += xx; syy += 1; sy += rot2[q].y; }
-  var sxy2 = 0;
-  for (q = 0; q < n; q++) sxy2 += rot2[q].x * rot2[q].x * rot2[q].y;
-  // 正规方程 [[sxx,sxy],[sxy,n]]·[a,c] = [sxy2, sy]
-  var det = sxx * syy - sxy * sxy;
-  if (Math.abs(det) < 1e-12) return null;
-  var a = (sxy2 * syy - sxy * sy) / det;
-  var c = (sy * sxx - sxy * sxy2) / det;
-
-  // 残差
-  var ss = 0;
-  for (q = 0; q < n; q++) { var e = rot2[q].y - (a * rot2[q].x * rot2[q].x + c); ss += e * e; }
+  var bestFit = null, bestAx = axis;
+  for (var off = -6; off <= 6.001; off += 0.5) {
+    var f2 = fitAtAxis(axis + off * Math.PI / 180);
+    if (f2 && (!bestFit || f2.rms < bestFit.rms)) { bestFit = f2; bestAx = axis + off * Math.PI / 180; }
+  }
+  for (var off2 = -0.5; off2 <= 0.5001; off2 += 0.05) {
+    var f3 = fitAtAxis(bestAx + off2 * Math.PI / 180);
+    if (f3 && f3.rms < bestFit.rms) { bestFit = f3; bestAx = bestAx + off2 * Math.PI / 180; }
+  }
+  if (!bestFit) return null;
+  var a = bestFit.a, c = bestFit.c, rmsV = bestFit.rms;
+  axis = bestAx;
+  return { angle: axis * 180 / Math.PI, a: a, c: c, rms: rmsV, vertex: pts[best] };
   return { angle: axis * 180 / Math.PI, a: a, c: c, rms: Math.sqrt(ss / n), vertex: pts[best] };
 }
 
-// ---- 测试：y = 0.28x²，整体旋转 25°，加噪声
-var truthA = 0.28, truthTh = 25 * Math.PI / 180;
-var raw = [];
-for (var i = -30; i <= 30; i++) {
-  var x = i * 0.12, y = truthA * x * x;
-  var P = rot(x, y, truthTh);
-  raw.push({ x: P.x + Math.sin(i * 9.1) * 0.006, y: P.y + Math.sin(i * 4.7) * 0.006 });
-}
-var R = fitParabolaByVertex(raw);
-console.log('真值：轴倾角 115.0°（25°+90°），a = 0.280');
-console.log('结果：轴倾角 ' + R.angle.toFixed(1) + '°，a = ' + R.a.toFixed(3) +
-            '，rms = ' + R.rms.toFixed(4));
-console.log('顶点坐标 (' + R.vertex.x.toFixed(2) + ', ' + R.vertex.y.toFixed(2) + ')');
+// ---- 测试：先看 0°，再看 25°，分离「坐标系」与「顶点定位」两类问题
+[0, 25].forEach(function (deg) {
+  var truthA = 0.28, truthTh = deg * Math.PI / 180;
+  var raw = [];
+  for (var i = -30; i <= 30; i++) {
+    var x = i * 0.12, y = truthA * x * x;
+    var P = rot(x, y, truthTh);
+    raw.push({ x: P.x + Math.sin(i * 9.1) * 0.006, y: P.y + Math.sin(i * 4.7) * 0.006 });
+  }
+  var R = fitParabolaByVertex(raw);
+  console.log('旋转 ' + deg + '°:  轴 = ' + R.angle.toFixed(1) + '°（应 ' + (90 + deg).toFixed(1) +
+              '°）  a = ' + R.a.toFixed(3) + '（应 0.280）  rms = ' + R.rms.toFixed(4) +
+              '  顶点 (' + R.vertex.x.toFixed(2) + ', ' + R.vertex.y.toFixed(2) + ')');
+});
