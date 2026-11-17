@@ -310,7 +310,7 @@
        前半英文后半中文。 */
     /* 只处理块级容器。行内元素（b/i/em）单独替换会把一句话拦腰截断，
        变成「前半中文后半英文」这种最难看的形态。 */
-    var SEL = 'div,p,li,td,th,h1,h2,h3,h4,figcaption';
+    var SEL = 'div,p,li,td,th,h1,h2,h3,h4,figcaption,footer,section,aside,blockquote,dt,dd,summary,label';
     var els = root.querySelectorAll(SEL);
     for (var i = 0; i < els.length; i++) {
       var e = els[i];
@@ -373,6 +373,23 @@
     }
     return hits;
   }
+
+
+  /* 图表里的字是画布画上去的，DOM 替换碰不到。钩住 fillText，
+     英文模式下先查一次表——这一处能一次覆盖所有小图里的标签。 */
+  (function () {
+    if (typeof CanvasRenderingContext2D === 'undefined') return;
+    var orig = CanvasRenderingContext2D.prototype.fillText;
+    CanvasRenderingContext2D.prototype.fillText = function (t, x, y, mw) {
+      try {
+        if (CUR === 'en' && typeof t === 'string') {
+          var D = w.MM_STR || {};
+          if (D[t]) t = D[t];
+        }
+      } catch (e) {}
+      return orig.call(this, t, x, y, mw);
+    };
+  })();
 
   w.MM_LOCALIZE = localize;
   w.MM_LANG = function () { return CUR; };
