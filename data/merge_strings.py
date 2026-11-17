@@ -9,7 +9,7 @@ FILES = ['_mm_part1_en.json', '_mm_part2_en.json', '_mm_part3_en.json',
          '_var_fit_en.json', '_diag_en.json',
          '_mm_a_en.json', '_mm_b_en.json',
          '_var_1_en.json', '_var_2_en.json', '_var_3_en.json', '_var_4_en.json',
-         '_fit_en.json', '_diag2_en.json']
+         '_fit_en.json', '_diag2_en.json', '_var_rest_en.json']
 
 merged = {}
 report = []
