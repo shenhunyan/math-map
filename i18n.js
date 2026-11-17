@@ -308,7 +308,9 @@
     /* 第一遍：整块元素完全匹配 → 换成纯文本。
        带 <b> 等内联标签的段落只能这样处理，否则会把一句话拆成
        前半英文后半中文。 */
-    var SEL = 'div,p,li,td,th,em,b,i,h1,h2,h3,h4,button,a,label,figcaption';
+    /* 只处理块级容器。行内元素（b/i/em）单独替换会把一句话拦腰截断，
+       变成「前半中文后半英文」这种最难看的形态。 */
+    var SEL = 'div,p,li,td,th,h1,h2,h3,h4,figcaption';
     var els = root.querySelectorAll(SEL);
     for (var i = 0; i < els.length; i++) {
       var e = els[i];
@@ -346,8 +348,14 @@
     var n;
     while ((n = it.nextNode())) {
       if (insideTouched(n) || inLangSpan(n)) continue;
-      if (n.parentNode && n.parentNode.childNodes && n.parentNode.childNodes.length > 1) continue;
+      /* 只在「这个文本节点就是父元素的全部内容」时替换。
+         否则一句话会被 <b> 切成三段，只换中间那段，就成了半英半中。 */
+      var par = n.parentNode;
       var raw = n.nodeValue, t2 = raw.trim();
+      if (!par || (par.textContent || '').trim() !== t2) continue;
+      /* 行内元素经常是「一句话被拆成几个兄弟节点」的一段，
+         单独替换它就会得到半中半英。整段没被包进块级容器时，宁可不翻。 */
+      if (/^(B|I|EM|STRONG|SPAN|A|SMALL|CODE)$/.test(par.nodeName)) continue;
       var tr2 = lookup(t2);
       if (!tr2) continue;
       n.nodeValue = raw.replace(t2, tr2);

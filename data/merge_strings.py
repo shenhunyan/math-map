@@ -6,7 +6,8 @@ import io, json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 FILES = ['_mm_part1_en.json', '_mm_part2_en.json', '_mm_part3_en.json',
-         '_var_fit_en.json', '_diag_en.json']
+         '_var_fit_en.json', '_diag_en.json',
+         '_mm_a_en.json', '_mm_b_en.json']
 
 merged = {}
 report = []
