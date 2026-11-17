@@ -296,6 +296,16 @@
   html.lang-en .rl{font-size:9.5px}
   html.lang-en #cur{grid-template-columns:62px repeat(6,minmax(0,1fr))}
   html.lang-en #cur .rl{writing-mode:horizontal-tb;font-size:9.5px;line-height:1.25;text-align:right}
+  /* 英文比中文长，窄屏上如果还按 minmax(0,1fr) 压，第一列的英文会溢出到相邻格。
+     这里把列宽改成有下限，让整张表横向滚动，而不是把字挤出去。 */
+  @media (max-width:600px){
+    /* 学段名横排放不下「Undergraduate」，窄屏改回竖排——和中文版同样的处理 */
+    html.lang-en #cur{grid-template-columns:24px repeat(6,minmax(92px,1fr));gap:4px;
+                      overflow-x:auto;padding-bottom:8px}
+    html.lang-en #cur .rl{writing-mode:vertical-rl;font-size:9.5px;line-height:1.15;
+                          text-align:center;padding-top:6px}
+    html.lang-en .ct{font-size:10px;line-height:1.3}
+  }
 </style>
 <style>
 #sbox{position:relative;margin-left:auto;display:flex;align-items:center;gap:8px;padding-bottom:6px}
