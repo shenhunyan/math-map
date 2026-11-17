@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 shenhunyan — https://github.com/shenhunyan/math-map
 /* 数学地图 · 双语数据层
    ------------------------------------------------------------------
    静态文案走 HTML 里的 .zh / .en 两个 span，由 <html class="lang-xx"> 控制显隐；

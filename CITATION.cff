@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Math Map: a knowledge map from counting to the octonions"
+abstract: >-
+  A single-file, dependency-free map of mathematics from primary school to
+  undergraduate level: eleven views, 166 cells, 157 definitions and a
+  127-entry timeline, with a companion fitting lab that identifies the
+  family a hand-drawn curve most likely belongs to.
+type: software
+authors:
+  - name: "shenhunyan"
+    website: "https://github.com/shenhunyan"
+version: "1.9"
+date-released: "2026-11-17"
+license: AGPL-3.0-or-later
+repository-code: "https://github.com/shenhunyan/math-map"
+url: "https://github.com/shenhunyan/math-map"
+doi: "10.5281/zenodo.24295473"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24295473"
+    description: "Version 1.9"
+  - type: doi
+    value: "10.5281/zenodo.24246636"
+    description: "All versions (concept DOI)"
+keywords:
+  - mathematics
+  - knowledge graph
+  - education
+  - curve fitting
+  - visualization
