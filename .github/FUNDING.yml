@@ -1,0 +1,5 @@
+# 这个文件只控制仓库顶部那个 Sponsor 按钮指向哪里，本身不收款。
+# GitHub Sponsors 目前对居住在中国大陆的个人不开放（支持地区含香港、澳门，
+# 不含大陆），所以这里不做 github: 绑定，改成指向 SUPPORT.md。
+custom:
+  - "https://github.com/shenhunyan/math-map/blob/main/SUPPORT.md"
