@@ -1,0 +1,50 @@
+[
+ {
+  "branch": "可计算性",
+  "name": "图灵机",
+  "def": "图灵机由有限状态集 Q、带字母表 Γ（含空白符 ⊔）、转移函数 δ: Q×Γ ⇀ Q×Γ×{L,R} 与初始状态 q₀ 组成；纸带无限长，读写头每步改写一格并左右移动。若它对每个输入都停机，所计算的部分函数 f: Σ* ⇀ Σ* 称为可计算函数。",
+  "key": "存在通用图灵机：一台机器可模拟任何图灵机，这是「程序即数据」的定理形式。",
+  "src": "Sipser, Introduction to the Theory of Computation, Ch.3 Turing Machines（3.1–3.3，含 Church–Turing 论题）",
+  "table": "表 7（阶 1 · 结构）"
+ },
+ {
+  "branch": "可计算性",
+  "name": "停机问题",
+  "def": "停机问题问：给定图灵机 M 的编码 ⟨M⟩ 与输入 w，M 在 w 上是否停机。集合 K = {⟨M,w⟩ : M 在 w 上停机} 是递归可枚举而非递归的；对角线论证说明不存在一台图灵机能对所有 (M,w) 正确判定停机。",
+  "key": "停机问题不可判定：K 是 r.e. 而非递归的（Turing 1936）。",
+  "src": "Sipser, Introduction to the Theory of Computation, Ch.4 Decidability（4.2 The Halting Problem）",
+  "table": "表 7（阶 4 · 可判定性的边界）"
+ },
+ {
+  "branch": "可计算性",
+  "name": "多一归约",
+  "def": "设 A, B ⊆ Σ*。若存在可计算函数 f 使对一切 w 有 w∈A ⇔ f(w)∈B，则称 A 多一归约到 B，记 A ≤m B。若 B 可判定则 A 可判定，故不可判定性沿 ≤m 反向传递。对类 C 封闭时，B 称为 C-完全的，当 B∈C 且每个 A∈C 都满足 A ≤m B。",
+  "key": "若 A ≤m B 且 B 可判定，则 A 可判定；完全性把整个类的难度压到一个实例上。",
+  "src": "Sipser, Introduction to the Theory of Computation, Ch.5 Reducibility（5.1 与 5.3 Mapping Reducibility）",
+  "table": "表 8（遗忘方向：A ≤m B 即把 A 降到 B）"
+ },
+ {
+  "branch": "可计算性",
+  "name": "P 与 NP",
+  "def": "P 是确定型图灵机在多项式时间内可判定的语言类，P = ∪ₖ DTIME(nᵏ)。NP 是有多项式时间验证者的类：L∈NP 当且仅当存在多项式 p 与多项式时间可计算的关系 V，使 x∈L ⇔ ∃y (|y| ≤ p(|x|) ∧ V(x,y)=1)。显然 P ⊆ NP。",
+  "key": "P 是否等于 NP 仍未解决；任一 NP 完全问题落入 P 就蕴含 P = NP。",
+  "src": "Sipser, Introduction to the Theory of Computation, Ch.7 Time Complexity（7.1–7.3）",
+  "table": "表 7（阶 4 · 结构的空间）"
+ },
+ {
+  "branch": "可计算性",
+  "name": "NP 完全性",
+  "def": "B 是 NP 完全的，若 B∈NP 且每个 A∈NP 都多项式时间多一归约到 B（记 A ≤p B）。Cook–Levin 定理证明 SAT——判定布尔公式是否可满足——是 NP 完全的：非确定图灵机在多项式界内的接受路径可编码成一个布尔公式，可满足性等价于路径存在。",
+  "key": "SAT 是 NP 完全的：每个 NP 问题都多项式归约到 SAT（Cook 1971、Levin 1973）。",
+  "src": "Sipser, Introduction to the Theory of Computation, Ch.7.4 The Cook–Levin Theorem",
+  "table": "表 8（遗忘方向：全部 NP 问题都降到 SAT）"
+ },
+ {
+  "branch": "可计算性",
+  "name": "复杂度层级与空间",
+  "def": "DSPACE(s) 与 NSPACE(s) 指确定型、非确定型图灵机在 O(s(n)) 格纸带上可判定的语言类；PSPACE = ∪ₖ DSPACE(nᵏ)，EXP = ∪ₖ DTIME(2^{nᵏ})。包含关系 P ⊆ NP ⊆ PSPACE ⊆ EXP 由直接模拟得到；空间可复用而时间不可，这是空间类更好刻画的原因。",
+  "key": "P ⊆ NP ⊆ PSPACE ⊆ EXP，且 NPSPACE = PSPACE（Savitch 定理）。",
+  "src": "Sipser, Introduction to the Theory of Computation, Ch.8 Space Complexity（8.1–8.3）",
+  "table": "表 7（阶 4 · 结构的空间）"
+ }
+]

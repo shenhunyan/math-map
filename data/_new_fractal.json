@@ -1,0 +1,50 @@
+[
+ {
+  "branch": "分形与混沌",
+  "name": "自相似与迭代函数系统（IFS）",
+  "def": "紧度量空间 X 上有限个压缩映射 f₁,…,f_m（压缩比 c_i∈(0,1)）称迭代函数系统。Hutchinson 算子 F(E)=⋃f_i(E) 在非空紧集全体上是压缩的，故有唯一紧集 K 满足 K=⋃f_i(K)，称吸引子。若各 f_i 为相似映射，K 自相似：由与自身相似的有限个副本拼成。",
+  "key": "若开集条件成立，则吸引子的维数 s 由 Σc_i^s=1 唯一确定，此时 dim_H K=dim_B K=s。",
+  "src": "Falconer, Fractal Geometry, Ch.9（Iterated Function Systems：开集条件与相似维数）",
+  "table": "表 3（拓扑 × 局部模型，C2 无穷生成列）"
+ },
+ {
+  "branch": "分形与混沌",
+  "name": "Hausdorff 维数与盒计数维数",
+  "def": "Hausdorff 测度用直径不超过 δ 的可数覆盖定义：对 Σ|U_i|^s 取下确界，再令 δ→0。使 s 小时为无穷、s 大时为零的唯一临界值即维数，dim_H E=inf{s：H^s(E)=0}。盒维数改用边长 δ 的正方网格覆盖，只数非空网格个数 N(δ)：dim_B E=lim log N(δ)/log(1/δ)。",
+  "key": "恒有 dim_H E ≤ dim_B E，反向一般不成立；dim_H 可数稳定，dim_H(⋃E_i)=sup dim_H E_i，而盒维数不满足此性质。",
+  "src": "Falconer, Fractal Geometry, Ch.2（Hausdorff Measure and Dimension）、Ch.3（Box-counting Dimension）",
+  "table": "表 3（拓扑 × 局部模型）"
+ },
+ {
+  "branch": "分形与混沌",
+  "name": "Koch 曲线与 Cantor 集",
+  "def": "Cantor 集由 [0,1] 反复删去各段中间三分之一得到，恰是三进制展开只用 0、2 的数。Koch 曲线由线段反复以四段长 1/3 的折线替换而成，每步总长乘 4/3，极限曲线长度无穷却围出有限面积。两者严格自相似，Hausdorff 维数均非整数，与拓扑维数 0 和 1 不同。",
+  "key": "dim_H(Cantor 集)=log2/log3≈0.6309，dim_H(Koch 曲线)=log4/log3≈1.2619，都是非整数。",
+  "src": "Falconer, Fractal Geometry, Ch.9（自相似集的相似维数，Cantor 集与 Koch 曲线为例）",
+  "table": "表 3（拓扑 × 局部模型，C2 无穷生成列）"
+ },
+ {
+  "branch": "分形与混沌",
+  "name": "Logistic 映射与倍周期分岔",
+  "def": "Logistic 映射 x_{n+1}=r x_n(1−x_n) 把 [0,1] 映入自身。不动点 0 的稳定性由 f′(0)=r 判断，r 越过 1 即失稳；非零不动点 1−1/r 又在 r=3 失稳，生出周期 2 轨道；r 继续增大依次出现周期 4、8、16…，分岔点 r_n 累积于 r_∞≈3.5699456，此后进入混沌区并夹杂周期窗口。",
+  "key": "分岔点间隔之比 (r_n−r_{n−1})/(r_{n+1}−r_n)→δ=4.669201609…（Feigenbaum 常数），与映射的具体形式无关。",
+  "src": "Strogatz, Nonlinear Dynamics and Chaos, Ch.10（One-Dimensional Maps：倍周期分岔与普适性）",
+  "table": "表 2（运算层级 × 嵌套：迭代即嵌套深度的增长）"
+ },
+ {
+  "branch": "分形与混沌",
+  "name": "混沌的定义（对初值敏感依赖）",
+  "def": "Devaney 意义下度量空间上的映射 f 称混沌，若：(1) 敏感依赖——存在 δ>0，使任意 x 与任意 ε>0 都有 y 满足 |x−y|<ε 且某个 n>0 使 |fⁿ(x)−fⁿ(y)|>δ；(2) 拓扑传递；(3) 周期点稠密。敏感依赖指邻近轨道终将分离，既不是一切轨道发散，也不是随机性。",
+  "key": "Banks 等（1992）证明拓扑传递加周期点稠密已蕴含敏感依赖，故条件 (1) 在 Devaney 定义中是冗余的。",
+  "src": "Devaney, An Introduction to Chaotic Dynamical Systems, Ch.1（Chaos 的定义）；Strogatz, Ch.9（Lorenz 方程中的敏感依赖）",
+  "table": "表 3（拓扑 × 局部模型：邻近轨道的局部行为）"
+ },
+ {
+  "branch": "分形与混沌",
+  "name": "奇怪吸引子与 Lyapunov 指数",
+  "def": "吸引子指不变紧集 A，其邻域内所有轨道都趋于 A；若 A 具有分形（非整数 Hausdorff 维）结构且其上轨道混沌，称奇怪吸引子。Lyapunov 指数度量邻近轨道的平均指数分离率，一维映射为 λ=lim_{n→∞}(1/n)Σ_{i=0}^{n−1}ln|f′(x_i)|，λ>0 即指数分离。",
+  "key": "Lorenz 系统在 σ=10、ρ=28、β=8/3 时 λ₁≈0.906>0，Kaplan–Yorke 维数 D_KY=2+λ₁/|λ₃|≈2.06。",
+  "src": "Strogatz, Nonlinear Dynamics and Chaos, Ch.9（Lorenz Equations：奇怪吸引子）、Ch.10（Liapunov Exponent）",
+  "table": "表 3（拓扑 × 局部模型：吸引子的分形结构）"
+ }
+]

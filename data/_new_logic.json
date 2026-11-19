@@ -1,0 +1,50 @@
+[
+ {
+  "branch": "逻辑与证明论",
+  "name": "命题逻辑",
+  "def": "以命题变元为原子，用 ¬、∧、∨、→、↔ 逐层构造公式；真值指派 v 给每个变元取值 0 或 1，公式真值按真值表递归算出。在所有指派下都取 1 的公式称为重言式。",
+  "key": "命题逻辑的可靠性定理与完备性定理同时成立：Γ ⊢ φ 当且仅当 Γ ⊨ φ，且重言式集可由真值表在有限步内判定。",
+  "src": "Enderton, A Mathematical Introduction to Logic, Ch.1（Sentential Logic：真值指派与重言式）",
+  "table": "表 7"
+ },
+ {
+  "branch": "逻辑与证明论",
+  "name": "一阶逻辑与量词",
+  "def": "一阶语言含变元、函数与关系符号、联结词及量词 ∀ ∃；项由变元与函数符号生成，公式由原子公式 r(t₁,…,tₙ) 经联结词与量词生成。语义取结构 𝔄 与指派 s，∀x φ 为真当且仅当对每个 a ∈ A，φ 在 s(x↦a) 下为真。",
+  "key": "可靠性定理：若 Γ ⊢ φ 则 Γ ⊨ φ——形式证明不会从真前提推出假结论。",
+  "src": "Enderton, A Mathematical Introduction to Logic, Ch.2（First-Order Logic：结构与满足关系）",
+  "table": "表 7"
+ },
+ {
+  "branch": "逻辑与证明论",
+  "name": "完备性与紧致性定理",
+  "def": "完备性定理：对任意一阶理论 Γ 与公式 φ，Γ ⊢ φ 当且仅当 Γ ⊨ φ；等价说法是每个相容理论都有模型。紧致性定理是它的推论：若 Γ 的每个有限子集都有模型，则 Γ 有模型。",
+  "key": "紧致性定理：一阶理论有模型当且仅当其每个有限子集有模型，故「有限域」不能由一组一阶语句公理化。",
+  "src": "Enderton, A Mathematical Introduction to Logic, Ch.2（完备性定理与紧致性定理）",
+  "table": "表 7"
+ },
+ {
+  "branch": "逻辑与证明论",
+  "name": "哥德尔不完备定理",
+  "def": "设 T 是可递归公理化、相容且能表示 Robinson 算术 Q 的一阶理论，则存在语句 G 使 T ⊬ G 且 T ⊬ ¬G；进一步，T 不能证明刻画自身相容性的语句 Con(T)。",
+  "key": "第一不完备定理：任何可递归公理化、相容且能解释 Q 的理论都存在既不可证也不可反驳的语句；第二：Con(T) 在 T 中不可证。",
+  "src": "Enderton, A Mathematical Introduction to Logic, Ch.3（Undecidability：可表示性与不完备定理）",
+  "table": "表 8"
+ },
+ {
+  "branch": "逻辑与证明论",
+  "name": "可判定性与判定问题",
+  "def": "理论 T 可判定，指存在图灵机对每个句子 φ 在有限步内判定 φ ∈ T；若只在 φ ∈ T 时停机接受、否则不停机，则称 T 可半判定（递归可枚举）。判定问题即求一个理论的可判定性。",
+  "key": "丘奇–图灵定理：一阶逻辑的有效式集是递归可枚举但不可判定的，故 Hilbert 的判定问题（Entscheidungsproblem）无解。",
+  "src": "Enderton, A Mathematical Introduction to Logic, Ch.3（Church–Turing 论题与一阶逻辑的不可判定性）",
+  "table": "表 8"
+ },
+ {
+  "branch": "逻辑与证明论",
+  "name": "Curry–Howard 对应",
+  "def": "在直觉主义自然演绎中，命题对应类型、证明对应项：A → B 的证明是从 A 的证明得到 B 的证明的函数（λ 抽象），A ∧ B 对应积类型，A ∨ B 对应和类型；证明的化简即项的 β 归约。",
+  "key": "Curry–Howard 同构：自然演绎的证明与简单类型 λ 演算的项一一对应，且 β 归约对应证明化简，故类型检查即证明检验。",
+  "src": "Sørensen & Urzyczyn, Lectures on the Curry–Howard Isomorphism, Ch.1（简单类型 λ 演算与自然演绎）",
+  "table": "表 7"
+ }
+]

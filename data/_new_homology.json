@@ -1,0 +1,50 @@
+[
+  {
+    "branch": "同调与层论",
+    "name": "复形与链群",
+    "def": "链复形是一列 Abel 群 Cₙ 与同态 ∂ₙ: Cₙ → Cₙ₋₁，满足 ∂² = 0；Cₙ 称链群，∂ 称边缘算子。由此 Im ∂ₙ₊₁ ⊆ Ker ∂ₙ，得同调群 Hₙ = Ker ∂ₙ / Im ∂ₙ₊₁，度量闭链中哪些不是边缘。",
+    "key": "短正合列 0 → A → B → C → 0 诱导长正合列 … → Hₙ(A) → Hₙ(B) → Hₙ(C) → Hₙ₋₁(A) → …（之字形引理）。",
+    "src": "Hatcher, Algebraic Topology, §2.1；Weibel, An Introduction to Homological Algebra, Ch.1",
+    "table": "表四（大学·代数拓扑）"
+  },
+  {
+    "branch": "同调与层论",
+    "name": "单纯同调与奇异同调",
+    "def": "单纯同调取单纯复形的 n 维整系数链群，由定向单形生成，∂ 取带交替符号的面之和；奇异同调取 X 中全体奇异 n 单形（Δⁿ → X）生成的自由 Abel 群。对单纯复形二者一致：Hₙ^Δ(K) ≅ Hₙ^{sing}(|K|)。",
+    "key": "同调是同伦不变量：若 f ≃ g: X → Y，则 f∗ = g∗: Hₙ(X) → Hₙ(Y)，故同伦等价的空间同调同构。",
+    "src": "Hatcher, Algebraic Topology, §2.1（Theorem 2.27：单纯同调与奇异同调自然同构）",
+    "table": "表四（大学·代数拓扑）"
+  },
+  {
+    "branch": "同调与层论",
+    "name": "上同调与 cup product",
+    "def": "上链群 Cⁿ(X; G) = Hom(Cₙ(X), G)，上边缘 δ 是 ∂ 的对偶，Hⁿ = Ker δ / Im δ。上同调多了乘法：杯积 ⌣: Hᵖ ⊗ H^q → H^{p+q}，使 H*(X; R) 成为分次环而非仅分次群。",
+    "key": "杯积分次交换：α ⌣ β = (−1)^{pq} β ⌣ α（系数取交换环），故 H*(X; R) 是分次交换环。",
+    "src": "Hatcher, Algebraic Topology, §3.1（Cohomology Rings and Cup Product）",
+    "table": "表四（大学·代数拓扑）"
+  },
+  {
+    "branch": "同调与层论",
+    "name": "层与茎",
+    "def": "层 F 给每个开集 U 一个截面群 F(U) 并配限制映射，满足局部性（在覆盖上相等则整体相等）与粘合性（相容的局部截面唯一粘成整体）。茎 F_x 是各邻域截面群沿限制映射的直极限，记录任意小邻域的信息。",
+    "key": "层态射是同构当且仅当它在每个茎上诱导同构——层的信息可逐点检验。",
+    "src": "Iversen, Cohomology of Sheaves, Ch.II（Sheaves）；Hartshorne, Algebraic Geometry, §II.1",
+    "table": "表四（大学·代数拓扑）"
+  },
+  {
+    "branch": "同调与层论",
+    "name": "Čech 上同调与层上同调",
+    "def": "对开覆盖 𝒰 = {Uᵢ}，Čech p-上链 Cᵖ(𝒰, F) = ∏ F(U_{i₀…iₚ})，差分取交替和，再对覆盖取正向极限得 Ȟᵖ(X, F)。层上同调 Hᵖ(X, F) 由内射消解定义为 F 的右导出函子。",
+    "key": "Leray 定理：若覆盖 𝒰 的每个有限交都是 F-无圈的，则 Ȟᵖ(𝒰, F) ≅ Hᵖ(X, F)。",
+    "src": "Bott–Tu, Differential Forms in Algebraic Topology, Ch.II（Čech 上同调与 Leray 定理）",
+    "table": "表四（大学·代数拓扑）"
+  },
+  {
+    "branch": "同调与层论",
+    "name": "同调与「局部—整体」原则",
+    "def": "把空间切成可计算的小块，块上的局部数据由链群记录，块与块的重叠由交集上的链群记录，边缘算子把它们串成复形；整体不变量就是该复形的同调。同调因此不是「数洞」，而是精确度量局部数据粘成整体时遇到的障碍。",
+    "key": "de Rham 定理：H^p_dR(M) ≅ Hᵖ(M; ℝ)——局部坐标里的闭形式算出的正是整体拓扑。",
+    "src": "Bott–Tu, Ch.II–III（Mayer–Vietoris 序列、de Rham 定理）；Hatcher, §2.2",
+    "table": "表四（大学·代数拓扑）"
+  }
+]
