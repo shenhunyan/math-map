@@ -1,0 +1,242 @@
+[
+{
+"branch": "逻辑与证明论",
+"name": "命题逻辑",
+"def": "以命题变元为原子，用 ¬、∧、∨、→、↔ 逐层构造公式；真值指派 v 给每个变元取值 0 或 1，公式真值按真值表递归算出。在所有指派下都取 1 的公式称为重言式。",
+"key": "命题逻辑的可靠性定理与完备性定理同时成立：Γ ⊢ φ 当且仅当 Γ ⊨ φ，且重言式集可由真值表在有限步内判定。",
+"src": "Enderton, A Mathematical Introduction to Logic, Ch.1（Sentential Logic：真值指派与重言式）",
+"table": "表 7",
+"place": "表 2 · L 轴的底端",
+"why": "表 2 的判据是「能不能写出来」，而命题逻辑定的是「什么叫写对」——它是 L 轴下面的地基"
+},
+{
+"branch": "逻辑与证明论",
+"name": "一阶逻辑与量词",
+"def": "一阶语言含变元、函数与关系符号、联结词及量词 ∀ ∃；项由变元与函数符号生成，公式由原子公式 r(t₁,…,tₙ) 经联结词与量词生成。语义取结构 𝔄 与指派 s，∀x φ 为真当且仅当对每个 a ∈ A，φ 在 s(x↦a) 下为真。",
+"key": "可靠性定理：若 Γ ⊢ φ 则 Γ ⊨ φ——形式证明不会从真前提推出假结论。",
+"src": "Enderton, A Mathematical Introduction to Logic, Ch.2（First-Order Logic：结构与满足关系）",
+"table": "表 7",
+"place": "表 2 · L 轴的底端",
+"why": "量词是「写出来」这件事的第一次跃迁：有了 ∀∃ 才谈得上「对所有的 n」"
+},
+{
+"branch": "逻辑与证明论",
+"name": "完备性与紧致性定理",
+"def": "完备性定理：对任意一阶理论 Γ 与公式 φ，Γ ⊢ φ 当且仅当 Γ ⊨ φ；等价说法是每个相容理论都有模型。紧致性定理是它的推论：若 Γ 的每个有限子集都有模型，则 Γ 有模型。",
+"key": "紧致性定理：一阶理论有模型当且仅当其每个有限子集有模型，故「有限域」不能由一组一阶语句公理化。",
+"src": "Enderton, A Mathematical Introduction to Logic, Ch.2（完备性定理与紧致性定理）",
+"table": "表 7",
+"place": "表 2 · L 轴的底端",
+"why": "紧致性说明有限能写出的东西管不住无限——正是嵌套深度 D 有上限的语言学版本"
+},
+{
+"branch": "逻辑与证明论",
+"name": "哥德尔不完备定理",
+"def": "设 T 是可递归公理化、相容且能表示 Robinson 算术 Q 的一阶理论，则存在语句 G 使 T ⊬ G 且 T ⊬ ¬G；进一步，T 不能证明刻画自身相容性的语句 Con(T)。",
+"key": "第一不完备定理：任何可递归公理化、相容且能解释 Q 的理论都存在既不可证也不可反驳的语句；第二：Con(T) 在 T 中不可证。",
+"src": "Enderton, A Mathematical Introduction to Logic, Ch.3（Undecidability：可表示性与不完备定理）",
+"table": "表 8",
+"place": "表 8 · 新增一条反向边",
+"why": "它说的是「加表达力 → 丢完备性」，方向与遗忘相反，是橙色边"
+},
+{
+"branch": "逻辑与证明论",
+"name": "可判定性与判定问题",
+"def": "理论 T 可判定，指存在图灵机对每个句子 φ 在有限步内判定 φ ∈ T；若只在 φ ∈ T 时停机接受、否则不停机，则称 T 可半判定（递归可枚举）。判定问题即求一个理论的可判定性。",
+"key": "丘奇–图灵定理：一阶逻辑的有效式集是递归可枚举但不可判定的，故 Hilbert 的判定问题（Entscheidungsproblem）无解。",
+"src": "Enderton, A Mathematical Introduction to Logic, Ch.3（Church–Turing 论题与一阶逻辑的不可判定性）",
+"table": "表 8",
+"place": "表 2 · D 轴的极值",
+"why": "不可判定 = 再加一层嵌套也写不出来，是 D 轴的天花板"
+},
+{
+"branch": "逻辑与证明论",
+"name": "Curry–Howard 对应",
+"def": "在直觉主义自然演绎中，命题对应类型、证明对应项：A → B 的证明是从 A 的证明得到 B 的证明的函数（λ 抽象），A ∧ B 对应积类型，A ∨ B 对应和类型；证明的化简即项的 β 归约。",
+"key": "Curry–Howard 同构：自然演绎的证明与简单类型 λ 演算的项一一对应，且 β 归约对应证明化简，故类型检查即证明检验。",
+"src": "Sørensen & Urzyczyn, Lectures on the Curry–Howard Isomorphism, Ch.1（简单类型 λ 演算与自然演绎）",
+"table": "表 7",
+"place": "表 8 · 新增一条同构边",
+"why": "证明与程序是同一件事的两侧——不是降格，是等价"
+},
+{
+"branch": "可计算性",
+"name": "图灵机",
+"def": "图灵机由有限状态集 Q、带字母表 Γ（含空白符）、转移函数 δ: Q×Γ ⇀ Q×Γ×{L,R} 与初始状态 q₀ 组成；纸带两端无限，读写头每步改写一格并左右移动。对每个输入都停机时，它计算的部分函数 f: Σ* ⇀ Σ* 称可计算函数。",
+"key": "存在通用图灵机：一台机器可模拟任何图灵机，这是「程序即数据」的定理形式。",
+"src": "Sipser, Introduction to the Theory of Computation, Ch.3 Turing Machines（3.1–3.3，含 Church–Turing 论题）",
+"table": "表 7（阶 1 · 结构）",
+"place": "新表 10 · 资源与迭代",
+"why": "八表里没有「算法」这根轴：同一个问题，能不能算、要多少步，是另一维度"
+},
+{
+"branch": "可计算性",
+"name": "停机问题",
+"def": "停机问题问：给定图灵机 M 的编码 ⟨M⟩ 与输入 w，M 在 w 上是否停机。集合 K = {⟨M,w⟩ : M 在 w 上停机} 是递归可枚举而非递归的；对角线论证说明不存在一台图灵机能对所有输入正确判定停机。",
+"key": "停机问题不可判定：K 是 r.e. 而非递归的（Turing 1936）。",
+"src": "Sipser, Introduction to the Theory of Computation, Ch.4 Decidability（4.2 The Halting Problem）",
+"table": "表 7（阶 4 · 可判定性的边界）",
+"place": "表 2 · D 轴的极值",
+"why": "自指一次就到顶：程序问自己停不停，答案在语言内部写不出来"
+},
+{
+"branch": "可计算性",
+"name": "多一归约",
+"def": "设 A, B ⊆ Σ*。若有可计算 f 使 w∈A ⇔ f(w)∈B 对一切 w 成立，称 A 多一归约到 B，记 A ≤m B。B 可判定蕴含 A 可判定，故不可判定性反向传递；B 为 C-完全指 B∈C 且每个 A∈C 都 ≤m B。",
+"key": "若 A ≤m B 且 B 可判定，则 A 可判定；完全性把整类难度压到一个实例上。",
+"src": "Sipser, Introduction to the Theory of Computation, Ch.5 Reducibility（5.1 与 5.3 Mapping Reducibility）",
+"table": "表 8（遗忘方向：A ≤m B 即把 A 降到 B）",
+"place": "表 8 · 已有边的第二个读法",
+"why": "A ≤ₘ B 即「解 B 就能解 A」，与域降到环是同一个动作"
+},
+{
+"branch": "可计算性",
+"name": "P 与 NP",
+"def": "P 是确定型图灵机多项式时间可判定的类，P = ∪ₖ DTIME(nᵏ)。NP 是有多项式验证者的类：L∈NP 当且仅当存在多项式 p 与多项式时间关系 V，使 x∈L ⇔ ∃y(|y|≤p(|x|) ∧ V(x,y)=1)。P ⊆ NP。",
+"key": "P 是否等于 NP 仍未解决；任一 NP 完全问题落入 P 就蕴含 P = NP。",
+"src": "Sipser, Introduction to the Theory of Computation, Ch.7 Time Complexity（7.1–7.3）",
+"table": "表 7（阶 4 · 结构的空间）",
+"place": "新表 10 · 资源与迭代",
+"why": "P≠NP 问的是「验证比构造便宜多少」，纯粹是资源轴上的问题"
+},
+{
+"branch": "可计算性",
+"name": "NP 完全性",
+"def": "B 是 NP 完全的，若 B∈NP 且每个 A∈NP 都多项式多一归约到 B（A ≤p B）。Cook–Levin 定理：布尔公式可满足性问题 SAT 是 NP 完全的——非确定图灵机的接受路径可编码为布尔公式，可满足性等价于其存在。",
+"key": "SAT 是 NP 完全的：每个 NP 问题都多项式归约到 SAT（Cook 1971、Levin 1973）。",
+"src": "Sipser, Introduction to the Theory of Computation, Ch.7.4 The Cook–Levin Theorem",
+"table": "表 8（遗忘方向：全部 NP 问题都降到 SAT）",
+"place": "新表 10 · 资源与迭代",
+"why": "SAT 是这层的顶点：所有 NP 问题都降到它——表 8 的「遗忘」在难度上的版本"
+},
+{
+"branch": "可计算性",
+"name": "复杂度层级与空间",
+"def": "DSPACE(s)、NSPACE(s) 是空间界 O(s(n)) 的语言类；PSPACE = ∪ₖ DSPACE(nᵏ)，EXP = ∪ₖ DTIME(2^{nᵏ})。P ⊆ NP ⊆ PSPACE ⊆ EXP，空间可复用而时间不可。",
+"key": "P ⊆ NP ⊆ PSPACE ⊆ EXP，且 NPSPACE = PSPACE（Savitch 定理）。",
+"src": "Sipser, Introduction to the Theory of Computation, Ch.8 Space Complexity（8.1–8.3）",
+"table": "表 7（阶 4 · 结构的空间）",
+"place": "新表 10 · 资源与迭代",
+"why": "P ⊆ NP ⊆ PSPACE ⊆ EXP 是一条新的层级链，与 L×D 正交"
+},
+{
+"branch": "分形与混沌",
+"name": "自相似与迭代函数系统（IFS）",
+"def": "紧度量空间 X 上有限个压缩映射 f₁,…,f_m（压缩比 c_i∈(0,1)）称迭代函数系统。Hutchinson 算子 F(E)=⋃f_i(E) 在非空紧集全体上是压缩的，故有唯一紧集 K 满足 K=⋃f_i(K)，称吸引子。若各 f_i 为相似映射，K 自相似：由与自身相似的有限个副本拼成。",
+"key": "若开集条件成立，则吸引子的维数 s 由 Σc_i^s=1 唯一确定，此时 dim_H K=dim_B K=s。",
+"src": "Falconer, Fractal Geometry, Ch.9（Iterated Function Systems：开集条件与相似维数）",
+"table": "表 3（拓扑 × 局部模型，C2 无穷生成列）",
+"place": "表 1 · 次数→∞ 的边界",
+"why": "无限次迭代就是「次数不封顶」，表 1 的 d 轴走到尽头"
+},
+{
+"branch": "分形与混沌",
+"name": "Hausdorff 维数与盒计数维数",
+"def": "Hausdorff 测度用直径不超过 δ 的可数覆盖定义：对 Σ|U_i|^s 取下确界，再令 δ→0。使 s 小时为无穷、s 大时为零的唯一临界值即维数，dim_H E=inf{s：H^s(E)=0}。盒维数改用边长 δ 的正方网格覆盖，只数非空网格个数 N(δ)：dim_B E=lim log N(δ)/log(1/δ)。",
+"key": "恒有 dim_H E ≤ dim_B E，反向一般不成立；dim_H 可数稳定，dim_H(⋃E_i)=sup dim_H E_i，而盒维数不满足此性质。",
+"src": "Falconer, Fractal Geometry, Ch.2（Hausdorff Measure and Dimension）、Ch.3（Box-counting Dimension）",
+"table": "表 3（拓扑 × 局部模型）",
+"place": "表 1 · 变元数取非整数",
+"why": "表 1 的列是变元数 n，分形维数是「非整数维」——同一个轴上的越界值"
+},
+{
+"branch": "分形与混沌",
+"name": "Koch 曲线与 Cantor 集",
+"def": "Cantor 集由 [0,1] 反复删去各段中间三分之一得到，恰是三进制展开只用 0、2 的数。Koch 曲线由线段反复以四段长 1/3 的折线替换而成，每步总长乘 4/3，极限曲线长度无穷却围出有限面积。两者严格自相似，Hausdorff 维数均非整数，与拓扑维数 0 和 1 不同。",
+"key": "dim_H(Cantor 集)=log2/log3≈0.6309，dim_H(Koch 曲线)=log4/log3≈1.2619，都是非整数。",
+"src": "Falconer, Fractal Geometry, Ch.9（自相似集的相似维数，Cantor 集与 Koch 曲线为例）",
+"table": "表 3（拓扑 × 局部模型，C2 无穷生成列）",
+"place": "表 1 · 变元数取非整数",
+"why": "边长比与拷贝数的比值给出非整数维，是表 1 边界的两个具体例子"
+},
+{
+"branch": "分形与混沌",
+"name": "Logistic 映射与倍周期分岔",
+"def": "Logistic 映射 x_{n+1}=r x_n(1−x_n) 把 [0,1] 映入自身。不动点 0 的稳定性由 f′(0)=r 判断，r 越过 1 即失稳；非零不动点 1−1/r 又在 r=3 失稳，生出周期 2 轨道；r 继续增大依次出现周期 4、8、16…，分岔点 r_n 累积于 r_∞≈3.5699456，此后进入混沌区并夹杂周期窗口。",
+"key": "分岔点间隔之比 (r_n−r_{n−1})/(r_{n+1}−r_n)→δ=4.669201609…（Feigenbaum 常数），与映射的具体形式无关。",
+"src": "Strogatz, Nonlinear Dynamics and Chaos, Ch.10（One-Dimensional Maps：倍周期分岔与普适性）",
+"table": "表 2（运算层级 × 嵌套：迭代即嵌套深度的增长）",
+"place": "新表 10 · 资源与迭代",
+"why": "一个二次映射反复迭代就产生分岔——迭代次数是新的自变量"
+},
+{
+"branch": "分形与混沌",
+"name": "混沌的定义（对初值敏感依赖）",
+"def": "Devaney 意义下度量空间上的映射 f 称混沌，若：(1) 敏感依赖——存在 δ>0，使任意 x 与任意 ε>0 都有 y 满足 |x−y|<ε 且某个 n>0 使 |fⁿ(x)−fⁿ(y)|>δ；(2) 拓扑传递；(3) 周期点稠密。敏感依赖指邻近轨道终将分离，既不是一切轨道发散，也不是随机性。",
+"key": "Banks 等（1992）证明拓扑传递加周期点稠密已蕴含敏感依赖，故条件 (1) 在 Devaney 定义中是冗余的。",
+"src": "Devaney, An Introduction to Chaotic Dynamical Systems, Ch.1（Chaos 的定义）；Strogatz, Ch.9（Lorenz 方程中的敏感依赖）",
+"table": "表 3（拓扑 × 局部模型：邻近轨道的局部行为）",
+"place": "新表 10 · 资源与迭代",
+"why": "对初值敏感依赖：预测所需的精度随步数指数增长，仍是资源问题"
+},
+{
+"branch": "分形与混沌",
+"name": "奇怪吸引子与 Lyapunov 指数",
+"def": "吸引子指不变紧集 A，其邻域内所有轨道都趋于 A；若 A 具有分形（非整数 Hausdorff 维）结构且其上轨道混沌，称奇怪吸引子。Lyapunov 指数度量邻近轨道的平均指数分离率，一维映射为 λ=lim_{n→∞}(1/n)Σ_{i=0}^{n−1}ln|f′(x_i)|，λ>0 即指数分离。",
+"key": "Lorenz 系统在 σ=10、ρ=28、β=8/3 时 λ₁≈0.906>0，Kaplan–Yorke 维数 D_KY=2+λ₁/|λ₃|≈2.06。",
+"src": "Strogatz, Nonlinear Dynamics and Chaos, Ch.9（Lorenz Equations：奇怪吸引子）、Ch.10（Liapunov Exponent）",
+"table": "表 3（拓扑 × 局部模型：吸引子的分形结构）",
+"place": "新表 10 · 资源与迭代",
+"why": "Lyapunov 指数为正 = 误差每步放大——把「敏感」量化成一个数"
+},
+{
+"branch": "同调与层论",
+"name": "复形与链群",
+"def": "链复形是一列 Abel 群 Cₙ 与同态 ∂ₙ: Cₙ → Cₙ₋₁，满足 ∂² = 0；Cₙ 称链群，∂ 称边缘算子。由此 Im ∂ₙ₊₁ ⊆ Ker ∂ₙ，得同调群 Hₙ = Ker ∂ₙ / Im ∂ₙ₊₁，度量闭链中哪些不是边缘。",
+"key": "短正合列 0 → A → B → C → 0 诱导长正合列 … → Hₙ(A) → Hₙ(B) → Hₙ(C) → Hₙ₋₁(A) → …（之字形引理）。",
+"src": "Hatcher, Algebraic Topology, §2.1；Weibel, An Introduction to Homological Algebra, Ch.1",
+"table": "表四（大学·代数拓扑）",
+"place": "表 3 · 同调列",
+"why": "表 3 讲「局部拼不出整体」，链群正是把「怎么拼」写成代数"
+},
+{
+"branch": "同调与层论",
+"name": "单纯同调与奇异同调",
+"def": "单纯同调取单纯复形的 n 维整系数链群，由定向单形生成，∂ 取带交替符号的面之和；奇异同调取 X 中全体奇异 n 单形（Δⁿ → X）生成的自由 Abel 群。对单纯复形二者一致：Hₙ^Δ(K) ≅ Hₙ^{sing}(|K|)。",
+"key": "同调是同伦不变量：若 f ≃ g: X → Y，则 f∗ = g∗: Hₙ(X) → Hₙ(Y)，故同伦等价的空间同调同构。",
+"src": "Hatcher, Algebraic Topology, §2.1（Theorem 2.27：单纯同调与奇异同调自然同构）",
+"table": "表四（大学·代数拓扑）",
+"place": "表 3 · 同调列",
+"why": "同调是同伦不变量——表 3 的全局拓扑 C 轴，从几何换成了代数语言"
+},
+{
+"branch": "同调与层论",
+"name": "上同调与 cup product",
+"def": "上链群 Cⁿ(X; G) = Hom(Cₙ(X), G)，上边缘 δ 是 ∂ 的对偶，Hⁿ = Ker δ / Im δ。上同调多了乘法：杯积 ⌣: Hᵖ ⊗ H^q → H^{p+q}，使 H*(X; R) 成为分次环而非仅分次群。",
+"key": "杯积分次交换：α ⌣ β = (−1)^{pq} β ⌣ α（系数取交换环），故 H*(X; R) 是分次交换环。",
+"src": "Hatcher, Algebraic Topology, §3.1（Cohomology Rings and Cup Product）",
+"table": "表四（大学·代数拓扑）",
+"place": "表 3 · 同调列",
+"why": "上同调是把同调对偶过来，多了乘法结构：局部信息可以相乘"
+},
+{
+"branch": "同调与层论",
+"name": "层与茎",
+"def": "层 F 给每个开集 U 一个截面群 F(U) 并配限制映射，满足局部性（在覆盖上相等则整体相等）与粘合性（相容的局部截面唯一粘成整体）。茎 F_x 是各邻域截面群沿限制映射的直极限，记录任意小邻域的信息。",
+"key": "层态射是同构当且仅当它在每个茎上诱导同构——层的信息可逐点检验。",
+"src": "Iversen, Cohomology of Sheaves, Ch.II（Sheaves）；Hartshorne, Algebraic Geometry, §II.1",
+"table": "表四（大学·代数拓扑）",
+"place": "表 3 · 同调列",
+"why": "层就是「每一点挂一个局部模型」的正式化，正是表 3 的行定义"
+},
+{
+"branch": "同调与层论",
+"name": "Čech 上同调与层上同调",
+"def": "对开覆盖 𝒰 = {Uᵢ}，Čech p-上链 Cᵖ(𝒰, F) = ∏ F(U_{i₀…iₚ})，差分取交替和，再对覆盖取正向极限得 Ȟᵖ(X, F)。层上同调 Hᵖ(X, F) 由内射消解定义为 F 的右导出函子。",
+"key": "Leray 定理：若覆盖 𝒰 的每个有限交都是 F-无圈的，则 Ȟᵖ(𝒰, F) ≅ Hᵖ(X, F)。",
+"src": "Bott–Tu, Differential Forms in Algebraic Topology, Ch.II（Čech 上同调与 Leray 定理）",
+"table": "表四（大学·代数拓扑）",
+"place": "表 3 · 同调列",
+"why": "用局部覆盖之间的重叠来算整体，是「局部—整体」最直接的做法"
+},
+{
+"branch": "同调与层论",
+"name": "同调与「局部—整体」原则",
+"def": "把空间切成可计算的小块，块上的局部数据由链群记录，块与块的重叠由交集上的链群记录，边缘算子把它们串成复形；整体不变量就是该复形的同调。同调因此不是「数洞」，而是精确度量局部数据粘成整体时遇到的障碍。",
+"key": "de Rham 定理：H^p_dR(M) ≅ Hᵖ(M; ℝ)——局部坐标里的闭形式算出的正是整体拓扑。",
+"src": "Bott–Tu, Ch.II–III（Mayer–Vietoris 序列、de Rham 定理）；Hatcher, §2.2",
+"table": "表四（大学·代数拓扑）",
+"place": "表 3 · 同调列",
+"why": "这句原则本来就是表 3 的主题，同调给了它一个可计算的答案"
+}
+]
