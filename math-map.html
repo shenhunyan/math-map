@@ -6895,7 +6895,9 @@ function buildT7() {
      + '同一个结构，你是在第几层上使用它。从左往右读，是一条逐层抬升的路——'
      + '而 Bourbaki 的三种母结构，全部停在第 1 列。</div>';
   h += '<div class="t7grid"><div class="h">结构 ＼ 阶</div>';
-  COLS.forEach(function (c) { h += '<div class="h">' + c + '</div>'; });
+  COLS.forEach(function (c, ci) {
+    h += '<div class="h">' + c + '<canvas class="t7ic" data-k="' + ci + '"></canvas></div>';
+  });
   ROWS.forEach(function (row) {
     h += '<div class="t7rl">' + row[0] + '</div>';
     row[1].forEach(function (cell, i) {
@@ -6914,6 +6916,64 @@ function buildT7() {
   t7El.innerHTML = h;
 }
 buildT7();
+
+/* 阶的五个抽象图示：点 → 结构 → 箭头 → 交换图 → 结构空间
+   每行内容不同，但"在第几阶"这件事是同一种形状。 */
+function drawT7Icons() {
+  var list = t7El.querySelectorAll('canvas.t7ic');
+  for (var i = 0; i < list.length; i++) {
+    var cv = list[i], k = +cv.getAttribute('data-k');
+    var W = 96, Hh = 46, dpr = Math.min(window.devicePixelRatio || 1, 3);
+    cv.width = W * dpr; cv.height = Hh * dpr;
+    cv.style.width = W + 'px'; cv.style.height = Hh + 'px'; cv.style.display = 'block';
+    var g = cv.getContext('2d');
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, Hh);
+    g.strokeStyle = '#6a6155'; g.fillStyle = '#6a6155'; g.lineWidth = 1.2;
+    function dot(x, y, r, fill) {
+      g.beginPath(); g.arc(x, y, r, 0, 6.2832);
+      if (fill) { g.fillStyle = fill; g.fill(); } else { g.stroke(); }
+    }
+    function arrow(x1, y1, x2, y2) {
+      g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+      var a = Math.atan2(y2 - y1, x2 - x1);
+      g.beginPath();
+      g.moveTo(x2, y2);
+      g.lineTo(x2 - 5 * Math.cos(a - 0.4), y2 - 5 * Math.sin(a - 0.4));
+      g.lineTo(x2 - 5 * Math.cos(a + 0.4), y2 - 5 * Math.sin(a + 0.4));
+      g.closePath(); g.fill();
+    }
+    if (k === 0) {
+      dot(W / 2, Hh / 2, 4, '#b3541e');
+    } else if (k === 1) {
+      for (var j = 0; j < 6; j++) dot(24 + j * 9.5, Hh / 2 + (j % 2 ? -5 : 5), 2.6, '#4a453a');
+      g.strokeStyle = '#b3541e'; g.lineWidth = 1.6;
+      g.beginPath(); g.ellipse(W / 2, Hh / 2, 33, 15, 0, 0, 6.2832); g.stroke();
+    } else if (k === 2) {
+      g.lineWidth = 1.4; dot(22, Hh / 2, 6); dot(74, Hh / 2, 6);
+      arrow(30, Hh / 2, 65, Hh / 2);
+      g.fillStyle = '#b3541e'; g.font = '9px serif'; g.fillText('f', 46, Hh / 2 - 6);
+    } else if (k === 3) {
+      dot(20, 12, 4.5); dot(76, 12, 4.5); dot(20, 34, 4.5); dot(76, 34, 4.5);
+      g.lineWidth = 1.2;
+      arrow(25, 12, 70, 12); arrow(25, 34, 70, 34);
+      arrow(20, 17, 20, 29); arrow(76, 17, 76, 29);
+      g.fillStyle = '#b3541e'; g.fillRect(43, 18, 10, 10);
+      g.fillStyle = '#fff'; g.fillRect(46, 20.5, 4, 5);
+    } else {
+      for (var r2 = 0; r2 < 2; r2++) for (var c2 = 0; c2 < 3; c2++) {
+        var cx = 26 + c2 * 22, cy = 15 + r2 * 16;
+        g.strokeStyle = '#b3541e'; g.lineWidth = 1;
+        g.beginPath(); g.ellipse(cx, cy, 9, 6, 0, 0, 6.2832); g.stroke();
+        g.fillStyle = '#6a6155';
+        g.beginPath(); g.arc(cx - 2, cy - 1, 1.6, 0, 6.2832); g.fill();
+        g.beginPath(); g.arc(cx + 2, cy + 1, 1.6, 0, 6.2832); g.fill();
+      }
+    }
+  }
+}
+drawT7Icons();
+
 
 </script>
 </body>
