@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>数学地图 · v1.9</title>
+<title>数学地图 · v1.10</title>
 <script src="i18n.js"></script>
 <script src="defs_en.js"></script>
 <script src="hist_en.js"></script>
@@ -101,7 +101,17 @@
              overflow-x:auto;white-space:nowrap}
   .eqvr span{color:#8a8578;font-size:10.5px;text-align:right;line-height:1.4}
   @media (max-width:640px){ .eqvr{grid-template-columns:1fr} .eqvr span{text-align:left} }
-  #geo,#grp,#phy,#mx,#num,#t2,#t5,#t6{display:none}
+  #geo,#grp,#phy,#mx,#num,#t2,#t5,#t6,#t7{display:none}
+  .t7grid{display:grid;grid-template-columns:74px repeat(5,minmax(0,1fr));gap:6px;margin-top:14px}
+  .t7grid .h{font-size:11px;color:#6a6155;letter-spacing:.04em;padding:6px 4px;border-bottom:1px solid #e4e0d6}
+  .t7grid .t7rl{font-size:12.5px;color:#1c1b19;font-weight:600;padding:10px 4px;border-right:1px solid #e4e0d6;
+              background:#faf9f6;border-radius:4px;writing-mode:horizontal-tb;white-space:nowrap;
+              display:flex;align-items:center;justify-content:center}
+  .t7grid .c{font-size:11.5px;line-height:1.55;color:#4a453a;padding:9px 8px;background:#fff;
+             border:1px solid #e4e0d6;border-radius:5px}
+  .t7grid .c b{color:#b3541e;font-weight:600}
+  .t7grid .c.dim{background:#f6f4ee;color:#a89c84}
+  .t7note{font-size:11.5px;line-height:1.8;color:#6a6155;margin-top:12px}
   .grp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
   .ghead{grid-column:1/-1;font-size:12.5px;color:#2b2820;padding:4px 0 2px;
          border-bottom:1px solid var(--line);margin-bottom:4px}
@@ -348,12 +358,12 @@
 <div class="page">
   <h1><span class="zh">数学地图</span><span class="en">Math Map</span></h1>
   <p class="sub"><span class="zh">
-    v1.9　·　<b>十一个视图 · 146 个格 · 六张表 166 格全部覆盖 · 每格附严格定义与教材出处</b>　·　右上角可搜索定位<br>
+    v1.10　·　<b>十二个视图 · 146 个格 · 六张表 166 格全部覆盖 · 每格附严格定义与教材出处</b>　·　右上角可搜索定位<br>
     课程序 / 结构序（次数×变元，含<b>微分行</b>）／算子序 / 几何序（C×M 完整 20 格）／群论序（9 种几何 + 11 个有限群）／物理序／全表对照（166 格，<b>已画的格子可点开</b>）／数系（ℕ⊂ℤ⊂ℚ⊂ℝ⊂ℂ⊂ℍ⊂𝕆⊂𝕊）／<b>表 5 代数结构</b>／<b>表 2 运算层级</b>／<b>表 6 历史</b><br>
     <b>点开任意一格即可动它</b>：拖滑块改参数（不拖就自动演示）· 拖动平移 · 滚轮缩放 · 三维格拖动旋转（Shift 拖动平移）· 双击复位<br>
     每格另附一张「等价变形账本」——同一对象换写法，不算换知识点<br>
     <span style="color:#a89c84;font-size:12.5px">学段对照：小学 ≈ Grades 1–6　初中 ≈ Grades 7–9　高中 ≈ Grades 10–12　本科 ≈ Undergraduate　·　窄屏下表格可左右滑动</span>
-  </span><span class="en">v1.9　·　<b>eleven views · 146 cells drawn · all 166 covered across six tables · every cell carries a definition and a citation</b>　·　search in the top right<br>
+  </span><span class="en">v1.10　·　<b>twelve views · 146 cells drawn · all 166 covered across six tables · every cell carries a definition and a citation</b>　·　search in the top right<br>
     course order / structure (degree × variables) / operators / geometry (C×M) / groups / physics / all tables / number systems / table 5 / table 2 / table 6<br>
     <b>click any cell to open it</b>: drag the sliders, pan, zoom, rotate a 3D cell by dragging (hold Shift to pan), double-click to reset<br>
     stage guide: primary ≈ Grades 1–6, middle ≈ Grades 7–9, high ≈ Grades 10–12, undergraduate
@@ -376,6 +386,7 @@
     <button class="tab" data-view="num"><span class="zh">数系 · 扩张与代价</span><span class="en">Number systems · extensions and their price</span></button>
     <button class="tab" data-view="t5"><span class="zh">表 5 · 代数结构（可点开）</span><span class="en">Table 5 · algebraic structures (clickable)</span></button>
     <button class="tab" data-view="t2"><span class="zh">表 2 · 运算层级 × 嵌套（可点开）</span><span class="en">Table 2 · operator level × nesting (clickable)</span></button>
+    <button class="tab" data-view="t7"><span class="zh">表 7 · 结构阶数 k（对象 → 映射 → 关系 → 空间）</span><span class="en">Table 7 · order of structure</span></button>
     <button class="tab" data-view="t6"><span class="zh">表 6 · 历史时间轴</span><span class="en">Table 6 · timeline</span></button>
   </div>
 
@@ -390,6 +401,7 @@
   <div id="t2"></div>
   <div id="t5"></div>
   <div id="t6"></div>
+  <div id="t7"></div>
 
   <footer>
     <b>操作</b>　点任意一格打开。拖动平移，滚轮缩放，双击复位；三维格可直接拖动旋转，按住 Shift 拖动改为平移。<br>
@@ -3405,6 +3417,7 @@ const numEl = document.getElementById('num');
 const t2El = document.getElementById('t2');
 const t5El = document.getElementById('t5');
 const t6El = document.getElementById('t6');
+const t7El = document.getElementById('t7');
 const stcEl = document.getElementById('stc');
 const varEl = document.getElementById('var');
 const geoEl = document.getElementById('geo');
@@ -3785,7 +3798,7 @@ function setView(v) {
     ['cur', curEl, 'grid'], ['stc', stcEl, 'grid'], ['var', varEl, 'block'],
     ['geo', geoEl, 'block'], ['grp', grpEl, 'block'], ['phy', phyEl, 'block'],
     ['mx', mxEl, 'block'], ['num', numEl, 'block'], ['t2', t2El, 'block'],
-    ['t5', t5El, 'block'], ['t6', t6El, 'block']
+    ['t5', t5El, 'block'], ['t6', t6El, 'block'], ['t7', t7El, 'block']
   ];
   map.forEach(function (m) {
     if (!m[1]) return;
@@ -6818,6 +6831,89 @@ document.addEventListener('click', function () {
     if (typeof MM_LOCALIZE === 'function') MM_LOCALIZE(document.body);
   }, 80);
 }, true);
+
+/* ================= 表 7 · 结构阶数 =================
+   六张表都是按「对象」分类的（群、环、拓扑空间……），对象是第 1 阶。
+   这一张换一个轴：同一个结构，你是在第几层上用它。
+     阶 0  元素        一个点、一个数
+     阶 1  结构        集合 + 公理（群、序、拓扑、测度）
+     阶 2  保结构映射  同态、连续、可测、保序
+     阶 3  映射之间    自然变换、同伦、同调
+     阶 4  结构的空间  模空间、∞-范畴、operad
+   Bourbaki 的三种母结构全部落在第 1 阶——这一列是他们没有的。 */
+function buildT7() {
+  var COLS = ['阶 0 · 元素', '阶 1 · 结构', '阶 2 · 保结构映射', '阶 3 · 映射之间', '阶 4 · 结构的空间'];
+  var ROWS = [
+    ['代数', [
+      '一个数、一个矩阵',
+      '<b>群、环、域、模</b>——集合 + 一种运算 + 三条公理',
+      '群同态、线性映射——把运算带过去',
+      '同态的交换图；<b>自然变换</b>——两个函子之间的比较',
+      '群胚、∞-群、代数叠——结构本身成为几何对象']],
+    ['序', [
+      '两个元素可不可比',
+      '<b>偏序集、全序、格</b>——只用 ≤ 说话',
+      '保序映射（单调函数）',
+      'Galois 连接；<b>伴随</b>——两个方向的保序互为最优',
+      '序数层级、良序类——序本身可以排成序']],
+    ['拓扑', [
+      '一个点，以及它附近有什么',
+      '<b>拓扑空间</b>——开集族，只看「挨不挨着」',
+      '连续映射——开集的原像还是开集',
+      '<b>同伦</b>——两条映射之间可以连续变形',
+      '同伦群、∞-群胚——空间的形状成为代数对象']],
+    ['度量', [
+      '两点之间的距离',
+      '<b>度量空间</b>——三角不等式撑起来的几何',
+      '等距、利普希茨映射',
+      'Gromov–Hausdorff 距离——空间与空间之间也有距离',
+      '度量空间的空间（模空间）——形状自己在移动']],
+    ['可测', [
+      '一个可测集，以及它的「大小」',
+      '<b>σ-代数 + 测度</b>——为什么不能给每个集合都量体积',
+      '可测映射——可测集的原像仍可测',
+      '<b>条件期望</b>——信息变少之后，最好的猜测',
+      '概率测度空间，Wasserstein 距离——分布之间的距离']],
+    ['微分', [
+      '一点处的切向量',
+      '<b>光滑流形</b>——局部像欧氏空间，全球未必',
+      '光滑映射、微分同胚',
+      '向量场的<b>李括号</b>——先沿 A 再沿 B，与反过来差多少',
+      '纤维丛、模空间——每一点上挂一个空间']],
+    ['组合', [
+      '一个排列、一个子集',
+      '<b>图、拟阵、偏序</b>——离散对象上的结构',
+      '图同态、保序映射',
+      '组合 species；生成函数之间的变换',
+      '组合 Hopf 代数、<b>operad</b>——组合结构自己组成代数']]
+  ];
+  var h = '<div class="nsec" style="padding:0 0 40px">';
+  h += '<div class="hd" style="font-size:13px;color:#1c1b19;font-weight:600;margin-bottom:6px">'
+     + '表 7 · 结构阶数　同一个结构，你在第几层上用它</div>';
+  h += '<div style="font-size:12px;color:#6a6155;line-height:1.8">'
+     + '前六张表按<b>对象</b>分类（群、环、拓扑空间）。这一张换一根轴：'
+     + '同一个结构，你是在第几层上使用它。从左往右读，是一条逐层抬升的路——'
+     + '而 Bourbaki 的三种母结构，全部停在第 1 列。</div>';
+  h += '<div class="t7grid"><div class="h">结构 ＼ 阶</div>';
+  COLS.forEach(function (c) { h += '<div class="h">' + c + '</div>'; });
+  ROWS.forEach(function (row) {
+    h += '<div class="t7rl">' + row[0] + '</div>';
+    row[1].forEach(function (cell, i) {
+      h += '<div class="c' + (i === 0 ? ' dim' : '') + '">' + cell + '</div>';
+    });
+  });
+  h += '</div>';
+  h += '<div class="t7note">'
+     + '<b>这张表量出的事</b>：167 格定义里，以对象命名的 165 格全部落在第 1 阶；'
+     + '名字里带「映射 / 同态 / 同构」的只有 2 格（泛函·算子、李代数与指数映射）；'
+     + '第 3 阶以上没有任何一格。'
+     + '<br>也就是说，<b>这份地图覆盖了对象，但没有覆盖对象之间的关系</b>——'
+     + '而后者正是 1945 年以后整个数学的主线。这也是这一列空着的真实原因。'
+     + '<br>第 1 阶不是终点，是起点。往右每走一格，都要求先有一个结构，再问「它怎么动」。'
+     + '</div></div>';
+  t7El.innerHTML = h;
+}
+buildT7();
 
 </script>
 </body>

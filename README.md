@@ -62,6 +62,7 @@ Number theory is deliberately absent as a matrix. Class groups, Galois groups, �
 
 - **v1.6** — a language switch on the landing page, Chinese by default; screenshots; a corrected DOI inside the archive
 - **v1.7** — English edition: 24 cells, 125 knowledge points, 166 definitions, a 127-entry timeline, and a switch on every tool page
+- **v1.10** — a seventh table: the order of structure. Every cell so far is a first-order object, and this table makes that visible — 165 of 167 cells sit in column one, two are named after maps, none reach the third order.
 - **v1.9** — English edition completed across all four tools: 4,500 strings on the variations page, 96 in the fitting lab, and the diagnostic page turned out to need two. Three layout defects fixed: sentences that came out half translated, English grid columns spilling on a phone, and a paragraph duplicated by a bad earlier wrap.
 - **v1.8** — fitting engine: a cubic family, a conic that no longer collapses on arcs whose centroid lies on the curve, and five families that name their own axis (parabola, cubic, curvature), all ranked together
 - **v1.8** — upper-division and graduate cells: differential geometry, algebraic topology, commutative algebra, representation theory, measure theory
@@ -85,7 +86,7 @@ If you use this in teaching, research, or a syllabus, please cite the DOI.
   author    = {shenhunyan (神魂魇)},
   year      = {2026},
   publisher = {Zenodo},
-  version   = {v1.9},
+  version   = {v1.10},
   doi       = {10.5281/zenodo.24246636},
   url       = {https://doi.org/10.5281/zenodo.24246636}
 }
