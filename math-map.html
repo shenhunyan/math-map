@@ -127,6 +127,12 @@
          color:#4a453a;text-decoration:none;cursor:pointer;white-space:nowrap}
   .ovw-b:hover{border-color:#b3541e;color:#b3541e}
   .ovw-b.sk{border-color:#e8d3c2;background:#fdf8f4;color:#8a5a34}
+  .t2ext{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:10px 0 4px}
+  .t2ext .lb{font-size:10.5px;color:#b3541e;letter-spacing:.04em;padding:8px 10px;border:1px dashed #e8d3c2;
+             border-radius:5px;background:#fdf8f4;white-space:nowrap;display:flex;align-items:center}
+  .t2ext .it{flex:1 1 150px;min-width:140px;border:1px solid #e4e0d6;border-radius:5px;background:#fff;padding:8px 10px}
+  .t2ext .it b{display:block;font-size:11.5px;color:#1c1b19;font-weight:600;margin-bottom:3px}
+  .t2ext .it span{font-size:10.5px;color:#6a6155;line-height:1.55}
   .t7note{font-size:11.5px;line-height:1.8;color:#6a6155;margin-top:12px}
   .grp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
   .ghead{grid-column:1/-1;font-size:12.5px;color:#2b2820;padding:4px 0 2px;
@@ -5047,6 +5053,16 @@ function buildT2() {
   hd.innerHTML = '表 2 · 运算层级 L × 嵌套深度 D' +
     '<i>行是「运算的种类」，列是「套了几层」。判据只有一条：<b>能不能用「有限次四则 + 根式 + exp/log」写出来。</b>' +
     '能到哪里就是哪一层；写不出来的才进 L3（特殊函数）和 L4（隐式与泛函）。</i>';
+  /* L 轴向下还有一截，但它不能做成一行：D（套了几层）对逻辑层不成立。
+     逻辑没有「嵌套深度」，只有「第几阶语言」。所以这一段是轴的延长，不是网格的一行。 */
+  var ext = document.createElement('div');
+  ext.className = 't2ext';
+  ext.innerHTML = '<div class="lb">L −1 · 逻辑层<br>（D 维在此失效）</div>'
+    + '<div class="it"><b>命题逻辑</b><span>真值表可判定；只问真假，不问「对谁」</span></div>'
+    + '<div class="it"><b>一阶逻辑与量词</b><span>加上 ∀ ∃ 才写得出「对所有的 n」；完备且紧致</span></div>'
+    + '<div class="it"><b>完备性与紧致性</b><span>有限能写出的东西管不住无限——D 有上限的语言学版本</span></div>'
+    + '<div class="it"><b>可判定性 / 停机问题</b><span>自指一次就到顶：再加几层也写不出来</span></div>';
+  t2El.appendChild(ext);
   t2El.appendChild(hd);
   const wrap = document.createElement('div');
   wrap.className = 't2g';
