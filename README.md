@@ -122,3 +122,19 @@ The point of the split: you should be free to *build with* this, but not free to
 **想一起做**：现在最缺的是本科高年级以上的内容——微分几何、代数拓扑、交换代数、表示论、测度论，要么很薄要么没有。加一格不需要读 36 万字符的代码，只要改一个 JSON 对象、写一段定义，见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 **协议**：代码 MIT，内容 CC BY-SA 4.0。你可以拿它去做产品，但不能把它圈起来。
+
+---
+
+## Use the data in Python
+
+The map's contents are also a small package, so the data can be read without a browser:
+
+```python
+import mathmap
+mathmap.cells()    # 24 course cells: stage, strand, prerequisites, item list
+mathmap.defs()     # 167 definitions: statement, key result, textbook source
+mathmap.tables()   # what each of the eight tables asks
+```
+
+`pip install "git+https://github.com/shenhunyan/math-map#subdirectory=."` then `import mathmap`.
+The data itself is CC BY 4.0 — use it freely, credit the source.

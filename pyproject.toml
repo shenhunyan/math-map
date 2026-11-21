@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mathmap"
+version = "1.10"
+description = "A prerequisite map of mathematics: 24 course cells, 167 definitions, 8 tables."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "AGPL-3.0-or-later" }
+authors = [{ name = "shenhunyan" }]
+keywords = ["mathematics", "education", "knowledge-graph"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+  "Topic :: Education",
+]
+
+[project.optional-dependencies]
+frame = ["pandas>=1.5"]
+
+[tool.setuptools]
+packages = ["mathmap"]
+
+[tool.setuptools.package-data]
+mathmap = ["data/*.json"]
