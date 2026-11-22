@@ -138,3 +138,24 @@ mathmap.tables()   # what each of the eight tables asks
 
 `pip install "git+https://github.com/shenhunyan/math-map#subdirectory=."` then `import mathmap`.
 The data itself is CC BY 4.0 — use it freely, credit the source.
+
+---
+
+## Working on the content
+
+Three scripts, in the order they are needed:
+
+```bash
+python sync_defs.py          # data/defs.json → 页面内联（DEF6），幂等
+python build_single.py 1.11  # 生成 数学地图_v1.11.html
+python release.py 1.11 "改了什么"   # 打包 + 传 Zenodo + 发布
+```
+
+`sync_defs.py --check` 只报告两份定义是否分叉，不改文件。它已挂在 pre-commit 上：
+
+```bash
+cp hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+```
+
+**约定：`data/defs.json` 为准。** 页面里的 DEF1–DEF5 是历史手写块，新增内容一律进 defs.json，
+由 DEF6 注入——不再手改两处。

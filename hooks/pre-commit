@@ -1,0 +1,11 @@
+#!/bin/sh
+# 提交前检查 data/defs.json 与页面内联定义是否一致。
+# 安装：cp hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+cd "$(git rev-parse --show-toplevel)" || exit 0
+python sync_defs.py --check || {
+  echo ""
+  echo "  定义不同步：data/defs.json 比页面多出条目。"
+  echo "  跑一次 python sync_defs.py，再 git add math-map.html"
+  echo "  （确实要先提交、暂不同步时：git commit --no-verify）"
+  exit 1
+}
