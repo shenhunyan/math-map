@@ -101,7 +101,17 @@
              overflow-x:auto;white-space:nowrap}
   .eqvr span{color:#8a8578;font-size:10.5px;text-align:right;line-height:1.4}
   @media (max-width:640px){ .eqvr{grid-template-columns:1fr} .eqvr span{text-align:left} }
-  #geo,#grp,#phy,#mx,#num,#t2,#t5,#t6,#t7,#t8,#t9{display:none}
+  #geo,#grp,#phy,#mx,#num,#t2,#t5,#t6,#t7,#t8,#t9,#t10{display:none}
+  .t10g{display:grid;grid-template-columns:96px repeat(4,minmax(0,1fr));gap:6px;margin-top:14px}
+  .t10g .h{font-size:11px;color:#6a6155;padding:6px 4px;border-bottom:1px solid #e4e0d6}
+  .t10g .rl{font-size:12px;color:#1c1b19;font-weight:600;padding:10px 4px;text-align:center;writing-mode:horizontal-tb;white-space:nowrap;
+             background:#faf9f6;border-right:1px solid #e4e0d6;border-radius:4px;display:flex;
+             align-items:center;justify-content:center}
+  .t10g .c{font-size:11.5px;line-height:1.6;color:#4a453a;padding:9px 8px;background:#fff;
+           border:1px solid #e4e0d6;border-radius:5px;cursor:pointer}
+  .t10g .c:hover{border-color:#b3541e}
+  .t10g .c b{color:#b3541e;font-weight:600}
+  .t10g .c.na{background:#f6f4ee;color:#a89c84;cursor:default;border-style:dashed}
   .c9{background:#fff;border:1px solid #e4e0d6;border-radius:6px;padding:10px 12px;margin:8px 0}
   .c9h{font-size:12.5px;color:#1c1b19;font-weight:600;margin-bottom:4px}
   .c9t{float:right;font-size:10px;color:#a89c84;font-weight:400}
@@ -394,7 +404,7 @@
 <!-- ==DIAG:START== -->
 <!-- ==OVERVIEW:START== -->
 <div class="ovw">
-  <div class="ovw-h">八张表 · 前六张问「有什么」，后两张问「在第几层」和「怎么降」</div>
+  <div class="ovw-h">九张表 · 前六张问「有什么」，后三张问「在第几层」「怎么降」「算得出来吗」</div>
   <div class="ovw-row">
     <span class="ovw-lab">内容</span>
     <a class="ovw-b" data-view="t2">表 1 · 次数 × 变元</a>
@@ -408,6 +418,7 @@
     <span class="ovw-lab sk">骨架</span>
     <a class="ovw-b sk" data-view="t7">表 7 · 结构阶数（在第几层）</a>
     <a class="ovw-b sk" data-view="t8">表 8 · 遗忘方向（怎么降）</a>
+    <a class="ovw-b sk" data-view="t10">表 10 · 资源与迭代（算得出来吗）</a>
   </div>
 </div>
 <!-- ==OVERVIEW:END== -->
@@ -427,6 +438,7 @@
     <button class="tab" data-view="num"><span class="zh">数系 · 扩张与代价</span><span class="en">Number systems · extensions and their price</span></button>
     <button class="tab" data-view="t5"><span class="zh">表 5 · 代数结构（可点开）</span><span class="en">Table 5 · algebraic structures (clickable)</span></button>
     <button class="tab" data-view="t2"><span class="zh">表 2 · 运算层级 × 嵌套（可点开）</span><span class="en">Table 2 · operator level × nesting (clickable)</span></button>
+    <button class="tab" data-view="t10"><span class="zh">表 10 · 资源与迭代（能不能算、要多少步）</span><span class="en">Table 10 · resources and iteration</span></button>
     <button class="tab" data-view="t9"><span class="zh">表 9 · 新补的二十四格（已判位置）</span><span class="en">Table 9 · twenty-four drafted cells, placed</span></button>
     <button class="tab" data-view="t8"><span class="zh">表 8 · 遗忘的方向（结构之间怎么降）</span><span class="en">Table 8 · what each map forgets</span></button>
     <button class="tab" data-view="t7"><span class="zh">表 7 · 结构阶数 k（对象 → 映射 → 关系 → 空间）</span><span class="en">Table 7 · order of structure</span></button>
@@ -446,6 +458,8 @@
   <div id="t6"></div>
   <div id="t7"></div>
   <div id="t8"></div>
+  <div id="t9x" style="display:none"></div>
+  <div id="t10"></div>
   <div id="t9"><div class="nsec" style="padding:0 0 50px">
 <div class="hd" style="font-size:13px;color:#1c1b19;font-weight:600;margin-bottom:6px">表 9 · 新补的二十四格　已判位置</div>
 <div style="font-size:12px;color:#6a6155;line-height:1.8;max-width:800px">每条都标了<b>判定去向</b>和<b>为什么去那里</b>。判据只有一条：这一格被什么问题逼出来，就放到回答那个问题的地方——不为了填满格子的空位而硬塞。<br>结果：<b>表 2 收 4 格、表 3 收 6 格、表 1 收 3 格、表 8 加 3 条边、另开表 10 收 8 格</b>。表 10 是这张地图目前唯一还缺的轴：资源与迭代。</div>
@@ -3593,6 +3607,7 @@ const t6El = document.getElementById('t6');
 const t7El = document.getElementById('t7');
 const t8El = document.getElementById('t8');
 const t9El = document.getElementById('t9');
+const t10El = document.getElementById('t10');
 const stcEl = document.getElementById('stc');
 const varEl = document.getElementById('var');
 const geoEl = document.getElementById('geo');
@@ -3973,7 +3988,7 @@ function setView(v) {
     ['cur', curEl, 'grid'], ['stc', stcEl, 'grid'], ['var', varEl, 'block'],
     ['geo', geoEl, 'block'], ['grp', grpEl, 'block'], ['phy', phyEl, 'block'],
     ['mx', mxEl, 'block'], ['num', numEl, 'block'], ['t2', t2El, 'block'],
-    ['t5', t5El, 'block'], ['t6', t6El, 'block'], ['t7', t7El, 'block'], ['t8', t8El, 'block'], ['t9', t9El, 'block']
+    ['t5', t5El, 'block'], ['t6', t6El, 'block'], ['t7', t7El, 'block'], ['t8', t8El, 'block'], ['t9', t9El, 'block'], ['t10', t10El, 'block']
   ];
   map.forEach(function (m) {
     if (!m[1]) return;
@@ -7223,6 +7238,68 @@ function buildT8() {
   t8El.innerHTML = h;
 }
 buildT8();
+
+/* ================= 表 10 · 资源与迭代 =================
+   前九张表问"有什么""在第几层""怎么降"，都不问"算得出来吗、要多少步"。
+   这一张把同一个问题的三种资源代价排在一起：
+     行：判定 / 复杂度 / 稳定性
+     列：有限步 / 多项式 / 指数 / 无界 */
+function buildT10() {
+  var COLS = ['有限步', '多项式', '指数', '无界'];
+  var ROWS = [
+    ['可判定', [
+      ['图灵机', '把「能算」定义成：有限步内停机并给出答案'],
+      ['排序、最短路', '有 O(n log n) 级算法，判定与构造都便宜'],
+      ['一般博弈求解', '可判定，但已知算法只在指数时间'],
+      ['停机问题', '自指一次就到顶：没有算法能对所有程序回答']]],
+    ['复杂度', [
+      ['—', '这一格逻辑上成立，但没有独立内容', 1],
+      ['P 与 NP', '验证便宜、构造未必——差别是不是真的存在，未决'],
+      ['NP 完全', 'SAT 是顶点：所有 NP 问题都降到它'],
+      ['PSPACE → EXP', '再往上走，层级本身的结构仍未定']]],
+    ['稳定性', [
+      ['压缩映射', '一次迭代就收敛，误差单调减小'],
+      ['Logistic 倍周期', '参数一变，周期 1→2→4→8，收敛点自己分裂'],
+      ['混沌', '误差每步放大，预测精度随步数指数衰减'],
+      ['奇怪吸引子', '轨道有界，Lyapunov 却为正——不逃逸也不重复']]]
+  ];
+  var h = '<div class="nsec" style="padding:0 0 40px">';
+  h += '<div class="hd" style="font-size:13px;color:#1c1b19;font-weight:600;margin-bottom:6px">'
+     + '表 10 · 资源与迭代　同一个问题，算得出来吗、要多少步</div>';
+  h += '<div style="font-size:12px;color:#6a6155;line-height:1.8;max-width:790px">'
+     + '前九张表都在问「有什么」「在第几层」「怎么降」，没有一张问「算不算得出来」。'
+     + '这一张换第三根元轴：<b>资源</b>。行是三种代价，列是资源界。'
+     + '<br>三行其实是同一个问题的三种问法：<b>能不能判定</b>（有无算法）、'
+     + '<b>要多快</b>（时间上界）、<b>迭代多久会失控</b>（误差增长率）。'
+     + '点击任意格可看定义。</div>';
+  h += '<div class="t10g"><div class="h">资源 ＼ 界</div>';
+  COLS.forEach(function (c) { h += '<div class="h">' + c + '</div>'; });
+  ROWS.forEach(function (row) {
+    h += '<div class="rl">' + row[0] + '</div>';
+    row[1].forEach(function (cell) {
+      var na = cell[2] === 1;
+      h += '<div class="c' + (na ? ' na' : '') + '" data-k="' + (na ? '' : cell[0]) + '">'
+        + '<b>' + cell[0] + '</b><br>' + cell[1] + '</div>';
+    });
+  });
+  h += '</div>';
+  h += '<div class="t7note">'
+     + '<b>这张表补的是地图缺的第三根轴。</b>表 7 问「在第几层」，表 8 问「怎么降」，'
+     + '表 10 问「算得出来吗」——三者正交：同一格结构可以既在第 1 阶、又能被降格、还不可判定。'
+     + '<br>注意第一列的例外：<b>「多项式」列里 P 与 NP 那一格是唯一有未决问题的</b>——'
+     + '它不是「不知道答案」，而是「不知道这个问题本身是否可解」。'
+     + '</div></div>';
+  t10El.innerHTML = h;
+  t10El.querySelectorAll('.c[data-k]').forEach(function (el) {
+    var k = el.getAttribute('data-k');
+    if (!k) return;
+    el.addEventListener('click', function () {
+      var D = (typeof DEF !== 'undefined' && DEF[k]) ? DEF[k] : null;
+      openModal({ t: k, eq: '', note: '', items: [], def: D ? D.d : '' }, '表 10 · 资源与迭代');
+    });
+  });
+}
+buildT10();
 
 /* 表 9 的候选卡片：点开看完整定义（定义已在 DEF 里，按格名查） */
 document.querySelectorAll('#t9 .c9').forEach(function (card) {
