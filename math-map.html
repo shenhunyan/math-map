@@ -6992,7 +6992,16 @@ const DEF5 = {
   "弦论与几何": {"k": "当代（1984–1995）", "d": "弦论把基本对象从点改为嵌入十维时空的二维世界面 Σ，其作用量为 Polyakov 作用量，量子化要求背景度量满足 Einstein 方程的一阶修正。为与四维观测相符，多余六维紧化为 Calabi–Yau 三维复流形。", "t": "Calabi–Yau 三维复流形的 Hodge 数 (h^{1,1}, h^{2,1}) 决定低能粒子谱；镜像对称断言 Hodge 数互换的两族给出同一理论。", "s": ["Green, Schwarz & Witten《Superstring Theory》第 1 章", "Polchinski《String Theory》第 1 章"]},
 };
 
-const DEF = Object.assign({}, DEF1, DEF2, DEF3, DEF4, DEF5);
+/* ==DEF6:SYNC:START== */
+const DEF6 = {
+  "命题逻辑": { k: "经典命题演算", d: "以命题变元为原子，用 ¬ ∧ ∨ → ↔ 逐层构造公式；真值指派给每个变元取 0 或 1，公式真值按真值表递归算出。", t: "可靠性定理与完备性定理同时成立：Γ ⊢ φ 当且仅当 Γ ⊨ φ，且重言式集可由真值表在有限步内判定。", s: ["Enderton《A Mathematical Introduction to Logic》第 1 章（真值指派与重言式）"] },
+  "一阶逻辑与量词": { k: "一阶语言与结构", d: "一阶语言含变元、函数与关系符号、联结词及量词 ∀ ∃；项由变元与函数符号生成，公式由原子公式经联结词与量词生成。", t: "可靠性：若 Γ ⊢ φ 则 Γ ⊨ φ——形式证明不会从真前提推出假结论。", s: ["Enderton《A Mathematical Introduction to Logic》第 2 章（结构与满足关系）"] },
+  "完备性与紧致性": { k: "一阶逻辑的元定理", d: "完备性：对任意一阶理论 Γ 与公式 φ，Γ ⊢ φ 当且仅当 Γ ⊨ φ，等价于每个相容理论都有模型。紧致性是推论：Γ 有模型当且仅当其每个有限子集有模型。", t: "「有限域」不能由任何一组一阶语句公理化——存在无限模型但无有限模型的语句集。", s: ["Enderton《A Mathematical Introduction to Logic》第 2 章（完备性与紧致性）"] },
+  "可判定性": { k: "判定问题", d: "一个集合 A 可判定，若存在图灵机对每个输入都在有限步内停机并正确回答「是/否」；不可判定即不存在这样的机器。", t: "停机问题不可判定（Turing 1936）；一阶逻辑的有效式集是 r.e. 但不可判定（Church–Turing）。", s: ["Sipser《Introduction to the Theory of Computation》第 4 章"] },
+};
+/* ==DEF6:SYNC:END== */
+
+const DEF = Object.assign({}, DEF1, DEF2, DEF3, DEF4, DEF5, DEF6);
 
 /* ================= 定义与出处 =================
    key 用格名（cell.t || cell.name）。同一对象在多张视图里出现，只写一次。 */
