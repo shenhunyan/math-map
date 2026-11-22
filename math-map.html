@@ -6998,6 +6998,26 @@ const DEF6 = {
   "一阶逻辑与量词": { k: "一阶语言与结构", d: "一阶语言含变元、函数与关系符号、联结词及量词 ∀ ∃；项由变元与函数符号生成，公式由原子公式经联结词与量词生成。", t: "可靠性：若 Γ ⊢ φ 则 Γ ⊨ φ——形式证明不会从真前提推出假结论。", s: ["Enderton《A Mathematical Introduction to Logic》第 2 章（结构与满足关系）"] },
   "完备性与紧致性": { k: "一阶逻辑的元定理", d: "完备性：对任意一阶理论 Γ 与公式 φ，Γ ⊢ φ 当且仅当 Γ ⊨ φ，等价于每个相容理论都有模型。紧致性是推论：Γ 有模型当且仅当其每个有限子集有模型。", t: "「有限域」不能由任何一组一阶语句公理化——存在无限模型但无有限模型的语句集。", s: ["Enderton《A Mathematical Introduction to Logic》第 2 章（完备性与紧致性）"] },
   "可判定性": { k: "判定问题", d: "一个集合 A 可判定，若存在图灵机对每个输入都在有限步内停机并正确回答「是/否」；不可判定即不存在这样的机器。", t: "停机问题不可判定（Turing 1936）；一阶逻辑的有效式集是 r.e. 但不可判定（Church–Turing）。", s: ["Sipser《Introduction to the Theory of Computation》第 4 章"] },
+  "哥德尔不完备定理": { k: "逻辑", d: "设 T 是可递归公理化、相容且能表示 Robinson 算术 Q 的一阶理论，则存在语句 G 使 T ⊬ G 且 T ⊬ ¬G；进一步，T 不能证明刻画自身相容性的语句 Con(T)。", t: "第一不完备定理：任何可递归公理化、相容且能解释 Q 的理论都存在既不可证也不可反驳的语句；第二：Con(T) 在 T 中不可证。", s: ["Enderton, A Mathematical Introduction to Logic, Ch.3（Undecidability：可表示性与不完备定理）"] },
+  "Curry–Howard 对应": { k: "逻辑", d: "在直觉主义自然演绎中，命题对应类型、证明对应项：A → B 的证明是从 A 的证明得到 B 的证明的函数（λ 抽象），A ∧ B 对应积类型，A ∨ B 对应和类型；证明的化简即项的 β 归约。", t: "Curry–Howard 同构：自然演绎的证明与简单类型 λ 演算的项一一对应，且 β 归约对应证明化简，故类型检查即证明检验。", s: ["Sørensen & Urzyczyn, Lectures on the Curry–Howard Isomorphism, Ch.1（简单类型 λ 演算与自然演绎）"] },
+  "图灵机": { k: "可计算", d: "图灵机由有限状态集 Q、带字母表 Γ（含空白符）、转移函数 δ: Q×Γ ⇀ Q×Γ×{L,R} 与初始状态 q₀ 组成；纸带两端无限，读写头每步改写一格并左右移动。对每个输入都停机时，它计算的部分函数 f: Σ* ⇀ Σ* 称可计算函数。", t: "存在通用图灵机：一台机器可模拟任何图灵机，这是「程序即数据」的定理形式。", s: ["Sipser, Introduction to the Theory of Computation, Ch.3 Turing Machines（3.1–3.3，含 Church–Turing 论题）"] },
+  "停机问题": { k: "可计算", d: "停机问题问：给定图灵机 M 的编码 ⟨M⟩ 与输入 w，M 在 w 上是否停机。集合 K = {⟨M,w⟩ : M 在 w 上停机} 是递归可枚举而非递归的；对角线论证说明不存在一台图灵机能对所有输入正确判定停机。", t: "停机问题不可判定：K 是 r.e. 而非递归的（Turing 1936）。", s: ["Sipser, Introduction to the Theory of Computation, Ch.4 Decidability（4.2 The Halting Problem）"] },
+  "多一归约": { k: "可计算", d: "设 A, B ⊆ Σ*。若有可计算 f 使 w∈A ⇔ f(w)∈B 对一切 w 成立，称 A 多一归约到 B，记 A ≤m B。B 可判定蕴含 A 可判定，故不可判定性反向传递；B 为 C-完全指 B∈C 且每个 A∈C 都 ≤m B。", t: "若 A ≤m B 且 B 可判定，则 A 可判定；完全性把整类难度压到一个实例上。", s: ["Sipser, Introduction to the Theory of Computation, Ch.5 Reducibility（5.1 与 5.3 Mapping Reducibility）"] },
+  "P 与 NP": { k: "可计算", d: "P 是确定型图灵机多项式时间可判定的类，P = ∪ₖ DTIME(nᵏ)。NP 是有多项式验证者的类：L∈NP 当且仅当存在多项式 p 与多项式时间关系 V，使 x∈L ⇔ ∃y(|y|≤p(|x|) ∧ V(x,y)=1)。P ⊆ NP。", t: "P 是否等于 NP 仍未解决；任一 NP 完全问题落入 P 就蕴含 P = NP。", s: ["Sipser, Introduction to the Theory of Computation, Ch.7 Time Complexity（7.1–7.3）"] },
+  "NP 完全性": { k: "可计算", d: "B 是 NP 完全的，若 B∈NP 且每个 A∈NP 都多项式多一归约到 B（A ≤p B）。Cook–Levin 定理：布尔公式可满足性问题 SAT 是 NP 完全的——非确定图灵机的接受路径可编码为布尔公式，可满足性等价于其存在。", t: "SAT 是 NP 完全的：每个 NP 问题都多项式归约到 SAT（Cook 1971、Levin 1973）。", s: ["Sipser, Introduction to the Theory of Computation, Ch.7.4 The Cook–Levin Theorem"] },
+  "复杂度层级与空间": { k: "可计算", d: "DSPACE(s)、NSPACE(s) 是空间界 O(s(n)) 的语言类；PSPACE = ∪ₖ DSPACE(nᵏ)，EXP = ∪ₖ DTIME(2^{nᵏ})。P ⊆ NP ⊆ PSPACE ⊆ EXP，空间可复用而时间不可。", t: "P ⊆ NP ⊆ PSPACE ⊆ EXP，且 NPSPACE = PSPACE（Savitch 定理）。", s: ["Sipser, Introduction to the Theory of Computation, Ch.8 Space Complexity（8.1–8.3）"] },
+  "自相似与迭代函数系统（IFS）": { k: "分形", d: "紧度量空间 X 上有限个压缩映射 f₁,…,f_m（压缩比 c_i∈(0,1)）称迭代函数系统。Hutchinson 算子 F(E)=⋃f_i(E) 在非空紧集全体上是压缩的，故有唯一紧集 K 满足 K=⋃f_i(K)，称吸引子。若各 f_i 为相似映射，K 自相似：由与自身相似的有限个副本拼成。", t: "若开集条件成立，则吸引子的维数 s 由 Σc_i^s=1 唯一确定，此时 dim_H K=dim_B K=s。", s: ["Falconer, Fractal Geometry, Ch.9（Iterated Function Systems：开集条件与相似维数）"] },
+  "Hausdorff 维数与盒计数维数": { k: "分形", d: "Hausdorff 测度用直径不超过 δ 的可数覆盖定义：对 Σ|U_i|^s 取下确界，再令 δ→0。使 s 小时为无穷、s 大时为零的唯一临界值即维数，dim_H E=inf{s：H^s(E)=0}。盒维数改用边长 δ 的正方网格覆盖，只数非空网格个数 N(δ)：dim_B E=lim log N(δ)/log(1/δ)。", t: "恒有 dim_H E ≤ dim_B E，反向一般不成立；dim_H 可数稳定，dim_H(⋃E_i)=sup dim_H E_i，而盒维数不满足此性质。", s: ["Falconer, Fractal Geometry, Ch.2（Hausdorff Measure and Dimension）、Ch.3（Box-counting Dimension）"] },
+  "Koch 曲线与 Cantor 集": { k: "分形", d: "Cantor 集由 [0,1] 反复删去各段中间三分之一得到，恰是三进制展开只用 0、2 的数。Koch 曲线由线段反复以四段长 1/3 的折线替换而成，每步总长乘 4/3，极限曲线长度无穷却围出有限面积。两者严格自相似，Hausdorff 维数均非整数，与拓扑维数 0 和 1 不同。", t: "dim_H(Cantor 集)=log2/log3≈0.6309，dim_H(Koch 曲线)=log4/log3≈1.2619，都是非整数。", s: ["Falconer, Fractal Geometry, Ch.9（自相似集的相似维数，Cantor 集与 Koch 曲线为例）"] },
+  "Logistic 映射与倍周期分岔": { k: "分形", d: "Logistic 映射 x_{n+1}=r x_n(1−x_n) 把 [0,1] 映入自身。不动点 0 的稳定性由 f′(0)=r 判断，r 越过 1 即失稳；非零不动点 1−1/r 又在 r=3 失稳，生出周期 2 轨道；r 继续增大依次出现周期 4、8、16…，分岔点 r_n 累积于 r_∞≈3.5699456，此后进入混沌区并夹杂周期窗口。", t: "分岔点间隔之比 (r_n−r_{n−1})/(r_{n+1}−r_n)→δ=4.669201609…（Feigenbaum 常数），与映射的具体形式无关。", s: ["Strogatz, Nonlinear Dynamics and Chaos, Ch.10（One-Dimensional Maps：倍周期分岔与普适性）"] },
+  "混沌的定义（对初值敏感依赖）": { k: "分形", d: "Devaney 意义下度量空间上的映射 f 称混沌，若：(1) 敏感依赖——存在 δ>0，使任意 x 与任意 ε>0 都有 y 满足 |x−y|<ε 且某个 n>0 使 |fⁿ(x)−fⁿ(y)|>δ；(2) 拓扑传递；(3) 周期点稠密。敏感依赖指邻近轨道终将分离，既不是一切轨道发散，也不是随机性。", t: "Banks 等（1992）证明拓扑传递加周期点稠密已蕴含敏感依赖，故条件 (1) 在 Devaney 定义中是冗余的。", s: ["Devaney, An Introduction to Chaotic Dynamical Systems, Ch.1（Chaos 的定义）；Strogatz, Ch.9（Lorenz 方程中的敏感依赖）"] },
+  "奇怪吸引子与 Lyapunov 指数": { k: "分形", d: "吸引子指不变紧集 A，其邻域内所有轨道都趋于 A；若 A 具有分形（非整数 Hausdorff 维）结构且其上轨道混沌，称奇怪吸引子。Lyapunov 指数度量邻近轨道的平均指数分离率，一维映射为 λ=lim_{n→∞}(1/n)Σ_{i=0}^{n−1}ln|f′(x_i)|，λ>0 即指数分离。", t: "Lorenz 系统在 σ=10、ρ=28、β=8/3 时 λ₁≈0.906>0，Kaplan–Yorke 维数 D_KY=2+λ₁/|λ₃|≈2.06。", s: ["Strogatz, Nonlinear Dynamics and Chaos, Ch.9（Lorenz Equations：奇怪吸引子）、Ch.10（Liapunov Exponent）"] },
+  "复形与链群": { k: "同调", d: "链复形是一列 Abel 群 Cₙ 与同态 ∂ₙ: Cₙ → Cₙ₋₁，满足 ∂² = 0；Cₙ 称链群，∂ 称边缘算子。由此 Im ∂ₙ₊₁ ⊆ Ker ∂ₙ，得同调群 Hₙ = Ker ∂ₙ / Im ∂ₙ₊₁，度量闭链中哪些不是边缘。", t: "短正合列 0 → A → B → C → 0 诱导长正合列 … → Hₙ(A) → Hₙ(B) → Hₙ(C) → Hₙ₋₁(A) → …（之字形引理）。", s: ["Hatcher, Algebraic Topology, §2.1；Weibel, An Introduction to Homological Algebra, Ch.1"] },
+  "单纯同调与奇异同调": { k: "同调", d: "单纯同调取单纯复形的 n 维整系数链群，由定向单形生成，∂ 取带交替符号的面之和；奇异同调取 X 中全体奇异 n 单形（Δⁿ → X）生成的自由 Abel 群。对单纯复形二者一致：Hₙ^Δ(K) ≅ Hₙ^{sing}(|K|)。", t: "同调是同伦不变量：若 f ≃ g: X → Y，则 f∗ = g∗: Hₙ(X) → Hₙ(Y)，故同伦等价的空间同调同构。", s: ["Hatcher, Algebraic Topology, §2.1（Theorem 2.27：单纯同调与奇异同调自然同构）"] },
+  "上同调与 cup product": { k: "同调", d: "上链群 Cⁿ(X; G) = Hom(Cₙ(X), G)，上边缘 δ 是 ∂ 的对偶，Hⁿ = Ker δ / Im δ。上同调多了乘法：杯积 ⌣: Hᵖ ⊗ H^q → H^{p+q}，使 H*(X; R) 成为分次环而非仅分次群。", t: "杯积分次交换：α ⌣ β = (−1)^{pq} β ⌣ α（系数取交换环），故 H*(X; R) 是分次交换环。", s: ["Hatcher, Algebraic Topology, §3.1（Cohomology Rings and Cup Product）"] },
+  "层与茎": { k: "同调", d: "层 F 给每个开集 U 一个截面群 F(U) 并配限制映射，满足局部性（在覆盖上相等则整体相等）与粘合性（相容的局部截面唯一粘成整体）。茎 F_x 是各邻域截面群沿限制映射的直极限，记录任意小邻域的信息。", t: "层态射是同构当且仅当它在每个茎上诱导同构——层的信息可逐点检验。", s: ["Iversen, Cohomology of Sheaves, Ch.II（Sheaves）；Hartshorne, Algebraic Geometry, §II.1"] },
+  "Čech 上同调与层上同调": { k: "同调", d: "对开覆盖 𝒰 = {Uᵢ}，Čech p-上链 Cᵖ(𝒰, F) = ∏ F(U_{i₀…iₚ})，差分取交替和，再对覆盖取正向极限得 Ȟᵖ(X, F)。层上同调 Hᵖ(X, F) 由内射消解定义为 F 的右导出函子。", t: "Leray 定理：若覆盖 𝒰 的每个有限交都是 F-无圈的，则 Ȟᵖ(𝒰, F) ≅ Hᵖ(X, F)。", s: ["Bott–Tu, Differential Forms in Algebraic Topology, Ch.II（Čech 上同调与 Leray 定理）"] },
+  "同调与「局部—整体」原则": { k: "同调", d: "把空间切成可计算的小块，块上的局部数据由链群记录，块与块的重叠由交集上的链群记录，边缘算子把它们串成复形；整体不变量就是该复形的同调。同调因此不是「数洞」，而是精确度量局部数据粘成整体时遇到的障碍。", t: "de Rham 定理：H^p_dR(M) ≅ Hᵖ(M; ℝ)——局部坐标里的闭形式算出的正是整体拓扑。", s: ["Bott–Tu, Ch.II–III（Mayer–Vietoris 序列、de Rham 定理）；Hatcher, §2.2"] },
 };
 /* ==DEF6:SYNC:END== */
 
@@ -7203,6 +7223,19 @@ function buildT8() {
   t8El.innerHTML = h;
 }
 buildT8();
+
+/* 表 9 的候选卡片：点开看完整定义（定义已在 DEF 里，按格名查） */
+document.querySelectorAll('#t9 .c9').forEach(function (card) {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', function () {
+    var name = card.querySelector('.c9h').childNodes[0].textContent.trim();
+    var D = (typeof DEF !== 'undefined' && DEF[name]) ? DEF[name] : null;
+    openModal({
+      t: name, eq: '', note: '', items: [],
+      def: D ? D.d : (card.querySelector('.c9d') || {}).textContent || ''
+    }, '表 9 · 候选格');
+  });
+});
 
 document.querySelectorAll('.ovw-b').forEach(function (b) {
   b.addEventListener('click', function () { setView(b.getAttribute('data-view')); });

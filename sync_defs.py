@@ -20,10 +20,10 @@ def load():
     return d, s
 
 
-def page_keys(s):
-    """内联五块里出现过的键"""
+def page_keys(s, upto=6):
+    """内联块里出现过的键；upto=5 只算手写块，upto=6 连 DEF6 一起算"""
     keys = set()
-    for i in range(1, 7):   # DEF6 是同步注入的那块，也要算进来
+    for i in range(1, upto + 1):   # DEF6 是同步注入的那块，也要算进来
         m = re.search(r"const DEF%d = \{(.*?)\n\};" % i, s, re.S)
         if not m:
             continue
@@ -50,12 +50,14 @@ def build_block(items):
 def main():
     check = "--check" in sys.argv
     data, page = load()
-    have = page_keys(page)
+    have = page_keys(page, 5)   # 只对手写块判缺；DEF6 本身要重算，不能作为依据
     missing = {k: v for k, v in data.items() if k not in have}
 
     if check:
-        extra = sorted(have - set(data))
-        print("defs.json %d 条 · 页面内联 %d 条" % (len(data), len(have)))
+        # 检查时要连 DEF6 一起比，否则永远报"缺"
+        missing = {k: v for k, v in data.items() if k not in page_keys(page, 6)}
+        extra = sorted(page_keys(page, 6) - set(data))
+        print("defs.json %d 条 · 页面内联 %d 条" % (len(data), len(page_keys(page, 6))))
         print("页面缺 %d 条：%s" % (len(missing), "、".join(list(missing)[:6]) or "无"))
         print("仅页面有 %d 条：%s" % (len(extra), "、".join(extra[:6]) or "无"))
         sys.exit(1 if missing else 0)
