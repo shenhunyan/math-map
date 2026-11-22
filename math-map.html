@@ -404,21 +404,21 @@
 <!-- ==DIAG:START== -->
 <!-- ==OVERVIEW:START== -->
 <div class="ovw">
-  <div class="ovw-h">九张表 · 前六张问「有什么」，后三张问「在第几层」「怎么降」「算得出来吗」</div>
+  <div class="ovw-h"><span class="zh">九张表 · 前六张问「有什么」，后三张问「在第几层」「怎么降」「算得出来吗」</span><span class="en">Nine tables — six ask what exists; three ask at which order, what is forgotten, and whether it can be computed</span></div>
   <div class="ovw-row">
-    <span class="ovw-lab">内容</span>
-    <a class="ovw-b" data-view="t2">表 1 · 次数 × 变元</a>
-    <a class="ovw-b" data-view="t2">表 2 · 层级 × 嵌套</a>
-    <a class="ovw-b" data-view="geo">表 3 · 拓扑 × 局部模型</a>
-    <a class="ovw-b" data-view="grp">表 4 · 变换群 × 不变量</a>
-    <a class="ovw-b" data-view="t5">表 5 · 代数结构</a>
-    <a class="ovw-b" data-view="t6">表 6 · 历史</a>
+    <span class="ovw-lab"><span class="zh">内容</span><span class="en">Content</span></span>
+    <a class="ovw-b" data-view="t2">表 1 · 次数 × 变元<span class="en"> · degree × vars</span></a>
+    <a class="ovw-b" data-view="t2">表 2 · 层级 × 嵌套<span class="en"> · level × nesting</span></a>
+    <a class="ovw-b" data-view="geo">表 3 · 拓扑 × 局部模型<span class="en"> · topology × local</span></a>
+    <a class="ovw-b" data-view="grp">表 4 · 变换群 × 不变量<span class="en"> · groups × invariants</span></a>
+    <a class="ovw-b" data-view="t5">表 5 · 代数结构<span class="en"> · algebraic</span></a>
+    <a class="ovw-b" data-view="t6">表 6 · 历史<span class="en"> · history</span></a>
   </div>
   <div class="ovw-row">
-    <span class="ovw-lab sk">骨架</span>
-    <a class="ovw-b sk" data-view="t7">表 7 · 结构阶数（在第几层）</a>
-    <a class="ovw-b sk" data-view="t8">表 8 · 遗忘方向（怎么降）</a>
-    <a class="ovw-b sk" data-view="t10">表 10 · 资源与迭代（算得出来吗）</a>
+    <span class="ovw-lab sk"><span class="zh">骨架</span><span class="en">Frame</span></span>
+    <a class="ovw-b sk" data-view="t7">表 7 · 结构阶数<span class="en"> · order of structure</span></a>
+    <a class="ovw-b sk" data-view="t8">表 8 · 遗忘方向<span class="en"> · what is forgotten</span></a>
+    <a class="ovw-b sk" data-view="t10">表 10 · 资源与迭代<span class="en"> · resources</span></a>
   </div>
 </div>
 <!-- ==OVERVIEW:END== -->
@@ -3746,6 +3746,8 @@ function openModal(cell, coord) {
     activeCtx = setup(document.getElementById('mCanvas'), MW, MH);
     activeKey = (typeof v.d === 'string') ? v.d : null;
     activeDraw = getDraw(v.d);
+    var cvsEl = document.getElementById('mCanvas');
+    if (cvsEl) cvsEl.style.display = activeDraw ? '' : 'none';
     resetView();
     buildCtl(activeKey);
   }
@@ -7245,49 +7247,50 @@ buildT8();
      行：判定 / 复杂度 / 稳定性
      列：有限步 / 多项式 / 指数 / 无界 */
 function buildT10() {
-  var COLS = ['有限步', '多项式', '指数', '无界'];
+  function L(zh, en) { return '<span class="zh">' + zh + '</span><span class="en">' + en + '</span>'; }
+  var COLS = [['有限步','Finite steps'], ['多项式','Polynomial'], ['指数','Exponential'], ['无界','Unbounded']];
   var ROWS = [
-    ['可判定', [
-      ['图灵机', '把「能算」定义成：有限步内停机并给出答案'],
-      ['排序、最短路', '有 O(n log n) 级算法，判定与构造都便宜'],
-      ['一般博弈求解', '可判定，但已知算法只在指数时间'],
-      ['停机问题', '自指一次就到顶：没有算法能对所有程序回答']]],
-    ['复杂度', [
-      ['—', '这一格逻辑上成立，但没有独立内容', 1],
-      ['P 与 NP', '验证便宜、构造未必——差别是不是真的存在，未决'],
-      ['NP 完全', 'SAT 是顶点：所有 NP 问题都降到它'],
-      ['PSPACE → EXP', '再往上走，层级本身的结构仍未定']]],
-    ['稳定性', [
-      ['压缩映射', '一次迭代就收敛，误差单调减小'],
-      ['Logistic 倍周期', '参数一变，周期 1→2→4→8，收敛点自己分裂'],
-      ['混沌', '误差每步放大，预测精度随步数指数衰减'],
-      ['奇怪吸引子', '轨道有界，Lyapunov 却为正——不逃逸也不重复']]]
+    ['可判定','Decidability', [
+      ['图灵机','Turing machine','把「能算」定义成：有限步内停机并给出答案','defines "computable": halts in finitely many steps with an answer'],
+      ['排序、最短路','Sorting, shortest path','有 O(n log n) 级算法，判定与构造都便宜','algorithms near O(n log n); deciding and constructing are both cheap'],
+      ['一般博弈求解','General game solving','可判定，但已知算法只在指数时间','decidable, but the known algorithms run in exponential time'],
+      ['停机问题','Halting problem','自指一次就到顶：没有算法能对所有程序回答','one act of self-reference reaches the ceiling: no algorithm answers for all programs']]],
+    ['复杂度','Complexity', [
+      ['—','—','这一格逻辑上成立，但没有独立内容','true in the abstract, but with no content of its own', 1],
+      ['P 与 NP','P versus NP','验证便宜、构造未必——差别是不是真的存在，未决','checking is cheap, finding may not be — whether the gap exists is open'],
+      ['NP 完全','NP-complete','SAT 是顶点：所有 NP 问题都降到它','SAT is the summit: every NP problem reduces to it'],
+      ['PSPACE → EXP','PSPACE to EXP','再往上走，层级本身的结构仍未定','above this, the shape of the hierarchy is still unsettled']]],
+    ['稳定性','Stability', [
+      ['压缩映射','Contraction','一次迭代就收敛，误差单调减小','converges in one step; the error decreases monotonically'],
+      ['Logistic 倍周期','Logistic period doubling','参数一变，周期 1→2→4→8，收敛点自己分裂','turn the parameter and the period doubles: 1, 2, 4, 8'],
+      ['混沌','Chaos','误差每步放大，预测精度随步数指数衰减','the error grows each step; predictive accuracy decays exponentially'],
+      ['奇怪吸引子','Strange attractor','轨道有界，Lyapunov 却为正——不逃逸也不重复','bounded orbits with a positive Lyapunov exponent — neither escaping nor repeating']]]
   ];
   var h = '<div class="nsec" style="padding:0 0 40px">';
   h += '<div class="hd" style="font-size:13px;color:#1c1b19;font-weight:600;margin-bottom:6px">'
-     + '表 10 · 资源与迭代　同一个问题，算得出来吗、要多少步</div>';
+     + L('表 10 · 资源与迭代　同一个问题，算得出来吗、要多少步',
+         'Table 10 · resources and iteration — can it be computed, and at what cost') + '</div>';
   h += '<div style="font-size:12px;color:#6a6155;line-height:1.8;max-width:790px">'
-     + '前九张表都在问「有什么」「在第几层」「怎么降」，没有一张问「算不算得出来」。'
-     + '这一张换第三根元轴：<b>资源</b>。行是三种代价，列是资源界。'
-     + '<br>三行其实是同一个问题的三种问法：<b>能不能判定</b>（有无算法）、'
-     + '<b>要多快</b>（时间上界）、<b>迭代多久会失控</b>（误差增长率）。'
-     + '点击任意格可看定义。</div>';
-  h += '<div class="t10g"><div class="h">资源 ＼ 界</div>';
-  COLS.forEach(function (c) { h += '<div class="h">' + c + '</div>'; });
+     + L('前九张表都在问「有什么」「在第几层」「怎么降」，没有一张问「算不算得出来」。这一张换第三根元轴：<b>资源</b>。行是三种代价，列是资源界。',
+         'The other tables ask what exists, at which order, and what gets forgotten. None asks whether it can be computed. This one takes the third axis: <b>resources</b> — three kinds of cost against four bounds.') + '<br>'
+     + L('三行其实是同一个问题的三种问法：<b>能不能判定</b>（有无算法）、<b>要多快</b>（时间上界）、<b>迭代多久会失控</b>（误差增长率）。点击任意格可看定义。',
+         'The three rows are one question asked three ways: is there an algorithm, how fast is it, and after how many iterations does the error run away. Click any cell for its definition.') + '</div>';
+  h += '<div class="t10g"><div class="h">' + L('资源 ＼ 界','Cost ＼ bound') + '</div>';
+  COLS.forEach(function (c) { h += '<div class="h">' + L(c[0], c[1]) + '</div>'; });
   ROWS.forEach(function (row) {
-    h += '<div class="rl">' + row[0] + '</div>';
-    row[1].forEach(function (cell) {
-      var na = cell[2] === 1;
+    h += '<div class="rl">' + L(row[0], row[1]) + '</div>';
+    row[2].forEach(function (cell) {
+      var na = cell[4] === 1;
       h += '<div class="c' + (na ? ' na' : '') + '" data-k="' + (na ? '' : cell[0]) + '">'
-        + '<b>' + cell[0] + '</b><br>' + cell[1] + '</div>';
+        + '<b>' + L(cell[0], cell[1]) + '</b><br>' + L(cell[2], cell[3]) + '</div>';
     });
   });
   h += '</div>';
   h += '<div class="t7note">'
-     + '<b>这张表补的是地图缺的第三根轴。</b>表 7 问「在第几层」，表 8 问「怎么降」，'
-     + '表 10 问「算得出来吗」——三者正交：同一格结构可以既在第 1 阶、又能被降格、还不可判定。'
-     + '<br>注意第一列的例外：<b>「多项式」列里 P 与 NP 那一格是唯一有未决问题的</b>——'
-     + '它不是「不知道答案」，而是「不知道这个问题本身是否可解」。'
+     + L('<b>这张表补的是地图缺的第三根轴。</b>表 7 问「在第几层」，表 8 问「怎么降」，表 10 问「算得出来吗」——三者正交：同一格结构可以既在第 1 阶、又能被降格、还不可判定。',
+         '<b>This finishes the third axis.</b> Table 7 asks at which order, table 8 asks what is forgotten, table 10 asks whether it can be computed — three questions that do not replace one another: one structure can sit in the first order, still be forgotten down, and remain undecidable.') + '<br>'
+     + L('注意第二行的例外：<b>「P 与 NP」那一格是唯一有未决问题的</b>——它不是「不知道答案」，而是「不知道这个问题本身是否可解」。',
+         'Note the exception in the second row: <b>P versus NP is the only cell holding an open question</b> — not an unknown answer, but an unknown whether the question itself is answerable.')
      + '</div></div>';
   t10El.innerHTML = h;
   t10El.querySelectorAll('.c[data-k]').forEach(function (el) {
