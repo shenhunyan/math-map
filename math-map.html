@@ -5058,10 +5058,23 @@ function buildT2() {
   var ext = document.createElement('div');
   ext.className = 't2ext';
   ext.innerHTML = '<div class="lb">L −1 · 逻辑层<br>（D 维在此失效）</div>'
-    + '<div class="it"><b>命题逻辑</b><span>真值表可判定；只问真假，不问「对谁」</span></div>'
-    + '<div class="it"><b>一阶逻辑与量词</b><span>加上 ∀ ∃ 才写得出「对所有的 n」；完备且紧致</span></div>'
-    + '<div class="it"><b>完备性与紧致性</b><span>有限能写出的东西管不住无限——D 有上限的语言学版本</span></div>'
-    + '<div class="it"><b>可判定性 / 停机问题</b><span>自指一次就到顶：再加几层也写不出来</span></div>';
+    + '<div class="it" data-k="命题逻辑"><b>命题逻辑</b><span>真值表可判定；只问真假，不问「对谁」</span></div>'
+    + '<div class="it" data-k="一阶逻辑与量词"><b>一阶逻辑与量词</b><span>加上 ∀ ∃ 才写得出「对所有的 n」；完备且紧致</span></div>'
+    + '<div class="it" data-k="完备性与紧致性"><b>完备性与紧致性</b><span>有限能写出的东西管不住无限——D 有上限的语言学版本</span></div>'
+    + '<div class="it" data-k="可判定性"><b>可判定性 / 停机问题</b><span>自指一次就到顶：再加几层也写不出来</span></div>';
+  ext.querySelectorAll('.it').forEach(function (it) {
+    it.style.cursor = 'pointer';
+    it.title = '点开看定义';
+    it.addEventListener('click', function () {
+      var key = it.getAttribute('data-k');
+      var D = (window.DEFS && window.DEFS[key]) || null;
+      openModal({
+        t: it.querySelector('b').textContent,
+        eq: '', note: '', items: [],
+        def: D ? D.d : it.querySelector('span').textContent
+      }, '表 2 · L −1 逻辑层');
+    });
+  });
   t2El.appendChild(ext);
   t2El.appendChild(hd);
   const wrap = document.createElement('div');
