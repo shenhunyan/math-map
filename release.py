@@ -14,7 +14,15 @@ API = "https://zenodo.org/api"
 
 
 def token():
-    return io.open(TOKEN_FILE, encoding="utf-8").read().strip().splitlines()[0].strip()
+    """取第一行像 token 的东西：跳过注释与空行，长度要够。
+
+    之前写死"第 1 行"，而实际 token 在第 6 行，于是发版时静默 403。
+    """
+    for ln in io.open(TOKEN_FILE, encoding="utf-8").read().splitlines():
+        ln = ln.strip()
+        if ln and not ln.startswith("#") and len(ln) >= 30:
+            return ln
+    raise SystemExit("找不到 token：检查 " + str(TOKEN_FILE))
 
 
 def req(method, url, data=None, ctype="application/json", tok=None):
