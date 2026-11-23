@@ -407,18 +407,18 @@
   <div class="ovw-h"><span class="zh">九张表 · 前六张问「有什么」，后三张问「在第几层」「怎么降」「算得出来吗」</span><span class="en">Nine tables — six ask what exists; three ask at which order, what is forgotten, and whether it can be computed</span></div>
   <div class="ovw-row">
     <span class="ovw-lab"><span class="zh">内容</span><span class="en">Content</span></span>
-    <a class="ovw-b" data-view="t2">表 1 · 次数 × 变元<span class="en"> · degree × vars</span></a>
-    <a class="ovw-b" data-view="t2">表 2 · 层级 × 嵌套<span class="en"> · level × nesting</span></a>
-    <a class="ovw-b" data-view="geo">表 3 · 拓扑 × 局部模型<span class="en"> · topology × local</span></a>
-    <a class="ovw-b" data-view="grp">表 4 · 变换群 × 不变量<span class="en"> · groups × invariants</span></a>
-    <a class="ovw-b" data-view="t5">表 5 · 代数结构<span class="en"> · algebraic</span></a>
-    <a class="ovw-b" data-view="t6">表 6 · 历史<span class="en"> · history</span></a>
+    <a class="ovw-b" data-view="t2"><span class="zh">表 1 · 次数 × 变元</span><span class="en">Table 1 · degree × vars</span></a>
+    <a class="ovw-b" data-view="t2"><span class="zh">表 2 · 层级 × 嵌套</span><span class="en">Table 2 · level × nesting</span></a>
+    <a class="ovw-b" data-view="geo"><span class="zh">表 3 · 拓扑 × 局部模型</span><span class="en">Table 3 · topology × local model</span></a>
+    <a class="ovw-b" data-view="grp"><span class="zh">表 4 · 变换群 × 不变量</span><span class="en">Table 4 · groups × invariants</span></a>
+    <a class="ovw-b" data-view="t5"><span class="zh">表 5 · 代数结构</span><span class="en">Table 5 · algebraic structures</span></a>
+    <a class="ovw-b" data-view="t6"><span class="zh">表 6 · 历史</span><span class="en">Table 6 · history</span></a>
   </div>
   <div class="ovw-row">
     <span class="ovw-lab sk"><span class="zh">骨架</span><span class="en">Frame</span></span>
-    <a class="ovw-b sk" data-view="t7">表 7 · 结构阶数<span class="en"> · order of structure</span></a>
-    <a class="ovw-b sk" data-view="t8">表 8 · 遗忘方向<span class="en"> · what is forgotten</span></a>
-    <a class="ovw-b sk" data-view="t10">表 10 · 资源与迭代<span class="en"> · resources</span></a>
+    <a class="ovw-b sk" data-view="t7"><span class="zh">表 7 · 结构阶数</span><span class="en">Table 7 · order of structure</span></a>
+    <a class="ovw-b sk" data-view="t8"><span class="zh">表 8 · 遗忘方向</span><span class="en">Table 8 · what is forgotten</span></a>
+    <a class="ovw-b sk" data-view="t10"><span class="zh">表 10 · 资源与迭代</span><span class="en">Table 10 · resources</span></a>
   </div>
 </div>
 <!-- ==OVERVIEW:END== -->
@@ -7085,77 +7085,78 @@ document.addEventListener('click', function () {
      阶 3  映射之间    自然变换、同伦、同调
      阶 4  结构的空间  模空间、∞-范畴、operad
    Bourbaki 的三种母结构全部落在第 1 阶——这一列是他们没有的。 */
+/* 双语片段：包成一对 zh/en，切语言时由 CSS 决定显示哪个 */
+function L2(zh, en) { return '<span class="zh">' + zh + '</span><span class="en">' + en + '</span>'; }
+
 function buildT7() {
-  var COLS = ['阶 0 · 元素', '阶 1 · 结构', '阶 2 · 保结构映射', '阶 3 · 映射之间', '阶 4 · 结构的空间'];
+  var COLS = [['阶 0 · 元素','k = 0 · element'], ['阶 1 · 结构','k = 1 · structure'],
+              ['阶 2 · 保结构映射','k = 2 · structure-preserving map'],
+              ['阶 3 · 映射之间','k = 3 · between maps'], ['阶 4 · 结构的空间','k = 4 · space of structures']];
   var ROWS = [
-    ['代数', [
-      '一个数、一个矩阵',
-      '<b>群、环、域、模</b>——集合 + 一种运算 + 三条公理',
-      '群同态、线性映射——把运算带过去',
-      '同态的交换图；<b>自然变换</b>——两个函子之间的比较',
-      '群胚、∞-群、代数叠——结构本身成为几何对象']],
-    ['序', [
-      '两个元素可不可比',
-      '<b>偏序集、全序、格</b>——只用 ≤ 说话',
-      '保序映射（单调函数）',
-      'Galois 连接；<b>伴随</b>——两个方向的保序互为最优',
-      '序数层级、良序类——序本身可以排成序']],
-    ['拓扑', [
-      '一个点，以及它附近有什么',
-      '<b>拓扑空间</b>——开集族，只看「挨不挨着」',
-      '连续映射——开集的原像还是开集',
-      '<b>同伦</b>——两条映射之间可以连续变形',
-      '同伦群、∞-群胚——空间的形状成为代数对象']],
-    ['度量', [
-      '两点之间的距离',
-      '<b>度量空间</b>——三角不等式撑起来的几何',
-      '等距、利普希茨映射',
-      'Gromov–Hausdorff 距离——空间与空间之间也有距离',
-      '度量空间的空间（模空间）——形状自己在移动']],
-    ['可测', [
-      '一个可测集，以及它的「大小」',
-      '<b>σ-代数 + 测度</b>——为什么不能给每个集合都量体积',
-      '可测映射——可测集的原像仍可测',
-      '<b>条件期望</b>——信息变少之后，最好的猜测',
-      '概率测度空间，Wasserstein 距离——分布之间的距离']],
-    ['微分', [
-      '一点处的切向量',
-      '<b>光滑流形</b>——局部像欧氏空间，全球未必',
-      '光滑映射、微分同胚',
-      '向量场的<b>李括号</b>——先沿 A 再沿 B，与反过来差多少',
-      '纤维丛、模空间——每一点上挂一个空间']],
-    ['组合', [
-      '一个排列、一个子集',
-      '<b>图、拟阵、偏序</b>——离散对象上的结构',
-      '图同态、保序映射',
-      '组合 species；生成函数之间的变换',
-      '组合 Hopf 代数、<b>operad</b>——组合结构自己组成代数']]
+    ['代数','Algebra', [
+      ['一个数、一个矩阵','a number, a matrix'],
+      ['<b>群、环、域、模</b>——集合 + 一种运算 + 三条公理','<b>group, ring, field, module</b> — a set, an operation, three axioms'],
+      ['群同态、线性映射——把运算带过去','homomorphism, linear map — the operation is carried across'],
+      ['同态的交换图；<b>自然变换</b>——两个函子之间的比较','commuting squares; <b>natural transformation</b> — comparing two functors'],
+      ['群胚、∞-群、代数叠——结构本身成为几何对象','groupoid, ∞-group, algebraic stack — the structure becomes a geometric object']]],
+    ['序','Order', [
+      ['两个元素可不可比','whether two elements compare'],
+      ['<b>偏序集、全序、格</b>——只用 ≤ 说话','<b>poset, total order, lattice</b> — spoken with ≤ alone'],
+      ['保序映射（单调函数）','monotone map'],
+      ['Galois 连接；<b>伴随</b>——两个方向的保序互为最优','Galois connection; <b>adjunction</b> — maps optimal in both directions'],
+      ['序数层级、良序类——序本身可以排成序','ordinals, well-orders — order itself can be ordered']]],
+    ['拓扑','Topology', [
+      ['一个点，以及它附近有什么','a point, and what sits near it'],
+      ['<b>拓扑空间</b>——开集族，只看「挨不挨着」','<b>topological space</b> — open sets, only adjacency matters'],
+      ['连续映射——开集的原像还是开集','continuous map — preimages of open sets stay open'],
+      ['<b>同伦</b>——两条映射之间可以连续变形','<b>homotopy</b> — one map deforms continuously into another'],
+      ['同伦群、∞-群胚——空间的形状成为代数对象','homotopy groups, ∞-groupoids — shape becomes algebra']]],
+    ['度量','Metric', [
+      ['两点之间的距离','the distance between two points'],
+      ['<b>度量空间</b>——三角不等式撑起来的几何','<b>metric space</b> — geometry held up by the triangle inequality'],
+      ['等距、利普希茨映射','isometry, Lipschitz map'],
+      ['Gromov–Hausdorff 距离——空间与空间之间也有距离','Gromov–Hausdorff distance — spaces themselves sit at a distance'],
+      ['度量空间的空间（模空间）——形状自己在移动','the space of metric spaces — shapes that move']]],
+    ['可测','Measure', [
+      ['一个可测集，以及它的「大小」','a measurable set and its size'],
+      ['<b>σ-代数 + 测度</b>——为什么不能给每个集合都量体积','<b>σ-algebra and measure</b> — why not every set can be given a volume'],
+      ['可测映射——可测集的原像仍可测','measurable map — preimages of measurable sets stay measurable'],
+      ['<b>条件期望</b>——信息变少之后，最好的猜测','<b>conditional expectation</b> — the best guess once information shrinks'],
+      ['概率测度空间，Wasserstein 距离——分布之间的距离','spaces of measures, Wasserstein distance — a distance between distributions']]],
+    ['微分','Differential', [
+      ['一点处的切向量','a tangent vector at a point'],
+      ['<b>光滑流形</b>——局部像欧氏空间，全球未必','<b>smooth manifold</b> — locally Euclidean, globally not'],
+      ['光滑映射、微分同胚','smooth map, diffeomorphism'],
+      ['向量场的<b>李括号</b>——先沿 A 再沿 B，与反过来差多少','the <b>Lie bracket</b> — how much A-then-B differs from B-then-A'],
+      ['纤维丛、模空间——每一点上挂一个空间','fibre bundle, moduli space — a space attached at each point']]],
+    ['组合','Combinatorics', [
+      ['一个排列、一个子集','a permutation, a subset'],
+      ['<b>图、拟阵、偏序</b>——离散对象上的结构','<b>graph, matroid, poset</b> — structure on discrete objects'],
+      ['图同态、保序映射','graph homomorphism, order-preserving map'],
+      ['组合 species；生成函数之间的变换','combinatorial species; transformations between generating functions'],
+      ['组合 Hopf 代数、<b>operad</b>——组合结构自己组成代数','combinatorial Hopf algebras, <b>operads</b> — structures that form algebras of their own']]]
   ];
   var h = '<div class="nsec" style="padding:0 0 40px">';
   h += '<div class="hd" style="font-size:13px;color:#1c1b19;font-weight:600;margin-bottom:6px">'
-     + '表 7 · 结构阶数　同一个结构，你在第几层上用它</div>';
+     + L2('表 7 · 结构阶数　同一个结构，你在第几层上用它',
+          'Table 7 · order of structure — at which level do you use it') + '</div>';
   h += '<div style="font-size:12px;color:#6a6155;line-height:1.8">'
-     + '前六张表按<b>对象</b>分类（群、环、拓扑空间）。这一张换一根轴：'
-     + '同一个结构，你是在第几层上使用它。从左往右读，是一条逐层抬升的路——'
-     + '而 Bourbaki 的三种母结构，全部停在第 1 列。</div>';
-  h += '<div class="t7grid"><div class="h">结构 ＼ 阶</div>';
+     + L2('前六张表按<b>对象</b>分类（群、环、拓扑空间）。这一张换一根轴：同一个结构，你是在第几层上使用它。从左往右读，是一条逐层抬升的路——而 Bourbaki 的三种母结构，全部停在第 1 列。',
+          'The other tables sort by <b>object</b>. This one takes a different axis: at which level are you using the structure. Read left to right and it ascends — and Bourbaki\u2019s three mother structures all stop in the first column.') + '</div>';
+  h += '<div class="t7grid"><div class="h">' + L2('结构 ＼ 阶','kind ＼ order') + '</div>';
   COLS.forEach(function (c, ci) {
-    h += '<div class="h">' + c + '<canvas class="t7ic" data-k="' + ci + '"></canvas></div>';
+    h += '<div class="h">' + L2(c[0], c[1]) + '<canvas class="t7ic" data-k="' + ci + '"></canvas></div>';
   });
   ROWS.forEach(function (row) {
-    h += '<div class="t7rl">' + row[0] + '</div>';
-    row[1].forEach(function (cell, i) {
-      h += '<div class="c' + (i === 0 ? ' dim' : '') + '">' + cell + '</div>';
+    h += '<div class="t7rl">' + L2(row[0], row[1]) + '</div>';
+    row[2].forEach(function (cell, i) {
+      h += '<div class="c' + (i === 0 ? ' dim' : '') + '">' + L2(cell[0], cell[1]) + '</div>';
     });
   });
   h += '</div>';
   h += '<div class="t7note">'
-     + '<b>这张表量出的事</b>：167 格定义里，以对象命名的 165 格全部落在第 1 阶；'
-     + '名字里带「映射 / 同态 / 同构」的只有 2 格（泛函·算子、李代数与指数映射）；'
-     + '第 3 阶以上没有任何一格。'
-     + '<br>也就是说，<b>这份地图覆盖了对象，但没有覆盖对象之间的关系</b>——'
-     + '而后者正是 1945 年以后整个数学的主线。这也是这一列空着的真实原因。'
-     + '<br>第 1 阶不是终点，是起点。往右每走一格，都要求先有一个结构，再问「它怎么动」。'
+     + L2('<b>这张表量出的事</b>：167 格定义里，以对象命名的 165 格全部落在第 1 阶；名字里带「映射 / 同态 / 同构」的只有 2 格；第 3 阶以上没有任何一格。<br>也就是说，<b>这份地图覆盖了对象，但没有覆盖对象之间的关系</b>——而后者正是 1945 年以后整个数学的主线。<br>第 1 阶不是终点，是起点。',
+          '<b>What the table measures</b>: of 167 cells, 165 are named after objects and sit in the first order; two are named after maps; nothing reaches the third. <br>In other words, <b>the map covers objects but not the arrows between them</b> — which is where most of mathematics has lived since 1945. <br>The first order is a starting point, not the end.')
      + '</div></div>';
   t7El.innerHTML = h;
 }
